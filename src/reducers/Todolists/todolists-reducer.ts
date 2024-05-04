@@ -49,6 +49,14 @@ export const todolistsReducer = (
 			)
 		}
 
+		case 'SET-TODOLISTS': {
+			return action.todos.map(todolist => ({
+				...todolist,
+				order: todolist.order + 1,
+				filter: 'all',
+			}))
+		}
+
 		default: {
 			return state
 		}
@@ -60,6 +68,7 @@ type TodolistReducerType =
 	| AddTodolistACType
 	| ChangeTodolistTitleACType
 	| ChangeFilterACType
+	| SetTodolistsType
 
 // ==========================
 
@@ -117,3 +126,12 @@ export const changeFilterAC = (todolistId: string, value: FilterValuesType) => {
 }
 
 // ==========================
+
+type SetTodolistsType = ReturnType<typeof setTodolistsAC>
+
+export const setTodolistsAC = (todos: TodolistType[]) => {
+	return {
+		type: 'SET-TODOLISTS',
+		todos,
+	} as const
+}

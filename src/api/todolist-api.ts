@@ -3,7 +3,16 @@ import axios from 'axios'
 const instance = axios.create({
 	baseURL: 'https://social-network.samuraijs.com/api/1.1/',
 	withCredentials: true,
+
+	headers: {
+		'Access-Control-Allow-Origin': '*',
+	},
 })
+
+//instance.use(function(req, res, next) {
+//  res.header("Access-Control-Allow-Origin", "*");
+//  next();
+//});
 
 export const todolistApi = {
 	getTodolists() {
@@ -21,7 +30,7 @@ export const todolistApi = {
 	},
 
 	updateTodolistTitle(todolistId: string, title: string) {
-		return instance.put<ResponseType>(`todo-lists/${todolistId}`, { title }) 
+		return instance.put<ResponseType>(`todo-lists/${todolistId}`, { title })
 	},
 }
 
