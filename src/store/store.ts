@@ -1,8 +1,14 @@
-import { combineReducers, compose, createStore, legacy_createStore } from 'redux'
+import { UnknownAction, combineReducers, compose, createStore, legacy_createStore } from 'redux'
 import { tasksReducer } from '../reducers/Tasks/tasks-reducer'
 import { todolistsReducer } from '../reducers/Todolists/todolists-reducer'
+import { useDispatch } from 'react-redux'
+import { ThunkDispatch } from 'redux-thunk'
 
 export type AppRootStateType = ReturnType<typeof rootReducer>
+
+type AppDispatchType = ThunkDispatch<AppRootStateType, unknown, UnknownAction>
+
+export const useAppDispatch = useDispatch<AppDispatchType>
 
 export const rootReducer = combineReducers({
 	tasks: tasksReducer,
