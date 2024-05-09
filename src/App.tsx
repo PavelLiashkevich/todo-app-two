@@ -130,9 +130,9 @@ export const App = () => {
 					<AddItemForm addItem={addTodolist} />
 				</Grid>
 				<Grid container spacing={3}>
-					{todolists.map(todolist => {
+					{todolists.map((todolist, index) => {
 						return (
-							<Grid item>
+							<Grid key={index} item>
 								<Paper>
 									<TodoList
 										key={todolist.id}

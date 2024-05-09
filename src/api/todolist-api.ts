@@ -5,14 +5,9 @@ const instance = axios.create({
 	withCredentials: true,
 
 	headers: {
-		'Access-Control-Allow-Origin': '*',
+		'API-KEY': '19b20155-3ecd-4d20-a66a-4885db5c3756',
 	},
 })
-
-//instance.use(function(req, res, next) {
-//  res.header("Access-Control-Allow-Origin", "*");
-//  next();
-//});
 
 export const todolistApi = {
 	getTodolists() {

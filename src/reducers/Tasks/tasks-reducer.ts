@@ -1,37 +1,10 @@
 import { v1 } from 'uuid'
 import { TasksType } from '../../App'
-import { AddTodolistACType } from '../Todolists/todolists-reducer'
+import { AddTodolistACType, SetTodolistsType } from '../Todolists/todolists-reducer'
 import { RemoveTodolistACType } from '../Todolists/todolists-reducer'
-import { todolistID1 } from '../Todolists/todolists-reducer'
 import { TaskPriority, TaskStatus } from '../../api/task-api'
 
 let initialState: TasksType = {
-	[todolistID1]: [
-		{
-			id: v1(),
-			title: 'HTML&CSS',
-			status: TaskStatus.InProgress,
-			todoListId: todolistID1,
-			description: '',
-			startDate: '',
-			deadline: '',
-			addedDate: '',
-			order: 0,
-			priority: TaskPriority.Low,
-		},
-		{
-			id: v1(),
-			title: 'JS',
-			status: TaskStatus.InProgress,
-			todoListId: todolistID1,
-			description: '',
-			startDate: '',
-			deadline: '',
-			addedDate: '',
-			order: 0,
-			priority: TaskPriority.Low,
-		},
-	],
 }
 
 export const tasksReducer = (
@@ -108,6 +81,14 @@ export const tasksReducer = (
 			return rest
 		}
 
+		case 'SET-TODOLISTS': {
+			return action.todos.reduce((acc, current) => {
+				acc[current.id] = []
+				return acc 
+			}, {} as TasksType)
+
+		}
+
 		default:
 			return state
 	}
@@ -120,6 +101,7 @@ type TasksReducerType =
 	| ChangeTaskTitleACType
 	| AddTodolistACType
 	| RemoveTodolistACType
+	| SetTodolistsType 
 
 // ==========================
 
