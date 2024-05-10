@@ -15,7 +15,10 @@ export const taskApi = {
 	},
 
 	createTask(todolistId: string, title: string) {
-		return instance.post<CreateTaskResponseType>(`todo-lists/${todolistId}/tasks`, { title })
+		return instance.post<CreateTaskResponseType>(
+			`todo-lists/${todolistId}/tasks`,
+			{ title }
+		)
 	},
 
 	deleteTask(todolistId: string, taskId: string) {
@@ -87,11 +90,11 @@ type TaskResponseType<T = {}> = {
 	data: {}
 }
 
-type UpdatePropertiesType = {
+export type UpdatePropertiesType = {
 	description: string
 	title: string
-	status: number
-	priority: number
+	status: TaskStatus
+	priority: TaskPriority
 	startDate: string
 	deadline: string
 }

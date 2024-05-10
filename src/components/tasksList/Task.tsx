@@ -1,10 +1,10 @@
-import React, { memo } from 'react'
+import React, { ChangeEvent, memo } from 'react'
 import { useCallback } from 'react'
 import styled from 'styled-components'
 
 import { EditableSpan } from '../editableSpan/EditableSpan'
-import { CheckBox } from '../checkbox/CheckBox'
-import { IconButton } from '@mui/material'
+//import { CheckBox } from '../checkbox/CheckBox'
+import { Checkbox, IconButton } from '@mui/material'
 import { DeleteOutlined } from '@mui/icons-material'
 import { TaskStatus, TaskType } from '../../api/task-api'
 
@@ -43,15 +43,23 @@ export const Task = memo(
 			[changeTaskTitle, task.id, todolistId]
 		)
 
-		// Принимаем данные для редактирования статуса таски
-		const onChangeTaskStatusHandler = () => {
-			changeTaskStatus(todolistId, task.id, task.status)
-		}
+		// Изменение статуса таски
+		const onChangeTaskStatusHandler = useCallback(
+			(event: ChangeEvent<HTMLInputElement>) => {
+				let newIsDoneValue = event.currentTarget.checked
+				changeTaskStatus(
+					todolistId,
+					task.id,
+					newIsDoneValue ? TaskStatus.Completed : TaskStatus.New
+				)
+			},
+			[todolistId, task.id]
+		)
 
 		return (
 			<StyledTask key={task.id}>
-				<CheckBox
-					checked={!!task.status}
+				<Checkbox
+					checked={task.status === TaskStatus.Completed}
 					onChange={onChangeTaskStatusHandler}
 				/>
 				<EditableSpan

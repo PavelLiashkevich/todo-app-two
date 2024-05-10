@@ -11,7 +11,7 @@ import { EditableSpan } from '../editableSpan/EditableSpan'
 import { Button, IconButton } from '@mui/material'
 import { Delete } from '@mui/icons-material'
 import { useAppDispatch } from '../../store/store'
-import { getTasksThunk } from '../../reducers/Tasks/tasks-reducer'
+import { getTasksTC } from '../../reducers/Tasks/tasks-reducer'
 
 type TodoListPropsType = {
 	title: string
@@ -53,7 +53,7 @@ export const TodoList = React.memo(
 		const dispatch = useAppDispatch()
 
 		useEffect(() => {
-			dispatch(getTasksThunk(id))
+			dispatch(getTasksTC(id))
 		}, [])
 
 		// Состояние для открытия/закрытия тасок внутри тудулиста
