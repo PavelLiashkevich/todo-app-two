@@ -1,6 +1,6 @@
 import { v1 } from 'uuid'
 import { TodolistType, todolistApi } from '../../api/todolist-api'
-import { Dispatch, UnknownAction } from 'redux'
+import { Dispatch } from 'redux'
 
 export let todolistID1 = v1()
 
@@ -139,7 +139,7 @@ export const setTodolistsAC = (todos: TodolistType[]) => {
 
 // ========================== THUNKS ==========================
 
-export const getTodos = (dispatch: Dispatch) => {
+export const getTodosTC = () => (dispatch: Dispatch) => {
 	todolistApi.getTodolists().then(res => {
 		dispatch(setTodolistsAC(res.data))
 	})

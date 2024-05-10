@@ -19,7 +19,7 @@ import {
 	addTodolistAC,
 	changeFilterAC,
 	changeTodolistTitleAC,
-	getTodos,
+	getTodosTC,
 	removeTodolistAC,
 } from './reducers/Todolists/todolists-reducer'
 import {
@@ -45,7 +45,7 @@ export const App = () => {
 	const dispatch = useAppDispatch()
 
 	useEffect(() => {
-		dispatch(getTodos)
+		dispatch(getTodosTC())
 	}, [])
 
 	//* TODOLISTS

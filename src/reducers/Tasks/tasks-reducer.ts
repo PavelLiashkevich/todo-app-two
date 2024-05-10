@@ -5,7 +5,8 @@ import {
 	SetTodolistsType,
 } from '../Todolists/todolists-reducer'
 import { RemoveTodolistACType } from '../Todolists/todolists-reducer'
-import { TaskPriority, TaskStatus } from '../../api/task-api'
+import { TaskPriority, TaskStatus, TaskType, taskApi } from '../../api/task-api'
+import { Dispatch } from 'redux'
 
 let initialState: TasksType = {}
 
@@ -14,7 +15,7 @@ export const tasksReducer = (
 	action: TasksReducerType
 ): TasksType => {
 	switch (action.type) {
-		case 'ADD_TASK': {
+		case 'ADD-TASK': {
 			let newTask = {
 				id: v1(),
 				title: action.payload.title,
@@ -35,7 +36,7 @@ export const tasksReducer = (
 				],
 			}
 		}
-		case 'REMOVE_TASK': {
+		case 'REMOVE-TASK': {
 			return {
 				...state,
 				[action.payload.todolistId]: state[action.payload.todolistId].filter(
@@ -44,7 +45,7 @@ export const tasksReducer = (
 			}
 		}
 
-		case 'CHANGE_TASK_TITLE': {
+		case 'CHANGE-TASK-TITLE': {
 			return {
 				...state,
 				[action.payload.todolistId]: state[action.payload.todolistId].map(
@@ -56,7 +57,7 @@ export const tasksReducer = (
 			}
 		}
 
-		case 'CHANGE_TASK_STATUS': {
+		case 'CHANGE-TASK-STATUS': {
 			return {
 				...state,
 				[action.payload.todolistId]: state[action.payload.todolistId].map(
@@ -90,6 +91,13 @@ export const tasksReducer = (
 			}, {} as TasksType)
 		}
 
+		case 'SET-TASKS': {
+			return {
+				...state,
+				[action.payload.todolistId]: action.payload.tasks,
+			}
+		}
+
 		default:
 			return state
 	}
@@ -103,6 +111,7 @@ type TasksReducerType =
 	| AddTodolistACType
 	| RemoveTodolistACType
 	| SetTodolistsType
+	| SetTasksACType
 
 // ==========================
 
@@ -110,7 +119,7 @@ type AddTaskACType = ReturnType<typeof addTaskAC>
 
 export const addTaskAC = (title: string, todolistId: string) => {
 	return {
-		type: 'ADD_TASK',
+		type: 'ADD-TASK',
 		payload: {
 			title,
 			todolistId,
@@ -124,7 +133,7 @@ type RemoveTaskACType = ReturnType<typeof removeTaskAC>
 
 export const removeTaskAC = (taskId: string, todolistId: string) => {
 	return {
-		type: 'REMOVE_TASK',
+		type: 'REMOVE-TASK',
 		payload: {
 			taskId,
 			todolistId,
@@ -142,7 +151,7 @@ export const changeTaskStatusAC = (
 	status: TaskStatus
 ) => {
 	return {
-		type: 'CHANGE_TASK_STATUS',
+		type: 'CHANGE-TASK-STATUS',
 		payload: {
 			todolistId,
 			taskId,
@@ -161,11 +170,33 @@ export const changeTaskTitleAC = (
 	todolistId: string
 ) => {
 	return {
-		type: 'CHANGE_TASK_TITLE',
+		type: 'CHANGE-TASK-TITLE',
 		payload: {
 			taskId,
 			newValue,
 			todolistId,
 		},
 	} as const
+}
+// ==========================
+
+type SetTasksACType = ReturnType<typeof setTasksAC>
+
+export const setTasksAC = (tasks: TaskType[], todolistId: string) => {
+	return {
+		type: 'SET-TASKS',
+		payload: {
+			tasks,
+			todolistId,
+		},
+	} as const
+}
+
+// ========================== THUNKS ==========================
+
+export const fetchTasksThunk = (todolistId: string) => (dispatch: Dispatch) => {
+	taskApi.getTasks(todolistId).then(res => {
+		const tasks = res.data.items
+		dispatch(setTasksAC(tasks, todolistId))
+	})
 }
