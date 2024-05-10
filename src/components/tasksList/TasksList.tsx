@@ -5,7 +5,7 @@ type TasksListPropsType = {
 	tasks: Array<TaskType>
 	todolistId: string
 	filter: string
-	removeTask: ( taskId: string, todolistId: string) => void
+	removeTask: (taskId: string, todolistId: string) => void
 	changeTaskStatus: (
 		todolistId: string,
 		taskId: string,
@@ -28,14 +28,17 @@ export const TasksList = ({
 }: TasksListPropsType) => {
 	// Фильтрация тасок при нажатии на кнопки
 	const filteredTasks = () => {
-		console.log('Filtered')	
 		let tasksFilteredTodoList = tasks
 
 		if (filter === 'active') {
-			tasksFilteredTodoList = tasks.filter(task => task.status === TaskStatus.New)
+			tasksFilteredTodoList = tasks.filter(
+				task => task.status === TaskStatus.New
+			)
 		}
 		if (filter === 'completed') {
-			tasksFilteredTodoList = tasks.filter(task => task.status === TaskStatus.Completed)
+			tasksFilteredTodoList = tasks.filter(
+				task => task.status === TaskStatus.Completed
+			)
 		}
 
 		return tasksFilteredTodoList

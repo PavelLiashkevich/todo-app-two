@@ -1,11 +1,13 @@
 import { v1 } from 'uuid'
 import { TasksType } from '../../App'
-import { AddTodolistACType, SetTodolistsType } from '../Todolists/todolists-reducer'
+import {
+	AddTodolistACType,
+	SetTodolistsType,
+} from '../Todolists/todolists-reducer'
 import { RemoveTodolistACType } from '../Todolists/todolists-reducer'
 import { TaskPriority, TaskStatus } from '../../api/task-api'
 
-let initialState: TasksType = {
-}
+let initialState: TasksType = {}
 
 export const tasksReducer = (
 	state: TasksType = initialState,
@@ -84,9 +86,8 @@ export const tasksReducer = (
 		case 'SET-TODOLISTS': {
 			return action.todos.reduce((acc, current) => {
 				acc[current.id] = []
-				return acc 
+				return acc
 			}, {} as TasksType)
-
 		}
 
 		default:
@@ -101,7 +102,7 @@ type TasksReducerType =
 	| ChangeTaskTitleACType
 	| AddTodolistACType
 	| RemoveTodolistACType
-	| SetTodolistsType 
+	| SetTodolistsType
 
 // ==========================
 

@@ -28,8 +28,7 @@ import {
 	changeTaskTitleAC,
 	removeTaskAC,
 } from './reducers/Tasks/tasks-reducer'
-import { useSelector } from 'react-redux'
-import { AppRootStateType, useAppDispatch } from './store/store'
+import { useAppDispatch, useAppSelector } from './store/store'
 import { useCallback, useEffect } from 'react'
 
 export type TasksType = {
@@ -37,11 +36,11 @@ export type TasksType = {
 }
 
 export const App = () => {
-	const todolists = useSelector<AppRootStateType, TodolistDomainType[]>(
+	const todolists = useAppSelector<TodolistDomainType[]>(
 		state => state.todolists
 	)
 
-	const tasks = useSelector<AppRootStateType, TasksType>(state => state.tasks)
+	const tasks = useAppSelector<TasksType>(state => state.tasks)
 
 	const dispatch = useAppDispatch()
 
