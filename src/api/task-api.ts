@@ -3,6 +3,10 @@ import axios from 'axios'
 const instance = axios.create({
 	baseURL: 'https://social-network.samuraijs.com/api/1.1/',
 	withCredentials: true,
+
+	headers: {
+		'API-KEY': '19b20155-3ecd-4d20-a66a-4885db5c3756',
+	},
 })
 
 export const taskApi = {
@@ -11,7 +15,7 @@ export const taskApi = {
 	},
 
 	createTask(todolistId: string, title: string) {
-		return instance.post<TaskType>(`todo-lists/${todolistId}/tasks`, { title })
+		return instance.post<CreateTaskResponseType>(`todo-lists/${todolistId}/tasks`, { title })
 	},
 
 	deleteTask(todolistId: string, taskId: string) {
@@ -67,10 +71,20 @@ type GetTasksResponseType = {
 	items: TaskType[]
 }
 
+type CreateTaskResponseType = {
+	resultCode: number
+	error: FieldErrorType
+	messages: string[]
+	data: {
+		item: TaskType
+	}
+}
+
 type TaskResponseType<T = {}> = {
 	resultCode: number
+	error: FieldErrorType
 	messages: string[]
-	data: T
+	data: {}
 }
 
 type UpdatePropertiesType = {

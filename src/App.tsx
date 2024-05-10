@@ -24,9 +24,10 @@ import {
 } from './reducers/Todolists/todolists-reducer'
 import {
 	addTaskAC,
+	addTaskThunk,
 	changeTaskStatusAC,
 	changeTaskTitleAC,
-	removeTaskAC,
+	deleteTasksThunk,
 } from './reducers/Tasks/tasks-reducer'
 import { useAppDispatch, useAppSelector } from './store/store'
 import { useCallback, useEffect } from 'react'
@@ -79,13 +80,13 @@ export const App = () => {
 	//* TASKS
 
 	// Добавление новой таски
-	const addTask = useCallback((title: string, todolistId: string) => {
-		dispatch(addTaskAC(title, todolistId))
+	const addTask = useCallback((todolistId: string, title: string) => {
+		dispatch(addTaskThunk(todolistId, title))
 	}, [])
 
 	// Удаление таски при нажатии на крестик
 	const removeTask = useCallback((taskId: string, todolistId: string) => {
-		dispatch(removeTaskAC(taskId, todolistId))
+		dispatch(deleteTasksThunk(todolistId, taskId))
 	}, [])
 
 	// Изменение чекбокса
