@@ -15,7 +15,7 @@ export const taskApi = {
 	},
 
 	createTask(todolistId: string, title: string) {
-		return instance.post<CreateTaskResponseType>(
+		return instance.post<TaskResponseType<{item: TaskType}>>(
 			`todo-lists/${todolistId}/tasks`,
 			{ title }
 		)
@@ -74,20 +74,11 @@ type GetTasksResponseType = {
 	items: TaskType[]
 }
 
-type CreateTaskResponseType = {
-	resultCode: number
-	error: FieldErrorType
-	messages: string[]
-	data: {
-		item: TaskType
-	}
-}
-
 type TaskResponseType<T = {}> = {
 	resultCode: number
 	error: FieldErrorType
 	messages: string[]
-	data: {}
+	data: T
 }
 
 export type UpdatePropertiesType = {

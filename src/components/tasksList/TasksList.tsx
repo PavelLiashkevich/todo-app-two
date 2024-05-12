@@ -12,9 +12,9 @@ type TasksListPropsType = {
 		status: TaskStatus
 	) => void
 	changeTaskTitle: (
+		todolistId: string,
 		taskId: string,
 		newValue: string,
-		todolistId: string
 	) => void
 }
 

@@ -18,9 +18,9 @@ type TaskPropsType = {
 		status: TaskStatus
 	) => void
 	changeTaskTitle: (
+		todolistId: string,
 		taskId: string,
 		newValue: string,
-		todolistId: string
 	) => void
 }
 
@@ -38,7 +38,7 @@ export const Task = memo(
 		// Принимаем данные для редактирования таски при двойном нажатии
 		const onChangeTitleHandler = useCallback(
 			(newValue: string) => {
-				changeTaskTitle(task.id, newValue, todolistId)
+				changeTaskTitle(todolistId, task.id, newValue)
 			},
 			[changeTaskTitle, task.id, todolistId]
 		)

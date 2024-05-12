@@ -16,18 +16,16 @@ import MenuIcon from '@mui/icons-material/Menu'
 import {
 	FilterValuesType,
 	TodolistDomainType,
-	addTodolistAC,
+	addTodolistTC,
 	changeFilterAC,
-	changeTodolistTitleAC,
+	changeTodolistTitleTC,
 	getTodosTC,
-	removeTodolistAC,
+	removeTodolistTC,
 } from './reducers/Todolists/todolists-reducer'
 import {
 	addTaskTC,
-	changeTaskStatusAC,
-	changeTaskStatusTC,
-	changeTaskTitleAC,
 	deleteTaskTC,
+	updateTaskTC,
 } from './reducers/Tasks/tasks-reducer'
 import { useAppDispatch, useAppSelector } from './store/store'
 import { useCallback, useEffect } from 'react'
@@ -53,18 +51,18 @@ export const App = () => {
 
 	// Добавление нового тудулиста
 	const addTodolist = useCallback((title: string) => {
-		dispatch(addTodolistAC(title))
+		dispatch(addTodolistTC(title))
 	}, [])
 
 	// Удаление тудулиста при нажатии на крестик
 	const removeTodolist = useCallback((todolistId: string) => {
-		dispatch(removeTodolistAC(todolistId))
+		dispatch(removeTodolistTC(todolistId))
 	}, [])
 
 	// Сохранение тудулиста после редактирование
 	const changeTodolistTitle = useCallback(
 		(todolistId: string, newValue: string) => {
-			dispatch(changeTodolistTitleAC(todolistId, newValue))
+			dispatch(changeTodolistTitleTC(todolistId, newValue))
 		},
 		[]
 	)
@@ -92,15 +90,15 @@ export const App = () => {
 	// Изменение чекбокса
 	const changeTaskStatus = useCallback(
 		(todolistId: string, taskId: string, status: TaskStatus) => {
-			dispatch(changeTaskStatusTC(todolistId, taskId, status))
+			dispatch(updateTaskTC(todolistId, taskId, { status }))
 		},
 		[]
 	)
 
 	// Редактирование и перезапись таски
 	const changeTaskTitle = useCallback(
-		(taskId: string, newValue: string, todolistId: string) => {
-			dispatch(changeTaskTitleAC(taskId, newValue, todolistId))
+		(todolistId: string, taskId: string, newValue: string) => {
+			dispatch(updateTaskTC(todolistId, taskId, { title: newValue }))
 		},
 		[]
 	)
