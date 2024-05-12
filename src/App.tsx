@@ -8,6 +8,7 @@ import {
 	Container,
 	Grid,
 	IconButton,
+	LinearProgress,
 	Paper,
 	Toolbar,
 	Typography,
@@ -29,6 +30,7 @@ import {
 } from './reducers/Tasks/tasks-reducer'
 import { useAppDispatch, useAppSelector } from './store/store'
 import { useCallback, useEffect } from 'react'
+import AutohideSnackbar from './components/snackbar/Snackbar'
 
 export type TasksType = {
 	[key: string]: TaskType[]
@@ -105,6 +107,7 @@ export const App = () => {
 
 	return (
 		<div className='App'>
+			<AutohideSnackbar />
 			<AppBar position='static'>
 				<Toolbar variant='dense'>
 					<IconButton
@@ -119,6 +122,7 @@ export const App = () => {
 						TodoList
 					</Typography>
 				</Toolbar>
+				<LinearProgress color="secondary"/>
 			</AppBar>
 			<Container fixed>
 				<Grid container>
