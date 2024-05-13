@@ -168,7 +168,7 @@ export const setTasksAC = (tasks: TaskType[], todolistId: string) => {
 
 // ========================== THUNKS ==========================
 
-export const getTasksTC = (todolistId: string) => (dispatch: Dispatch<TasksReducerType>) => {
+export const getTasksTC = (todolistId: string) => (dispatch: Dispatch) => {
 	taskApi.getTasks(todolistId).then(res => {
 		const tasks = res.data.items
 		dispatch(setTasksAC(tasks, todolistId))
@@ -176,14 +176,14 @@ export const getTasksTC = (todolistId: string) => (dispatch: Dispatch<TasksReduc
 }
 
 export const addTaskTC =
-	(todolistId: string, title: string) => (dispatch: Dispatch<TasksReducerType>) => {
+	(todolistId: string, title: string) => (dispatch: Dispatch) => {
 		taskApi.createTask(todolistId, title).then(res => {
 			dispatch(addTaskAC(res.data.data.item))
 		})
 	}
 
 export const deleteTaskTC =
-	(todolistId: string, taskId: string) => (dispatch: Dispatch<TasksReducerType>) => {
+	(todolistId: string, taskId: string) => (dispatch: Dispatch) => {
 		taskApi.deleteTask(todolistId, taskId).then(() => {
 			dispatch(removeTaskAC(taskId, todolistId))
 		})
@@ -191,7 +191,7 @@ export const deleteTaskTC =
 
 export const updateTaskTC =
 	(todolistId: string, taskId: string, model: UpdateDomainTaskModelType) =>
-	(dispatch: Dispatch<TasksReducerType>, getState: () => AppRootStateType) => {
+	(dispatch: Dispatch, getState: () => AppRootStateType) => {
 		const tasks = getState().tasks
 
 		const task = tasks[todolistId].find(task => task.id === taskId)

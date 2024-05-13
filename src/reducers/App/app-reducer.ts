@@ -1,28 +1,30 @@
-type initialStateType = {
-	//происходит ли взаимодествие с сервером
-	status: 'idle' | 'loading' | 'success' | 'error'
-	// если взаимодействие с сервером не прошло - запишем текст об ошибке
-	error: string | null
+export type RequestStatusType = 'idle' | 'loading' | 'success' | 'error'
+
+export type SetStatusLoadingType = ReturnType<typeof setStatusLoading>
+
+const initialState = {
+	status: 'loading' as RequestStatusType,
+	error: null 
 }
 
-type ActionsTypes = any
+export const setStatusLoading = (status: any) => ({type: 'APP/SET_STATUS', status})
+//export const setStatusError = (status: any) => ({type: 'APP/SET_ERROR', error})
 
-const initialState: initialStateType = {
-	status: 'idle',
-	error: null,
-}
+type InitialStateType = typeof initialState
+
+type ActionsTypes = SetStatusLoadingType
 
 export const appReducer = (
-	state: initialStateType = initialState,
+	state: InitialStateType = initialState,
 	action: ActionsTypes
 ) => {
 	switch (action.type) {
-		case 'SET_STATUS': {
+		case 'APP/SET_STATUS': {
 			return { ...state, status: action.status }
 		}
-		case 'SET_ERROR': {
-			return { ...state, error: action.error }
-		}
+		//case 'APP/SET_ERROR': {
+		//	return { ...state, error: action.error }
+		//}
 		default:
 			return { ...state }
 	}
