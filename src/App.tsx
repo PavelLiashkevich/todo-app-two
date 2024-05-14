@@ -31,6 +31,7 @@ import {
 import { useAppDispatch, useAppSelector } from './store/store'
 import { useCallback, useEffect } from 'react'
 import AutohideSnackbar from './components/snackbar/Snackbar'
+import { SetStatusLoadingType } from './reducers/App/app-reducer'
 
 export type TasksType = {
 	[key: string]: TaskType[]
@@ -42,6 +43,8 @@ export const App = () => {
 	)
 
 	const tasks = useAppSelector<TasksType>(state => state.tasks)
+
+	const status = useAppSelector(state => state.app.status)
 
 	const dispatch = useAppDispatch()
 
@@ -122,7 +125,7 @@ export const App = () => {
 						TodoList
 					</Typography>
 				</Toolbar>
-				<LinearProgress color="secondary"/>
+				{ status === 'loading' && <LinearProgress color="secondary"/> }
 			</AppBar>
 			<Container fixed>
 				<Grid container>

@@ -29,7 +29,7 @@ type TodoListPropsType = {
 	changeTaskTitle: (
 		todolistId: string,
 		taskId: string,
-		newValue: string,
+		newValue: string
 	) => void
 	changeTodolistTitle: (todolistId: string, newValue: string) => void
 	removeTodolist: (todolistId: string) => void
@@ -49,7 +49,6 @@ export const TodoList = React.memo(
 		changeTodolistTitle,
 		removeTodolist,
 	}: TodoListPropsType) => {
-
 		const dispatch = useAppDispatch()
 
 		useEffect(() => {

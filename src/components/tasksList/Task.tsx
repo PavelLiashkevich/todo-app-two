@@ -3,7 +3,6 @@ import { useCallback } from 'react'
 import styled from 'styled-components'
 
 import { EditableSpan } from '../editableSpan/EditableSpan'
-//import { CheckBox } from '../checkbox/CheckBox'
 import { Checkbox, IconButton } from '@mui/material'
 import { DeleteOutlined } from '@mui/icons-material'
 import { TaskStatus, TaskType } from '../../api/task-api'

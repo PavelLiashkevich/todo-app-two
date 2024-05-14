@@ -13,6 +13,7 @@ import {
 } from '../../api/task-api'
 import { Dispatch } from 'redux'
 import { AppRootStateType } from '../../store/store'
+import { setStatusLoading } from '../App/app-reducer'
 
 let initialState: TasksType = {}
 
@@ -169,22 +170,28 @@ export const setTasksAC = (tasks: TaskType[], todolistId: string) => {
 // ========================== THUNKS ==========================
 
 export const getTasksTC = (todolistId: string) => (dispatch: Dispatch) => {
+	dispatch(setStatusLoading('loading'))
 	taskApi.getTasks(todolistId).then(res => {
 		const tasks = res.data.items
+		dispatch(setStatusLoading('success'))
 		dispatch(setTasksAC(tasks, todolistId))
 	})
 }
 
 export const addTaskTC =
 	(todolistId: string, title: string) => (dispatch: Dispatch) => {
+		dispatch(setStatusLoading('loading'))
 		taskApi.createTask(todolistId, title).then(res => {
 			dispatch(addTaskAC(res.data.data.item))
+			dispatch(setStatusLoading('success'))
 		})
 	}
 
 export const deleteTaskTC =
 	(todolistId: string, taskId: string) => (dispatch: Dispatch) => {
+		dispatch(setStatusLoading('loading'))
 		taskApi.deleteTask(todolistId, taskId).then(() => {
+			dispatch(setStatusLoading('success'))
 			dispatch(removeTaskAC(taskId, todolistId))
 		})
 	}
@@ -192,6 +199,8 @@ export const deleteTaskTC =
 export const updateTaskTC =
 	(todolistId: string, taskId: string, model: UpdateDomainTaskModelType) =>
 	(dispatch: Dispatch, getState: () => AppRootStateType) => {
+		dispatch(setStatusLoading('loading'))
+
 		const tasks = getState().tasks
 
 		const task = tasks[todolistId].find(task => task.id === taskId)
@@ -209,6 +218,7 @@ export const updateTaskTC =
 
 			taskApi.updateTask(todolistId, taskId, update).then(() => {
 				dispatch(updateTaskAC(todolistId, taskId, model))
+				dispatch(setStatusLoading('success'))
 			})
 		}
 	}
