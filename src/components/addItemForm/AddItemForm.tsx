@@ -43,7 +43,7 @@ export const AddItemForm = React.memo(({ addItem }: AddTaskButtonPropsType) => {
 	}
 
 	// Отключение кнопки, если символов > 15
-	const isAddTaskBtnDisabled = title.length > 15
+	//const isAddTaskBtnDisabled = title.length > 15
 
 	return (
 		<StyledItemForm>
@@ -58,7 +58,7 @@ export const AddItemForm = React.memo(({ addItem }: AddTaskButtonPropsType) => {
 
 			<IconButton
 				onClick={addTaskHandler}
-				disabled={isAddTaskBtnDisabled}
+				//disabled={isAddTaskBtnDisabled}
 				color='secondary'
 			>
 				<AddCircle />

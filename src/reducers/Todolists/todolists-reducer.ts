@@ -1,7 +1,11 @@
 import { v1 } from 'uuid'
-import { TodolistType, todolistApi } from '../../api/todolist-api'
+import { ResultCode, TodolistType, todolistApi } from '../../api/todolist-api'
 import { Dispatch } from 'redux'
-import { setStatusError, setStatusLoading } from '../App/app-reducer'
+import {
+	RequestStatusType,
+	setStatusError,
+	setStatusLoading,
+} from '../App/app-reducer'
 
 export let todolistID1 = v1()
 
@@ -20,6 +24,7 @@ export const todolistsReducer = (
 					filter: 'all',
 					addedDate: Date.now().toString(),
 					order: 0,
+					entityStatus: 'idle',
 				},
 				...state,
 			]
@@ -27,6 +32,14 @@ export const todolistsReducer = (
 
 		case 'REMOVE-TODOLIST': {
 			return state.filter(todolist => todolist.id !== action.payload.todolistId)
+		}
+
+		case 'CHANGE-ENTITY-STATUS': {
+			return state.map(todolist =>
+				todolist.id === action.payload.todolistId
+					? { ...todolist, entityStatus: action.payload.entityStatus }
+					: todolist
+			) 
 		}
 
 		case 'CHANGE-TODOLIST-TITLE': {
@@ -50,6 +63,7 @@ export const todolistsReducer = (
 				...todolist,
 				order: todolist.order + 1,
 				filter: 'all',
+				entityStatus: 'idle',
 			}))
 		}
 
@@ -65,6 +79,7 @@ export type FilterValuesType = 'all' | 'active' | 'completed'
 
 export type TodolistDomainType = TodolistType & {
 	filter: FilterValuesType
+	entityStatus: RequestStatusType
 }
 
 type TodolistReducerType =
@@ -73,6 +88,7 @@ type TodolistReducerType =
 	| ChangeTodolistTitleACType
 	| ChangeFilterACType
 	| SetTodolistsType
+	| SetEntityStatusType
 
 // ========================== ACTIONS ==========================
 
@@ -97,6 +113,21 @@ export const removeTodolistAC = (todolistId: string) => {
 		type: 'REMOVE-TODOLIST',
 		payload: {
 			todolistId,
+		},
+	} as const
+}
+
+export type SetEntityStatusType = ReturnType<typeof setEntityStatusAC>
+
+export const setEntityStatusAC = (
+	todolistId: string,
+	entityStatus: RequestStatusType
+) => {
+	return {
+		type: 'CHANGE-ENTITY-STATUS',
+		payload: {
+			todolistId,
+			entityStatus,
 		},
 	} as const
 }
@@ -152,15 +183,13 @@ export const getTodosTC = () => (dispatch: Dispatch) => {
 export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
 	dispatch(setStatusLoading('loading'))
 	todolistApi.createTodolist(title).then(res => {
-		if(res.data.resultCode === 0) {
+		if (res.data.resultCode === ResultCode.SUCCESS) {
 			dispatch(addTodolistAC(res.data.data.item.title))
 		} else {
-			if(res.data.messages.length) {
+			if (res.data.messages.length) {
 				dispatch(setStatusError(res.data.messages[0]))
-				
 			} else {
 				dispatch(setStatusError('Something went wrong!'))
-			
 			}
 		}
 		dispatch(setStatusLoading('success'))
@@ -170,6 +199,7 @@ export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
 export const removeTodolistTC =
 	(todolistId: string) => (dispatch: Dispatch) => {
 		dispatch(setStatusLoading('loading'))
+		dispatch(setEntityStatusAC(todolistId, 'loading'))
 		todolistApi.deleteTodolist(todolistId).then(() => {
 			dispatch(setStatusLoading('success'))
 			dispatch(removeTodolistAC(todolistId))

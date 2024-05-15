@@ -2,11 +2,13 @@ import * as React from 'react'
 import Snackbar from '@mui/material/Snackbar'
 import Alert from '@mui/material/Alert'
 import Stack from '@mui/material/Stack'
-import { useAppSelector } from '../../store/store'
+import { useAppDispatch, useAppSelector } from '../../store/store'
+import { setStatusError } from '../../reducers/App/app-reducer'
 
 export default function AutohideSnackbar() {
+	const error = useAppSelector(state => state.app.error)
 
-	const error = useAppSelector(state => state.app.error)	
+	const dispatch = useAppDispatch()
 
 	const handleClose = (
 		event: React.SyntheticEvent | Event,
@@ -15,6 +17,7 @@ export default function AutohideSnackbar() {
 		if (reason === 'clickaway') {
 			return
 		}
+		dispatch(setStatusError(null))
 	}
 
 	return (

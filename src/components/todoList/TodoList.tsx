@@ -12,6 +12,7 @@ import { Button, IconButton } from '@mui/material'
 import { Delete } from '@mui/icons-material'
 import { useAppDispatch } from '../../store/store'
 import { getTasksTC } from '../../reducers/Tasks/tasks-reducer'
+import { RequestStatusType } from '../../reducers/App/app-reducer'
 
 type TodoListPropsType = {
 	title: string
@@ -33,6 +34,7 @@ type TodoListPropsType = {
 	) => void
 	changeTodolistTitle: (todolistId: string, newValue: string) => void
 	removeTodolist: (todolistId: string) => void
+	entityStatus: RequestStatusType
 }
 
 export const TodoList = React.memo(
@@ -48,6 +50,7 @@ export const TodoList = React.memo(
 		changeTaskTitle,
 		changeTodolistTitle,
 		removeTodolist,
+		entityStatus,
 	}: TodoListPropsType) => {
 		const dispatch = useAppDispatch()
 
@@ -88,7 +91,7 @@ export const TodoList = React.memo(
 						oldTitle={title}
 						onChange={onChangeTodolistTitleHandler}
 					/>
-					<IconButton onClick={removeTodolistHandler} color='secondary'>
+					<IconButton onClick={removeTodolistHandler} color='secondary' disabled={entityStatus === 'loading'}>
 						<Delete />
 					</IconButton>
 					<Button onClick={changeCollapseStatus} variant='outlined'>

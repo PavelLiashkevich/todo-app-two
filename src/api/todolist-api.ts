@@ -50,3 +50,9 @@ type FieldErrorType = {
 	error: string
 	field: string
 }
+
+export enum ResultCode {
+	SUCCESS = 0,
+	ERROR = 1,
+	RECAPTCHA_FAILED = 2,
+}

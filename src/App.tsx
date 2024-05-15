@@ -31,7 +31,6 @@ import {
 import { useAppDispatch, useAppSelector } from './store/store'
 import { useCallback, useEffect } from 'react'
 import AutohideSnackbar from './components/snackbar/Snackbar'
-import { SetStatusLoadingType } from './reducers/App/app-reducer'
 
 export type TasksType = {
 	[key: string]: TaskType[]
@@ -137,8 +136,8 @@ export const App = () => {
 							<Grid key={index} item>
 								<Paper>
 									<TodoList
-										key={todolist.id}
 										id={todolist.id}
+										entityStatus={todolist.entityStatus}
 										title={todolist.title}
 										tasks={tasks[todolist.id]}
 										removeTask={removeTask}
