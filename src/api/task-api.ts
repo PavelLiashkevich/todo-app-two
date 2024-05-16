@@ -17,20 +17,20 @@ export const taskApi = {
 	},
 
 	createTask(todolistId: string, title: string) {
-		return instance.post<TaskResponseType<{item: TaskType}>>(
+		return instance.post<ResponseType<{item: TaskType}>>(
 			`todo-lists/${todolistId}/tasks`,
 			{ title }
 		)
 	},
 
 	deleteTask(todolistId: string, taskId: string) {
-		return instance.delete<TaskResponseType>(
+		return instance.delete<ResponseType>(
 			`todo-lists/${todolistId}/tasks/${taskId}`
 		)
 	},
 
 	updateTask(todolistId: string, taskId: string, update: UpdatePropertiesType) {
-		return instance.put<TaskResponseType>(
+		return instance.put<ResponseType>(
 			`todo-lists/${todolistId}/tasks/${taskId}`,
 			update
 		)
@@ -78,9 +78,9 @@ type GetTasksResponseType = {
 	items: TaskType[]
 }
 
-type TaskResponseType<T = {}> = {
+export type ResponseType<T = {}> = {
 	resultCode: number
-	error: FieldErrorType
+	//error: FieldErrorType
 	messages: string[]
 	data: T
 }

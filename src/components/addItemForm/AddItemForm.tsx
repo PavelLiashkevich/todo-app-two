@@ -1,14 +1,17 @@
 import React from 'react'
+import styled from 'styled-components'
+
 import { ChangeEvent, KeyboardEvent, useState } from 'react'
 import { IconButton, TextField } from '@mui/material'
 import { AddCircle } from '@mui/icons-material'
-import styled from 'styled-components'
+
 
 type AddTaskButtonPropsType = {
 	addItem: (title: string) => void
+	disable?: boolean
 }
 
-export const AddItemForm = React.memo(({ addItem }: AddTaskButtonPropsType) => {
+export const AddItemForm = React.memo(({ addItem, disable }: AddTaskButtonPropsType) => {
 	// Состояние инпута
 	let [title, setTitle] = useState('')
 
@@ -54,11 +57,12 @@ export const AddItemForm = React.memo(({ addItem }: AddTaskButtonPropsType) => {
 				onKeyPress={onKeyPressHandler}
 				label='Max 15 symbols'
 				helperText={error}
+				disabled={disable}
 			/>
 
 			<IconButton
 				onClick={addTaskHandler}
-				//disabled={isAddTaskBtnDisabled}
+				disabled={disable}
 				color='secondary'
 			>
 				<AddCircle />

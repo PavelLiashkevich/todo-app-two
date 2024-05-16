@@ -101,7 +101,7 @@ export const TodoList = React.memo(
 
 				{isCollapsed ? null : (
 					<>
-						<AddItemForm addItem={addTaskNew} />
+						<AddItemForm disable={entityStatus === 'loading'} addItem={addTaskNew} />
 
 						{tasks.length === 0 ? (
 							<StyledInfo>The tasks wasn't found</StyledInfo>

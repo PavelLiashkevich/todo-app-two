@@ -29,9 +29,9 @@ export const appReducer = (
 
 // ================================================
 
-export type SetStatusLoadingType = ReturnType<typeof setStatusLoading>
+export type SetStatusLoadingType = ReturnType<typeof setStatusLoadingAC>
 
-export const setStatusLoading = (status: RequestStatusType) =>
+export const setStatusLoadingAC = (status: RequestStatusType) =>
 	({
 		type: 'APP/SET-STATUS',
 		status,
@@ -39,7 +39,7 @@ export const setStatusLoading = (status: RequestStatusType) =>
 
 // ================================================
 
-export type SetStatusErrorType = ReturnType<typeof setStatusError>
+export type SetStatusErrorType = ReturnType<typeof setStatusErrorAC>
 
-export const setStatusError = (error: null | string) =>
+export const setStatusErrorAC = (error: null | string) =>
 	({ type: 'APP/SET-ERROR', error }) as const
