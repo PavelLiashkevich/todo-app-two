@@ -1,10 +1,8 @@
-import { error } from 'console'
 import { v1 } from 'uuid'
 import { ResultCode, TodolistType, todolistApi } from '../../api/todolist-api'
 import { Dispatch } from 'redux'
 import {
 	RequestStatusType,
-	setStatusErrorAC,
 	setStatusLoadingAC,
 } from '../App/app-reducer'
 import { handleServerNetworkError, serverNetworkError } from '../../utils/error-utils'

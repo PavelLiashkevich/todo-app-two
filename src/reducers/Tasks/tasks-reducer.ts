@@ -13,7 +13,7 @@ import {
 } from '../../api/task-api'
 import { Dispatch } from 'redux'
 import { AppRootStateType } from '../../store/store'
-import { setStatusErrorAC, setStatusLoadingAC } from '../App/app-reducer'
+import { setStatusLoadingAC } from '../App/app-reducer'
 import { ResultCode } from '../../api/todolist-api'
 import { handleServerNetworkError, serverNetworkError } from '../../utils/error-utils'
 

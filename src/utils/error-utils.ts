@@ -2,10 +2,6 @@ import { Dispatch } from 'redux'
 import { ResponseType } from '../api/task-api'
 import { setStatusErrorAC, setStatusLoadingAC } from '../reducers/App/app-reducer'
 
-//type ErrorUtilsDispatchType = Dispatch<
-//	SetAppErrorActionType | SetAppStatusActionType
-//>
-
 // generic function
 export const serverNetworkError = <T>(
 	dispatch: Dispatch,
