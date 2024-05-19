@@ -1,11 +1,14 @@
 import { Dispatch } from 'redux'
 import { ResponseType } from '../api/task-api'
-import { setStatusErrorAC, setStatusLoadingAC } from '../reducers/App/app-reducer'
+import {
+	setStatusErrorAC,
+	setStatusLoadingAC,
+} from '../reducers/App/app-reducer'
 
 // generic function
 export const serverNetworkError = <T>(
 	dispatch: Dispatch,
-	data: ResponseType<T>,
+	data: ResponseType<T>
 ) => {
 	if (data.messages.length) {
 		dispatch(setStatusErrorAC(data.messages[0]))
@@ -17,7 +20,7 @@ export const serverNetworkError = <T>(
 
 export const handleServerNetworkError = (
 	dispatch: Dispatch,
-	error: { message: string },
+	error: { message: string }
 ) => {
 	dispatch(setStatusErrorAC(error.message))
 	dispatch(setStatusLoadingAC('error'))

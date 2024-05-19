@@ -18,7 +18,7 @@ const initialGlobalState = {
 			id: 'todolistId1',
 			title: 'To-do List 1',
 			filter: 'all',
-			addedDate: '', 
+			addedDate: '',
 			order: 0,
 		},
 	],
@@ -53,7 +53,6 @@ const initialGlobalState = {
 }
 
 // @ts-ignore
-
 export const storyBookStore = legacy_createStore(
 	rootReducer,
 	initialGlobalState as unknown as AppRootStateType

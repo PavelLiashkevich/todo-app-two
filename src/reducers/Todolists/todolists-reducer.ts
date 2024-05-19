@@ -1,11 +1,11 @@
 import { v1 } from 'uuid'
 import { ResultCode, TodolistType, todolistApi } from '../../api/todolist-api'
 import { Dispatch } from 'redux'
+import { RequestStatusType, setStatusLoadingAC } from '../App/app-reducer'
 import {
-	RequestStatusType,
-	setStatusLoadingAC,
-} from '../App/app-reducer'
-import { handleServerNetworkError, serverNetworkError } from '../../utils/error-utils'
+	handleServerNetworkError,
+	serverNetworkError,
+} from '../../utils/error-utils'
 
 export let todolistID1 = v1()
 
@@ -188,7 +188,7 @@ export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
 			if (res.data.resultCode === ResultCode.SUCCESS) {
 				dispatch(addTodolistAC(res.data.data.item.title))
 			} else {
-				serverNetworkError(dispatch, res.data) 
+				serverNetworkError(dispatch, res.data)
 			}
 			dispatch(setStatusLoadingAC('success'))
 		})
