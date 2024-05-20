@@ -31,51 +31,15 @@ import {
 import { useAppDispatch, useAppSelector } from './store/store'
 import { useCallback, useEffect } from 'react'
 import AutohideSnackbar from './components/snackbar/Snackbar'
+import { Outlet } from 'react-router-dom'
 
 export type TasksType = {
 	[key: string]: TaskType[]
 }
 
 export const App = () => {
-	const todolists = useAppSelector<TodolistDomainType[]>(
-		state => state.todolists
-	)
 
 	const status = useAppSelector(state => state.app.status)
-
-	const dispatch = useAppDispatch()
-
-	useEffect(() => {
-		dispatch(getTodosTC())
-	}, [])
-
-	//* TODOLISTS
-
-	// Добавление нового тудулиста
-	const addTodolist = useCallback((title: string) => {
-		dispatch(addTodolistTC(title))
-	}, [])
-
-	// Удаление тудулиста при нажатии на крестик
-	const removeTodolist = useCallback((todolistId: string) => {
-		dispatch(removeTodolistTC(todolistId))
-	}, [])
-
-	// Сохранение тудулиста после редактирование
-	const changeTodolistTitle = useCallback(
-		(todolistId: string, newValue: string) => {
-			dispatch(changeTodolistTitleTC(todolistId, newValue))
-		},
-		[]
-	)
-
-	// Фильтрация тасок при нажатии на кнопки
-	const changeFilter = useCallback(
-		(todolistId: string, value: FilterValuesType) => {
-			dispatch(changeFilterAC(todolistId, value))
-		},
-		[]
-	)
 
 	return (
 		<div className='App'>
@@ -97,28 +61,7 @@ export const App = () => {
 				{status === 'loading' && <LinearProgress color='secondary' />}
 			</AppBar>
 			<Container fixed>
-				<Grid container>
-					<AddItemForm addItem={addTodolist} />
-				</Grid>
-				<Grid container spacing={3}>
-					{todolists.map((todolist, index) => {
-						return (
-							<Grid key={index} item>
-								<Paper>
-									<TodoList
-										id={todolist.id}
-										entityStatus={todolist.entityStatus}
-										title={todolist.title}
-										changeFilter={changeFilter}
-										changeTodolistTitle={changeTodolistTitle}
-										removeTodolist={removeTodolist}
-										filter={todolist.filter}
-									/>
-								</Paper>
-							</Grid>
-						)
-					})}
-				</Grid>
+				<Outlet />
 			</Container>
 		</div>
 	)
