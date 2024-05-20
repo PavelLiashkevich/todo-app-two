@@ -1,0 +1,60 @@
+.section-padding {
+	padding: 40px 0;
+}
+
+.error-404-section {
+	text-align: center;
+}
+
+.error-404-section .error-message {
+	margin-top: 30px;
+	padding: 0 100px;
+}
+
+.error-404-section .error-message p {
+	margin-bottom: 1.8em;
+	color: #776bd3;
+}
+
+.error-message h3 {
+	color: #776bd3;
+	margin-bottom: 1rem;
+}
+
+.theme-btn,
+.theme-btn-s3,
+.theme-btn-s4,
+.view-cart-btn {
+	background: #00c6d1;
+	background: -webkit-linear-gradient(left, #00a7d5, #00ded8);
+	background: -moz-linear-gradient(left, #00a7d5, #00ded8);
+	background: -o-linear-gradient(left, #00a7d5, #00ded8);
+	background: -ms-linear-gradient(left, #00a7d5, #00ded8);
+	background: -webkit-gradient(
+		linear,
+		left top,
+		right top,
+		from(#00a7d5),
+		to(#00ded8)
+	);
+	background: linear-gradient(left, #00a7d5, #00ded8);
+	color: #fff;
+	display: inline-block;
+	font-weight: 600;
+	padding: 12px 22px;
+	border: 0;
+	border-radius: 55px;
+	text-transform: capitalize;
+	-webkit-box-shadow: 0 0 0 5px #c8eaf5;
+	box-shadow: 0 0 0 5px #c8eaf5;
+	z-index: 1;
+	position: relative;
+	transition: 0.6s;
+}
+
+.theme-btn:hover,
+.theme-btn-s3:hover,
+.theme-btn-s4:hover,
+.view-cart-btn:hover {
+	background: #28dae3;
+}

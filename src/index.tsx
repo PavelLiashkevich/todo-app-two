@@ -6,11 +6,13 @@ import { Provider } from 'react-redux'
 import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { Login } from './features/login/Login'
 import { TodoLists } from './components/todoLists/TodoLists'
+import ErrorPage from './components/errorPage/ErrorPage'
 
 const router = createBrowserRouter([
 	{
 		path: '/',
 		element: <App />,
+		errorElement: <ErrorPage/>,
 		children: [
 			{
 				index: true,
