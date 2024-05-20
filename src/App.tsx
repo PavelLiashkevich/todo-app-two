@@ -41,8 +41,6 @@ export const App = () => {
 		state => state.todolists
 	)
 
-	const tasks = useAppSelector<TasksType>(state => state.tasks)
-
 	const status = useAppSelector(state => state.app.status)
 
 	const dispatch = useAppDispatch()
@@ -79,34 +77,6 @@ export const App = () => {
 		[]
 	)
 
-	//* TASKS
-
-	// Добавление новой таски
-	const addTask = useCallback((todolistId: string, title: string) => {
-		dispatch(addTaskTC(todolistId, title))
-	}, [])
-
-	// Удаление таски при нажатии на крестик
-	const removeTask = useCallback((taskId: string, todolistId: string) => {
-		dispatch(deleteTaskTC(todolistId, taskId))
-	}, [])
-
-	// Изменение чекбокса
-	const changeTaskStatus = useCallback(
-		(todolistId: string, taskId: string, status: TaskStatus) => {
-			dispatch(updateTaskTC(todolistId, taskId, { status }))
-		},
-		[]
-	)
-
-	// Редактирование и перезапись таски
-	const changeTaskTitle = useCallback(
-		(todolistId: string, taskId: string, newValue: string) => {
-			dispatch(updateTaskTC(todolistId, taskId, { title: newValue }))
-		},
-		[]
-	)
-
 	return (
 		<div className='App'>
 			<AutohideSnackbar />
@@ -124,7 +94,7 @@ export const App = () => {
 						TodoList
 					</Typography>
 				</Toolbar>
-				{ status === 'loading' && <LinearProgress color="secondary"/> }
+				{status === 'loading' && <LinearProgress color='secondary' />}
 			</AppBar>
 			<Container fixed>
 				<Grid container>
@@ -139,12 +109,7 @@ export const App = () => {
 										id={todolist.id}
 										entityStatus={todolist.entityStatus}
 										title={todolist.title}
-										tasks={tasks[todolist.id]}
-										removeTask={removeTask}
 										changeFilter={changeFilter}
-										addTask={addTask}
-										changeTaskStatus={changeTaskStatus}
-										changeTaskTitle={changeTaskTitle}
 										changeTodolistTitle={changeTodolistTitle}
 										removeTodolist={removeTodolist}
 										filter={todolist.filter}

@@ -1,11 +1,14 @@
 import axios from 'axios'
 
+//const token = '0bbf6cfc-98a0-4bd8-ba5b-af6f79d72ead'
+
 const instance = axios.create({
 	baseURL: 'https://social-network.samuraijs.com/api/1.1/',
 	withCredentials: true,
 
 	headers: {
-		'API-KEY': '19b20155-3ecd-4d20-a66a-4885db5c3756',
+		'API-KEY': 'fb09a13d-7cac-451e-afc1-b441cb18c671',
+		//Authorization: 'Bearer ' + '0bbf6cfc-98a0-4bd8-ba5b-af6f79d72ead',
 	},
 })
 
@@ -23,7 +26,9 @@ export const todolistApi = {
 	},
 
 	deleteTodolist(todolistId: string) {
-		return instance.delete<ResponseType<{ item: TodolistType }>>(`todo-lists/${todolistId}`)
+		return instance.delete<ResponseType<{ item: TodolistType }>>(
+			`todo-lists/${todolistId}`
+		)
 	},
 
 	updateTodolistTitle(todolistId: string, title: string) {
