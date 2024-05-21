@@ -11,7 +11,12 @@ import { EditableSpan } from '../editableSpan/EditableSpan'
 import { Button, IconButton } from '@mui/material'
 import { Delete } from '@mui/icons-material'
 import { useAppDispatch, useAppSelector } from '../../store/store'
-import { addTaskTC, deleteTaskTC, getTasksTC, updateTaskTC } from '../../reducers/Tasks/tasks-reducer'
+import {
+	addTaskTC,
+	deleteTaskTC,
+	getTasksTC,
+	updateTaskTC,
+} from '../../reducers/Tasks/tasks-reducer'
 import { RequestStatusType } from '../../reducers/App/app-reducer'
 
 type TodoListPropsType = {
@@ -34,7 +39,6 @@ export const TodoList = React.memo(
 		removeTodolist,
 		entityStatus,
 	}: TodoListPropsType) => {
-
 		const tasks = useAppSelector<TaskType[]>(state => state.tasks[id])
 
 		const dispatch = useAppDispatch()

@@ -1,44 +1,23 @@
 import './App.css'
-
-import { TodoList } from './components/todoList'
-import { TaskStatus, TaskType } from './api/task-api'
-import { AddItemForm } from './components/addItemForm/AddItemForm'
+import { Outlet } from 'react-router-dom'
+import { useAppSelector } from './store/store'
+import { TaskType } from './api/task-api'
 import {
 	AppBar,
 	Container,
-	Grid,
 	IconButton,
 	LinearProgress,
-	Paper,
 	Toolbar,
 	Typography,
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
-import {
-	FilterValuesType,
-	TodolistDomainType,
-	addTodolistTC,
-	changeFilterAC,
-	changeTodolistTitleTC,
-	getTodosTC,
-	removeTodolistTC,
-} from './reducers/Todolists/todolists-reducer'
-import {
-	addTaskTC,
-	deleteTaskTC,
-	updateTaskTC,
-} from './reducers/Tasks/tasks-reducer'
-import { useAppDispatch, useAppSelector } from './store/store'
-import { useCallback, useEffect } from 'react'
 import AutohideSnackbar from './components/snackbar/Snackbar'
-import { Outlet } from 'react-router-dom'
 
 export type TasksType = {
 	[key: string]: TaskType[]
 }
 
 export const App = () => {
-
 	const status = useAppSelector(state => state.app.status)
 
 	return (
@@ -58,7 +37,7 @@ export const App = () => {
 						TodoList
 					</Typography>
 				</Toolbar>
-				{status === 'loading' && <LinearProgress color='secondary' />}
+				{/*{status === 'loading' && <LinearProgress color='secondary' />}*/}
 			</AppBar>
 			<Container fixed>
 				<Outlet />

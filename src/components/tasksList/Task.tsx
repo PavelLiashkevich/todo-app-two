@@ -19,7 +19,7 @@ type TaskPropsType = {
 	changeTaskTitle: (
 		todolistId: string,
 		taskId: string,
-		newValue: string,
+		newValue: string
 	) => void
 }
 
@@ -60,6 +60,7 @@ export const Task = memo(
 				<Checkbox
 					checked={task.status === TaskStatus.Completed}
 					onChange={onChangeTaskStatusHandler}
+					color='secondary'
 				/>
 				<EditableSpan
 					oldTitle={task.title}

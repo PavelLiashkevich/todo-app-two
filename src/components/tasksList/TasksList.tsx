@@ -1,3 +1,4 @@
+import styled from 'styled-components'
 import { TaskStatus, TaskType } from '../../api/task-api'
 import { Task } from './Task'
 
@@ -14,7 +15,7 @@ type TasksListPropsType = {
 	changeTaskTitle: (
 		todolistId: string,
 		taskId: string,
-		newValue: string,
+		newValue: string
 	) => void
 }
 
@@ -45,7 +46,7 @@ export const TasksList = ({
 	}
 
 	return (
-		<ul>
+		<StyledList>
 			{filteredTasks().map(task => {
 				return (
 					<Task
@@ -58,6 +59,11 @@ export const TasksList = ({
 					/>
 				)
 			})}
-		</ul>
+		</StyledList>
 	)
 }
+
+const StyledList = styled.ul`
+	margin-bottom: 50px;
+	margin-top: 50px;
+`
