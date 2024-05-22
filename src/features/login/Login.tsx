@@ -9,6 +9,9 @@ import FormGroup from '@mui/material/FormGroup'
 import FormLabel from '@mui/material/FormLabel'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
+import { useAppDispatch, useAppSelector } from '../../store/store'
+import { Navigate } from 'react-router-dom'
+import { loginTC } from '../../reducers/Auth/auth-reducer'
 
 type ErrorType = {
 	email?: string
@@ -16,6 +19,10 @@ type ErrorType = {
 }
 
 export const Login = () => {
+	const dispatch = useAppDispatch()
+
+	const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
+
 	const formik = useFormik({
 		initialValues: {
 			email: '',
@@ -47,10 +54,14 @@ export const Login = () => {
 		},
 
 		onSubmit: values => {
-			alert(JSON.stringify(values, null, 2))
+			dispatch(loginTC(values))
 			formik.resetForm()
 		},
 	})
+
+	if (isLoggedIn) {
+		return <Navigate to={'/todolists'} />
+	}
 
 	return (
 		<Grid container justifyContent={'center'}>
@@ -95,9 +106,8 @@ export const Login = () => {
 								label={'Remember me'}
 								control={
 									<Checkbox
-										name='rememberMe'
-										onChange={formik.handleChange}
 										checked={formik.values.rememberMe}
+										{...formik.getFieldProps('rememberMe')}
 									/>
 								}
 							/>
