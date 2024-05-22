@@ -20,10 +20,10 @@ export const todolistsReducer = (
 			return [
 				{
 					id: action.payload.todolistId,
-					title: action.payload.title,
-					filter: 'all',
 					addedDate: Date.now().toString(),
 					order: 0,
+					title: action.payload.title,
+					filter: 'all',
 					entityStatus: 'idle',
 				},
 				...state,
@@ -174,9 +174,10 @@ export const setTodolistsAC = (todos: TodolistType[]) => {
 // ========================== THUNKS ==========================
 
 export const getTodosTC = () => (dispatch: Dispatch) => {
+	dispatch(setStatusLoadingAC('loading'))
 	todolistApi.getTodolists().then(res => {
-		dispatch(setStatusLoadingAC('success'))
 		dispatch(setTodolistsAC(res.data))
+		dispatch(setStatusLoadingAC('success'))
 	})
 }
 

@@ -175,8 +175,8 @@ export const getTasksTC = (todolistId: string) => (dispatch: Dispatch) => {
 	dispatch(setStatusLoadingAC('loading'))
 	taskApi.getTasks(todolistId).then(res => {
 		const tasks = res.data.items
-		dispatch(setStatusLoadingAC('success'))
 		dispatch(setTasksAC(tasks, todolistId))
+		dispatch(setStatusLoadingAC('success'))
 	})
 }
 

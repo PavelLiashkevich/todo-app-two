@@ -14,17 +14,19 @@ const instance = axios.create({
 
 export const authApi = {
 	me() {
-		return instance.get<LoginParamsType>('auth/me')
+		return instance.get<ResponseType<{ data: UserLoginType }>>('auth/me')
 	},
 
 	login(data: LoginParamsType) {
-		return instance.post<ResponseType<{ data: ResponseLoginType }>>(
+		return instance.post<ResponseType<{ data: LoginResponseType }>>(
 			'auth/login',
 			data
 		)
 	},
 
-	logout() {},
+	logout() {
+		return instance.delete<ResponseType>('auth/login')
+	},
 }
 
 // ========================== TYPES ==========================
@@ -36,7 +38,13 @@ export type LoginParamsType = {
 	captcha?: boolean
 }
 
-type ResponseLoginType = {
+type UserLoginType = {
+	id: number
+	email: string
+	login: string
+}
+
+type LoginResponseType = {
 	token: string
 	userId: number
 }

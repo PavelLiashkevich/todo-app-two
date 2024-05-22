@@ -1,3 +1,8 @@
+import { Dispatch } from 'redux'
+import { authApi } from '../../api/auth-api'
+import { ResultCode } from '../../api/todolist-api'
+import { setIsLoggedInAC } from '../Auth/auth-reducer'
+
 export type RequestStatusType = 'idle' | 'loading' | 'success' | 'error'
 
 // ================================================
@@ -6,10 +11,14 @@ type InitialStateType = typeof initialState
 const initialState = {
 	status: 'loading' as RequestStatusType,
 	error: null as null | string,
+	isInitialized: false,
 }
 // ================================================
 
-type ActionsTypes = SetStatusLoadingType | SetStatusErrorType
+type ActionsTypes =
+	| SetStatusLoadingType
+	| SetStatusErrorType
+	| SetIsInitializedType
 
 export const appReducer = (
 	state: InitialStateType = initialState,
@@ -19,8 +28,13 @@ export const appReducer = (
 		case 'APP/SET-STATUS': {
 			return { ...state, status: action.status }
 		}
+
 		case 'APP/SET-ERROR': {
 			return { ...state, error: action.error }
+		}
+
+		case 'APP/SET-IS-INITIALIZED': {
+			return { ...state, isInitialized: action.isInitialized }
 		}
 		default:
 			return state
@@ -43,3 +57,26 @@ export type SetStatusErrorType = ReturnType<typeof setStatusErrorAC>
 
 export const setStatusErrorAC = (error: null | string) =>
 	({ type: 'APP/SET-ERROR', error }) as const
+
+// ================================================
+
+export type SetIsInitializedType = ReturnType<typeof setIsInitializedAC>
+
+export const setIsInitializedAC = (isInitialized: boolean) =>
+	({
+		type: 'APP/SET-IS-INITIALIZED',
+		isInitialized,
+	}) as const
+
+// ========================== THUNKS ==========================
+
+//export const initializeAppTC = (dispatch: Dispatch) => {
+//	authApi.me().then(res => {
+//		if (res.data.resultCode === ResultCode.SUCCESS) {
+//			dispatch(setIsLoggedInAC(true))
+//		} else {
+//		}
+
+//		dispatch(setIsInitializedAC(true))
+//	})
+//}

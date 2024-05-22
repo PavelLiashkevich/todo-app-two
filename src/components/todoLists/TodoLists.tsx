@@ -12,17 +12,22 @@ import {
 } from '../../reducers/Todolists/todolists-reducer'
 import { useAppDispatch, useAppSelector } from '../../store/store'
 import { TodoList } from '../todoList/TodoList'
+import { Navigate } from 'react-router-dom'
 
 export const TodoLists = () => {
 	const todolists = useAppSelector<TodolistDomainType[]>(
 		state => state.todolists
 	)
 
+	const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
+
 	const dispatch = useAppDispatch()
 
 	useEffect(() => {
+		if (!isLoggedIn) return
 		dispatch(getTodosTC())
 	}, [])
+
 	//* TODOLISTS
 
 	// Добавление нового тудулиста
@@ -50,6 +55,10 @@ export const TodoLists = () => {
 		},
 		[]
 	)
+
+	if (!isLoggedIn) {
+		return <Navigate to='/login' />
+	}
 
 	return (
 		<>

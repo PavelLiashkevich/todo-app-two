@@ -1,5 +1,10 @@
 import { Dispatch } from 'redux'
-import { SetStatusLoadingType, setStatusLoadingAC } from '../App/app-reducer'
+import {
+	SetIsInitializedType,
+	SetStatusLoadingType,
+	setIsInitializedAC,
+	setStatusLoadingAC,
+} from '../App/app-reducer'
 import { LoginParamsType, authApi } from '../../api/auth-api'
 import { ResultCode } from '../../api/todolist-api'
 import {
@@ -27,7 +32,10 @@ export const authReducer = (
 
 // ========================== TYPES ==========================
 
-type ActionsType = IsLoggedActionType | SetStatusLoadingType
+type ActionsType =
+	| IsLoggedActionType
+	| SetStatusLoadingType
+	| SetIsInitializedType
 
 // ========================== ACTIONS ==========================
 
@@ -38,20 +46,55 @@ export const setIsLoggedInAC = (value: boolean) =>
 
 // ========================== THUNKS ==========================
 
-export const loginTC =
-	(data: LoginParamsType) => (dispatch: Dispatch<ActionsType>) => {
-		dispatch(setStatusLoadingAC('loading'))
-		authApi
-			.login(data)
-			.then(res => {
-				if (res.data.resultCode === ResultCode.SUCCESS) {
-					dispatch(setIsLoggedInAC(true))
-					dispatch(setStatusLoadingAC('success'))
-				} else {
-					serverNetworkError(dispatch, res.data)
-				}
-			})
-			.catch(error => {
-				handleServerNetworkError(dispatch, error)
-			})
-	}
+export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch) => {
+	dispatch(setStatusLoadingAC('loading'))
+	authApi
+		.login(data)
+		.then(res => {
+			if (res.data.resultCode === ResultCode.SUCCESS) {
+				dispatch(setIsLoggedInAC(true))
+				dispatch(setStatusLoadingAC('success'))
+			} else {
+				serverNetworkError(dispatch, res.data)
+			}
+		})
+		.catch(error => {
+			handleServerNetworkError(dispatch, error)
+		})
+}
+
+export const meTC = () => (dispatch: Dispatch) => {
+	dispatch(setStatusLoadingAC('loading'))
+	authApi
+		.me()
+		.then(res => {
+			if (res.data.resultCode === ResultCode.SUCCESS) {
+				dispatch(setIsLoggedInAC(true))
+				dispatch(setStatusLoadingAC('success'))
+			} else {
+				serverNetworkError(dispatch, res.data)
+			}
+		})
+		.catch(error => {
+			handleServerNetworkError(dispatch, error)
+		})
+		.finally(() => {
+			dispatch(setIsInitializedAC(true))
+		})
+}
+
+export const LogOutTC = () => (dispatch: Dispatch) => {
+	authApi
+		.logout()
+		.then(res => {
+			if (res.data.resultCode === ResultCode.SUCCESS) {
+				dispatch(setIsLoggedInAC(false))
+				dispatch(setStatusLoadingAC('success'))
+			} else {
+				serverNetworkError(dispatch, res.data)
+			}
+		})
+		.catch(error => {
+			handleServerNetworkError(dispatch, error)
+		})
+}
