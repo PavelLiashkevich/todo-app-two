@@ -91,14 +91,14 @@ export const TodoList = React.memo(
 			(title: string) => {
 				addTask(id, title)
 			},
-			[addTask, id]
+			[id, addTask]
 		)
 
 		const onChangeTodolistTitleHandler = useCallback(
 			(newValue: string) => {
 				changeTodolistTitle(id, newValue)
 			},
-			[changeTodolistTitle, id]
+			[id, changeTodolistTitle]
 		)
 
 		return (

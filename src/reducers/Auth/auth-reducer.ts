@@ -11,6 +11,8 @@ import {
 	handleServerNetworkError,
 	serverNetworkError,
 } from '../../utils/error-utils'
+import { ClearTodolistsData, clearTodolistsDataAC } from '../Todolists/todolists-reducer'
+import { clearTasksDataAC } from '../Tasks/tasks-reducer'
 
 const initialState = {
 	isLoggedIn: false,
@@ -90,6 +92,8 @@ export const LogOutTC = () => (dispatch: Dispatch) => {
 			if (res.data.resultCode === ResultCode.SUCCESS) {
 				dispatch(setIsLoggedInAC(false))
 				dispatch(setStatusLoadingAC('success'))
+				dispatch(clearTodolistsDataAC())
+				dispatch(clearTasksDataAC())
 			} else {
 				serverNetworkError(dispatch, res.data)
 			}
@@ -98,3 +102,5 @@ export const LogOutTC = () => (dispatch: Dispatch) => {
 			handleServerNetworkError(dispatch, error)
 		})
 }
+
+

@@ -1,8 +1,3 @@
-import { Dispatch } from 'redux'
-import { authApi } from '../../api/auth-api'
-import { ResultCode } from '../../api/todolist-api'
-import { setIsLoggedInAC } from '../Auth/auth-reducer'
-
 export type RequestStatusType = 'idle' | 'loading' | 'success' | 'error'
 
 // ================================================
@@ -67,16 +62,3 @@ export const setIsInitializedAC = (isInitialized: boolean) =>
 		type: 'APP/SET-IS-INITIALIZED',
 		isInitialized,
 	}) as const
-
-// ========================== THUNKS ==========================
-
-//export const initializeAppTC = (dispatch: Dispatch) => {
-//	authApi.me().then(res => {
-//		if (res.data.resultCode === ResultCode.SUCCESS) {
-//			dispatch(setIsLoggedInAC(true))
-//		} else {
-//		}
-
-//		dispatch(setIsInitializedAC(true))
-//	})
-//}

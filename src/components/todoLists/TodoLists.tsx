@@ -13,11 +13,14 @@ import {
 import { useAppDispatch, useAppSelector } from '../../store/store'
 import { TodoList } from '../todoList/TodoList'
 import { Navigate } from 'react-router-dom'
+import { RequestStatusType } from '../../reducers/App/app-reducer'
 
 export const TodoLists = () => {
 	const todolists = useAppSelector<TodolistDomainType[]>(
 		state => state.todolists
 	)
+
+	const status = useAppSelector<RequestStatusType>(state => state.app.status)
 
 	const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
 
@@ -63,7 +66,7 @@ export const TodoLists = () => {
 	return (
 		<>
 			<Grid container>
-				<AddItemForm addItem={addTodolist} />
+				<AddItemForm addItem={addTodolist} disable={status === 'loading'} />
 			</Grid>
 			<Grid container spacing={3} sx={{ justifyContent: 'center' }}>
 				{todolists.map((todolist, index) => {

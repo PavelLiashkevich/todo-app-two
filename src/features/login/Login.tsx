@@ -1,5 +1,8 @@
 import React from 'react'
+import { useAppDispatch, useAppSelector } from '../../store/store'
 import { useFormik } from 'formik'
+import { Navigate } from 'react-router-dom'
+import { loginTC } from '../../reducers/Auth/auth-reducer'
 
 import Grid from '@mui/material/Grid'
 import Checkbox from '@mui/material/Checkbox'
@@ -9,9 +12,6 @@ import FormGroup from '@mui/material/FormGroup'
 import FormLabel from '@mui/material/FormLabel'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
-import { useAppDispatch, useAppSelector } from '../../store/store'
-import { Navigate } from 'react-router-dom'
-import { loginTC } from '../../reducers/Auth/auth-reducer'
 
 type ErrorType = {
 	email?: string

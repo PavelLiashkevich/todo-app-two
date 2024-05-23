@@ -15,7 +15,10 @@ import { Dispatch } from 'redux'
 import { AppRootStateType } from '../../store/store'
 import { setStatusLoadingAC } from '../App/app-reducer'
 import { ResultCode } from '../../api/todolist-api'
-import { handleServerNetworkError, serverNetworkError } from '../../utils/error-utils'
+import {
+	handleServerNetworkError,
+	serverNetworkError,
+} from '../../utils/error-utils'
 
 let initialState: TasksType = {}
 
@@ -57,7 +60,7 @@ export const tasksReducer = (
 		case 'ADD-TODOLIST': {
 			return {
 				...state,
-				[action.payload.todolistId]: [],
+				[action.payload.todolist.id]: [],
 			}
 		}
 
@@ -84,6 +87,10 @@ export const tasksReducer = (
 			}
 		}
 
+		case 'CLEAR-TASKS-DATA': {
+			return {}
+		}
+
 		default:
 			return state
 	}
@@ -99,6 +106,7 @@ type TasksReducerType =
 	| RemoveTodolistACType
 	| SetTodolistsType
 	| SetTasksACType
+	| ClearTasksDataType
 
 type UpdateDomainTaskModelType = {
 	description?: string
@@ -166,6 +174,16 @@ export const setTasksAC = (tasks: TaskType[], todolistId: string) => {
 			tasks,
 			todolistId,
 		},
+	} as const
+}
+
+// ==========================
+
+type ClearTasksDataType = ReturnType<typeof clearTasksDataAC>
+
+export const clearTasksDataAC = () => {
+	return {
+		type: 'CLEAR-TASKS-DATA',
 	} as const
 }
 

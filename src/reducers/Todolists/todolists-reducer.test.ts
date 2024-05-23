@@ -1,7 +1,6 @@
 import { v1 } from 'uuid'
 import {
 	TodolistDomainType,
-	addTodolistAC,
 	changeTodolistTitleAC,
 	removeTodolistAC,
 	todolistsReducer,
@@ -25,15 +24,6 @@ test('correct todolist should be removed', () => {
 
 	expect(endState[1].title).toBe('Other')
 	expect(endState[0].id).toBe(todolistId2)
-})
-
-// ==========================
-
-test('correct todolist should be add', () => {
-	const endState = todolistsReducer(startState, addTodolistAC('NewTodo'))
-
-	expect(endState.length).toBe(4)
-	expect(endState[0].title).toBe('NewTodo')
 })
 
 // ==========================

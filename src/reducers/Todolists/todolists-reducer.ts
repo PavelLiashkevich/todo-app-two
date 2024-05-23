@@ -6,6 +6,7 @@ import {
 	handleServerNetworkError,
 	serverNetworkError,
 } from '../../utils/error-utils'
+import { getTasksTC } from '../Tasks/tasks-reducer'
 
 export let todolistID1 = v1()
 
@@ -18,14 +19,7 @@ export const todolistsReducer = (
 	switch (action.type) {
 		case 'ADD-TODOLIST': {
 			return [
-				{
-					id: action.payload.todolistId,
-					addedDate: Date.now().toString(),
-					order: 0,
-					title: action.payload.title,
-					filter: 'all',
-					entityStatus: 'idle',
-				},
+				{ ...action.payload.todolist, filter: 'all', entityStatus: 'idle' },
 				...state,
 			]
 		}
@@ -67,6 +61,10 @@ export const todolistsReducer = (
 			}))
 		}
 
+		case 'CLEAR-TODOLISTS-DATA': {
+			return []
+		}
+
 		default: {
 			return state
 		}
@@ -89,17 +87,17 @@ type TodolistReducerType =
 	| ChangeFilterACType
 	| SetTodolistsType
 	| SetEntityStatusType
+	| ClearTodolistsData
 
 // ========================== ACTIONS ==========================
 
 export type AddTodolistACType = ReturnType<typeof addTodolistAC>
 
-export const addTodolistAC = (title: string) => {
+export const addTodolistAC = (todolist: TodolistType) => {
 	return {
 		type: 'ADD-TODOLIST',
 		payload: {
-			title,
-			todolistId: v1(),
+			todolist,
 		},
 	} as const
 }
@@ -116,6 +114,8 @@ export const removeTodolistAC = (todolistId: string) => {
 		},
 	} as const
 }
+
+// ==========================
 
 export type SetEntityStatusType = ReturnType<typeof setEntityStatusAC>
 
@@ -171,14 +171,32 @@ export const setTodolistsAC = (todos: TodolistType[]) => {
 	} as const
 }
 
+// ==========================
+
+export type ClearTodolistsData = ReturnType<typeof clearTodolistsDataAC>
+
+export const clearTodolistsDataAC = () => {
+	return {
+		type: 'CLEAR-TODOLISTS-DATA',
+	} as const
+}
+
 // ========================== THUNKS ==========================
 
-export const getTodosTC = () => (dispatch: Dispatch) => {
+export const getTodosTC = () => (dispatch: any) => {
 	dispatch(setStatusLoadingAC('loading'))
-	todolistApi.getTodolists().then(res => {
-		dispatch(setTodolistsAC(res.data))
-		dispatch(setStatusLoadingAC('success'))
-	})
+	todolistApi
+		.getTodolists()
+		.then(res => {
+			dispatch(setTodolistsAC(res.data))
+			dispatch(setStatusLoadingAC('success'))
+			return res.data
+		})
+		.then(todolists => {
+			todolists.forEach(todolist => {
+				dispatch(getTasksTC(todolist.id))
+			})
+		})
 }
 
 export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
@@ -187,7 +205,7 @@ export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
 		.createTodolist(title)
 		.then(res => {
 			if (res.data.resultCode === ResultCode.SUCCESS) {
-				dispatch(addTodolistAC(res.data.data.item.title))
+				dispatch(addTodolistAC(res.data.data.item))
 			} else {
 				serverNetworkError(dispatch, res.data)
 			}

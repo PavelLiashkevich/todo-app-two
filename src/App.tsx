@@ -72,7 +72,11 @@ export const App = () => {
 					<Typography variant='h6' color='inherit' component='div'>
 						TodoList
 					</Typography>
-					{isLoggedIn && <Button onClick={logOut} color='inherit'>Log Out</Button>}
+					{isLoggedIn && (
+						<Button onClick={logOut} color='inherit'>
+							Log Out
+						</Button>
+					)}
 				</Toolbar>
 				{status === 'loading' && <LinearProgress color='secondary' />}
 			</AppBar>
