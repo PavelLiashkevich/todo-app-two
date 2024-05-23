@@ -11,7 +11,7 @@ import {
 	handleServerNetworkError,
 	serverNetworkError,
 } from '../../utils/error-utils'
-import { ClearTodolistsData, clearTodolistsDataAC } from '../Todolists/todolists-reducer'
+import { clearTodolistsDataAC } from '../Todolists/todolists-reducer'
 import { clearTasksDataAC } from '../Tasks/tasks-reducer'
 
 const initialState = {
@@ -102,5 +102,3 @@ export const LogOutTC = () => (dispatch: Dispatch) => {
 			handleServerNetworkError(dispatch, error)
 		})
 }
-
-

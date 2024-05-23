@@ -11,6 +11,7 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { ThunkDispatch, thunk } from 'redux-thunk'
 import { appReducer } from '../reducers/App/app-reducer'
 import { authReducer } from '../reducers/Auth/auth-reducer'
+import { configureStore } from '@reduxjs/toolkit'
 
 export type AppRootStateType = ReturnType<typeof rootReducer>
 
@@ -35,7 +36,9 @@ const composeWithDevTools =
 
 const composedEnhancers = composeWithDevTools(middlewareEnhancer)
 
-export const store = legacy_createStore(rootReducer, composedEnhancers)
+//export const store = legacy_createStore(rootReducer, composedEnhancers)
+
+export const store = configureStore({ reducer: rootReducer })
 
 // @ts-ignore
 window.store = store
