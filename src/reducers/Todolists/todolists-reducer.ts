@@ -1,7 +1,7 @@
 import { v1 } from 'uuid'
 import { ResultCode, TodolistType, todolistApi } from '../../api/todolist-api'
 import { Dispatch } from 'redux'
-import { RequestStatusType, setStatusLoadingAC } from '../App/app-reducer'
+import { RequestStatusType, appActions } from '../App/app-reducer'
 import {
 	handleServerNetworkError,
 	serverNetworkError,
@@ -184,12 +184,12 @@ export const clearTodolistsDataAC = () => {
 // ========================== THUNKS ==========================
 
 export const getTodosTC = () => (dispatch: any) => {
-	dispatch(setStatusLoadingAC('loading'))
+	dispatch(appActions.setStatus({ status: 'loading' }))
 	todolistApi
 		.getTodolists()
 		.then(res => {
 			dispatch(setTodolistsAC(res.data))
-			dispatch(setStatusLoadingAC('success'))
+			dispatch(appActions.setStatus({ status: 'success' }))
 			return res.data
 		})
 		.then(todolists => {
@@ -200,7 +200,7 @@ export const getTodosTC = () => (dispatch: any) => {
 }
 
 export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
-	dispatch(setStatusLoadingAC('loading'))
+	dispatch(appActions.setStatus({ status: 'loading' }))
 	todolistApi
 		.createTodolist(title)
 		.then(res => {
@@ -209,7 +209,7 @@ export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
 			} else {
 				serverNetworkError(dispatch, res.data)
 			}
-			dispatch(setStatusLoadingAC('success'))
+			dispatch(appActions.setStatus({ status: 'success' }))
 		})
 		.catch(error => {
 			handleServerNetworkError(dispatch, error)
@@ -218,12 +218,12 @@ export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
 
 export const removeTodolistTC =
 	(todolistId: string) => (dispatch: Dispatch) => {
-		dispatch(setStatusLoadingAC('loading'))
+		dispatch(appActions.setStatus({ status: 'loading' }))
 		dispatch(setEntityStatusAC(todolistId, 'loading'))
 		todolistApi
 			.deleteTodolist(todolistId)
 			.then(() => {
-				dispatch(setStatusLoadingAC('success'))
+				dispatch(appActions.setStatus({ status: 'success' }))
 				dispatch(removeTodolistAC(todolistId))
 			})
 			.catch(error => {
@@ -234,12 +234,12 @@ export const removeTodolistTC =
 
 export const changeTodolistTitleTC =
 	(todolistId: string, newValue: string) => (dispatch: Dispatch) => {
-		dispatch(setStatusLoadingAC('loading'))
+		dispatch(appActions.setStatus({ status: 'loading' }))
 		todolistApi
 			.updateTodolistTitle(todolistId, newValue)
 			.then(() => {
 				dispatch(changeTodolistTitleAC(todolistId, newValue))
-				dispatch(setStatusLoadingAC('success'))
+				dispatch(appActions.setStatus({ status: 'success' }))
 			})
 			.catch(error => {
 				handleServerNetworkError(dispatch, error)

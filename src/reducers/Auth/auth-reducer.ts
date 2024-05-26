@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux'
-import { setIsInitializedAC, setStatusLoadingAC } from '../App/app-reducer'
+import { appActions } from '../App/app-reducer'
 import { LoginParamsType, authApi } from '../../api/auth-api'
 import { ResultCode } from '../../api/todolist-api'
 import {
@@ -28,14 +28,13 @@ export const authActions = slice.actions
 // ========================== THUNKS ==========================
 
 export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch) => {
-	dispatch(setStatusLoadingAC('loading'))
+	dispatch(appActions.setStatus({ status: 'loading' }))
 	authApi
 		.login(data)
 		.then(res => {
 			if (res.data.resultCode === ResultCode.SUCCESS) {
-				// dispatch(setIsLoggedInAC(true))
 				dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }))
-				dispatch(setStatusLoadingAC('success'))
+				dispatch(appActions.setStatus({ status: 'success' }))
 			} else {
 				serverNetworkError(dispatch, res.data)
 			}
@@ -46,13 +45,13 @@ export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch) => {
 }
 
 export const meTC = () => (dispatch: Dispatch) => {
-	dispatch(setStatusLoadingAC('loading'))
+	dispatch(appActions.setStatus({ status: 'loading' }))
 	authApi
 		.me()
 		.then(res => {
 			if (res.data.resultCode === ResultCode.SUCCESS) {
 				dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }))
-				dispatch(setStatusLoadingAC('success'))
+				dispatch(appActions.setStatus({ status: 'success' }))
 			} else {
 				serverNetworkError(dispatch, res.data)
 			}
@@ -61,7 +60,7 @@ export const meTC = () => (dispatch: Dispatch) => {
 			handleServerNetworkError(dispatch, error)
 		})
 		.finally(() => {
-			dispatch(setIsInitializedAC(true))
+			dispatch(appActions.setIsInitialized({ isInitialized: true }))
 		})
 }
 
@@ -71,7 +70,7 @@ export const LogOutTC = () => (dispatch: Dispatch) => {
 		.then(res => {
 			if (res.data.resultCode === ResultCode.SUCCESS) {
 				dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }))
-				dispatch(setStatusLoadingAC('success'))
+				dispatch(appActions.setStatus({ status: 'success' }))
 				dispatch(clearTodolistsDataAC())
 				dispatch(clearTasksDataAC())
 			} else {

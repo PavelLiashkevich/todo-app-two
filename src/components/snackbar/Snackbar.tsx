@@ -3,7 +3,7 @@ import Snackbar from '@mui/material/Snackbar'
 import Alert from '@mui/material/Alert'
 import Stack from '@mui/material/Stack'
 import { useAppDispatch, useAppSelector } from '../../store/store'
-import { setStatusErrorAC } from '../../reducers/App/app-reducer'
+import { appActions } from '../../reducers/App/app-reducer'
 
 export default function AutohideSnackbar() {
 	const error = useAppSelector(state => state.app.error)
@@ -17,7 +17,7 @@ export default function AutohideSnackbar() {
 		if (reason === 'clickaway') {
 			return
 		}
-		dispatch(setStatusErrorAC(null))
+		dispatch(appActions.setError({error: null}))
 	}
 
 	return (

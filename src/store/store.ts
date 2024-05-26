@@ -29,12 +29,12 @@ export const useAppDispatch = useDispatch<AppDispatchType>
 export const useAppSelector: TypedUseSelectorHook<AppRootStateType> = useSelector
 //========= end ========= useDispatch/useSelector =======================
 
-const middlewareEnhancer = applyMiddleware(thunk)
+//const middlewareEnhancer = applyMiddleware(thunk)
 
-const composeWithDevTools =
-	(window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+//const composeWithDevTools =
+//	(window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
-const composedEnhancers = composeWithDevTools(middlewareEnhancer)
+//const composedEnhancers = composeWithDevTools(middlewareEnhancer)
 
 //export const store = legacy_createStore(rootReducer, composedEnhancers)
 
