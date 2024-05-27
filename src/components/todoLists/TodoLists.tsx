@@ -1,14 +1,14 @@
-import { Grid, Paper } from '@mui/material'
 import React, { useCallback, useEffect } from 'react'
+import { Grid, Paper } from '@mui/material'
 import { AddItemForm } from '../addItemForm/AddItemForm'
 import {
 	FilterValuesType,
 	TodolistDomainType,
 	addTodolistTC,
-	changeFilterAC,
 	changeTodolistTitleTC,
 	getTodosTC,
 	removeTodolistTC,
+	todolistsActions,
 } from '../../reducers/Todolists/todolists-reducer'
 import { useAppDispatch, useAppSelector } from '../../store/store'
 import { TodoList } from '../todoList/TodoList'
@@ -53,8 +53,8 @@ export const TodoLists = () => {
 
 	// Фильтрация тасок при нажатии на кнопки
 	const changeFilter = useCallback(
-		(todolistId: string, value: FilterValuesType) => {
-			dispatch(changeFilterAC(todolistId, value))
+		(todolistId: string, filter: FilterValuesType) => {
+			dispatch(todolistsActions.changeFilter({todolistId, filter}))
 		},
 		[]
 	)

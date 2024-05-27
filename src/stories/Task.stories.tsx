@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 import { Task } from '../components/tasksList/Task'
 import { TaskPriority, TaskStatus } from '../api/task-api'
-import { todolistID1 } from '../reducers/Todolists/todolists-reducer'
+import { v1 } from 'uuid'
 
 const meta: Meta<typeof Task> = {
 	title: 'TODOLISTS/Task',
@@ -22,7 +22,7 @@ const meta: Meta<typeof Task> = {
 			id: '12wsdewfijdei',
 			title: 'JS',
 			status: TaskStatus.Completed,
-			todoListId: todolistID1,
+			todoListId: v1(),
 			description: '',
 			startDate: '',
 			deadline: '',
@@ -45,7 +45,7 @@ export const TaskIsDoneStory: Story = {
 			id: '12wsdewfijdei2343',
 			title: 'CSS',
 			status: TaskStatus.Completed,
-			todoListId: todolistID1,
+			todoListId: v1(),
 			description: '',
 			startDate: '',
 			deadline: '',

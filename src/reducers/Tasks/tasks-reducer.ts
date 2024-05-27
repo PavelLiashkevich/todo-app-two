@@ -1,10 +1,5 @@
 import { TasksType } from '../../App'
 import {
-	AddTodolistACType,
-	SetTodolistsType,
-} from '../Todolists/todolists-reducer'
-import { RemoveTodolistACType } from '../Todolists/todolists-reducer'
-import {
 	TaskStatus,
 	TaskType,
 	taskApi,
@@ -57,28 +52,28 @@ export const tasksReducer = (
 				),
 			}
 		}
-		case 'ADD-TODOLIST': {
-			return {
-				...state,
-				[action.payload.todolist.id]: [],
-			}
-		}
+		//case 'ADD-TODOLIST': {
+		//	return {
+		//		...state,
+		//		[action.payload.todolist.id]: [],
+		//	}
+		//}
 
-		case 'REMOVE-TODOLIST': {
-			//let copyState = { ...initialState }
-			//delete copyState[action.payload.todolistId]
-			//return copyState
+		//case 'REMOVE-TODOLIST': {
+		//	//let copyState = { ...initialState }
+		//	//delete copyState[action.payload.todolistId]
+		//	//return copyState
 
-			let { [action.payload.todolistId]: deleteId, ...rest } = state
-			return rest
-		}
+		//	let { [action.payload.todolistId]: deleteId, ...rest } = state
+		//	return rest
+		//}
 
-		case 'SET-TODOLISTS': {
-			return action.todos.reduce((acc, current) => {
-				acc[current.id] = []
-				return acc
-			}, {} as TasksType)
-		}
+		//case 'SET-TODOLISTS': {
+		//	return action.todos.reduce((acc, current) => {
+		//		acc[current.id] = []
+		//		return acc
+		//	}, {} as TasksType)
+		//}
 
 		case 'SET-TASKS': {
 			return {
@@ -102,9 +97,9 @@ type TasksReducerType =
 	| AddTaskACType
 	| RemoveTaskACType
 	| updateTaskType
-	| AddTodolistACType
-	| RemoveTodolistACType
-	| SetTodolistsType
+	//| AddTodolistACType
+	//| RemoveTodolistACType
+	//| SetTodolistsType
 	| SetTasksACType
 	| ClearTasksDataType
 

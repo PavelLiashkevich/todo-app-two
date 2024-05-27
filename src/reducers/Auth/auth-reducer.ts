@@ -6,9 +6,9 @@ import {
 	handleServerNetworkError,
 	serverNetworkError,
 } from '../../utils/error-utils'
-import { clearTodolistsDataAC } from '../Todolists/todolists-reducer'
 import { clearTasksDataAC } from '../Tasks/tasks-reducer'
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { todolistsActions } from 'reducers/Todolists/todolists-reducer'
 
 const slice = createSlice({
 	name: 'auth',
@@ -71,7 +71,7 @@ export const LogOutTC = () => (dispatch: Dispatch) => {
 			if (res.data.resultCode === ResultCode.SUCCESS) {
 				dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }))
 				dispatch(appActions.setStatus({ status: 'success' }))
-				dispatch(clearTodolistsDataAC())
+				dispatch(todolistsActions.clearTodolistsData())
 				dispatch(clearTasksDataAC())
 			} else {
 				serverNetworkError(dispatch, res.data)
