@@ -69,7 +69,7 @@ export const TodoLists = () => {
 				<AddItemForm addItem={addTodolist} disable={status === 'loading'} />
 			</Grid>
 			<Grid container spacing={3} sx={{ justifyContent: 'center' }}>
-				{todolists.map((todolist, index) => {
+				{todolists?.map((todolist, index) => {
 					return (
 						<Grid key={index} item>
 							<Paper>

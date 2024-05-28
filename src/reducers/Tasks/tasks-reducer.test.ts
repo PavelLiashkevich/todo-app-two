@@ -1,19 +1,17 @@
-import { updateTaskAC, tasksReducer } from './tasks-reducer'
+import { tasksActions, tasksReducer } from './tasks-reducer'
 import { TasksType } from '../../App'
-import {
-	removeTodolistAC,
-	todolistID1,
-} from '../Todolists/todolists-reducer'
 import { TaskPriority, TaskStatus } from '../../api/task-api'
+import { todolistsActions } from 'reducers/Todolists/todolists-reducer'
 
-test('correct task title', () => {
-	const startState: TasksType = {
+let startState: TasksType = {}
+beforeEach(() => {
+	startState = {
 		todolistId1: [
 			{
 				id: '1',
 				title: 'CSS',
 				status: TaskStatus.Completed,
-				todoListId: todolistID1,
+				todoListId: 'todolistId1',
 				description: '',
 				startDate: '',
 				deadline: '',
@@ -25,7 +23,7 @@ test('correct task title', () => {
 				id: '2',
 				title: 'JS',
 				status: TaskStatus.InProgress,
-				todoListId: todolistID1,
+				todoListId: 'todolistId1',
 				description: '',
 				startDate: '',
 				deadline: '',
@@ -37,7 +35,21 @@ test('correct task title', () => {
 				id: '3',
 				title: 'React',
 				status: TaskStatus.Completed,
-				todoListId: todolistID1,
+				todoListId: 'todolistId1',
+				description: '',
+				startDate: '',
+				deadline: '',
+				addedDate: '',
+				order: 0,
+				priority: TaskPriority.Low,
+			},
+		],
+		todolistId2: [
+			{
+				id: '1',
+				title: 'Redux',
+				status: TaskStatus.InProgress,
+				todoListId: 'todolistId2',
 				description: '',
 				startDate: '',
 				deadline: '',
@@ -47,61 +59,24 @@ test('correct task title', () => {
 			},
 		],
 	}
+})
 
-	const action = updateTaskAC('todolistId1', '2', { title: 'Milk' })
+test('correct task title', () => {
+	const endState = tasksReducer(
+		startState,
+		tasksActions.updateTask({todolistId: 'todolistId1', taskId: '2', model: { title: 'Redux Toolkit' }})
+	)
 
-	const endState = tasksReducer(startState, action)
-
-	expect(endState['todolistId1'][1].title).toBe('Milk')
+	expect(endState['todolistId1'][1].title).toBe('Redux Toolkit')
 })
 
 // ==========================
 
 test('property with todolistId should be deleted', () => {
-	const startState: TasksType = {
-		todolistId1: [
-			{
-				id: '1',
-				title: 'CSS',
-				status: TaskStatus.Completed,
-				todoListId: todolistID1,
-				description: '',
-				startDate: '',
-				deadline: '',
-				addedDate: '',
-				order: 0,
-				priority: TaskPriority.Low,
-			},
-			{
-				id: '2',
-				title: 'JS',
-				status: TaskStatus.Completed,
-				todoListId: todolistID1,
-				description: '',
-				startDate: '',
-				deadline: '',
-				addedDate: '',
-				order: 0,
-				priority: TaskPriority.Low,
-			},
-			{
-				id: '3',
-				title: 'React',
-				status: TaskStatus.InProgress,
-				todoListId: todolistID1,
-				description: '',
-				startDate: '',
-				deadline: '',
-				addedDate: '',
-				order: 0,
-				priority: TaskPriority.Low,
-			},
-		],
-	}
-
-	const action = removeTodolistAC('todolistId2')
-
-	const endState = tasksReducer(startState, action)
+	const endState = tasksReducer(
+		startState,
+		todolistsActions.removeTodolist({ todolistId: 'todolistId1' })
+	)
 
 	const keys = Object.keys(endState)
 

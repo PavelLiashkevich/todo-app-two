@@ -47,7 +47,7 @@ export const TasksList = ({
 
 	return (
 		<StyledList>
-			{filteredTasks().map(task => {
+			{filteredTasks()?.map(task => {
 				return (
 					<Task
 						key={task.id}

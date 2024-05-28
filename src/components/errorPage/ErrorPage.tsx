@@ -14,9 +14,9 @@ const ErrorPage = () => {
 					К сожалению мы не можем найти запрошенную вами страницу. Возможно, вы
 					неправильно ввели адрес.
 				</p>
-				<a href='javascript:history.go(-1)' className='theme-btn'>
+				{/*<a href='#' className='theme-btn'>
 					Вернуться назад
-				</a>
+				</a>*/}
 			</div>
 		</div>
 	)

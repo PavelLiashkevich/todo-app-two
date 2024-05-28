@@ -6,7 +6,6 @@ import {
 	handleServerNetworkError,
 	serverNetworkError,
 } from '../../utils/error-utils'
-import { clearTasksDataAC } from '../Tasks/tasks-reducer'
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { todolistsActions } from 'reducers/Todolists/todolists-reducer'
 
@@ -71,8 +70,8 @@ export const LogOutTC = () => (dispatch: Dispatch) => {
 			if (res.data.resultCode === ResultCode.SUCCESS) {
 				dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }))
 				dispatch(appActions.setStatus({ status: 'success' }))
-				dispatch(todolistsActions.clearTodolistsData())
-				dispatch(clearTasksDataAC())
+				//dispatch(todolistsActions.clearTodolistsData())
+				//dispatch(clearTasksDataAC())
 			} else {
 				serverNetworkError(dispatch, res.data)
 			}

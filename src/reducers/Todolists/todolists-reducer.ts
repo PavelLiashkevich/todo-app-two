@@ -77,9 +77,9 @@ const slice = createSlice({
 				})
 			})
 		},
-		clearTodolistsData: (state) => {
-			return []
-		},
+		//clearTodolistsData: (state) => {
+		//	return []
+		//},
 	},
 })
 
