@@ -71,9 +71,9 @@ const slice = createSlice({
 				return rest
 			})
 			.addCase(todolistsActions.setTodolists, (state, action) => {
-				action.payload.todolists.reduce((acc: any, current: any) => {
-					acc[current.id] = []
-				}, {} as TasksType)
+				action.payload.todolists.forEach(todolist => {
+					state[todolist.id] = []	
+				})
 			})
 	},
 })

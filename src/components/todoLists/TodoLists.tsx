@@ -13,16 +13,17 @@ import {
 import { useAppDispatch, useAppSelector } from '../../store/store'
 import { TodoList } from '../todoList/TodoList'
 import { Navigate } from 'react-router-dom'
-import { RequestStatusType } from '../../reducers/App/app-reducer'
+import { appSelector } from '../../reducers/App/app-reducer'
+import { authSelector } from 'reducers/Auth/auth-reducer'
 
 export const TodoLists = () => {
 	const todolists = useAppSelector<TodolistDomainType[]>(
 		state => state.todolists
 	)
 
-	const status = useAppSelector<RequestStatusType>(state => state.app.status)
+	const status = useAppSelector(appSelector.selectStatus)
 
-	const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
+	const isLoggedIn = useAppSelector(authSelector.selectIsLoggedIn)
 
 	const dispatch = useAppDispatch()
 
@@ -54,7 +55,7 @@ export const TodoLists = () => {
 	// Фильтрация тасок при нажатии на кнопки
 	const changeFilter = useCallback(
 		(todolistId: string, filter: FilterValuesType) => {
-			dispatch(todolistsActions.changeFilter({todolistId, filter}))
+			dispatch(todolistsActions.changeFilter({ todolistId, filter }))
 		},
 		[]
 	)

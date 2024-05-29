@@ -61,10 +61,16 @@ beforeEach(() => {
 	}
 })
 
+// ==========================
+
 test('correct task title', () => {
 	const endState = tasksReducer(
 		startState,
-		tasksActions.updateTask({todolistId: 'todolistId1', taskId: '2', model: { title: 'Redux Toolkit' }})
+		tasksActions.updateTask({
+			todolistId: 'todolistId1',
+			taskId: '2',
+			model: { title: 'Redux Toolkit' },
+		})
 	)
 
 	expect(endState['todolistId1'][1].title).toBe('Redux Toolkit')
@@ -82,4 +88,22 @@ test('property with todolistId should be deleted', () => {
 
 	expect(keys.length).toBe(1)
 	expect(endState['todolistId2']).not.toBeDefined()
+})
+
+// ==========================
+
+test('tasks should be added for todolist', () => {
+	const action = tasksActions.setTasks({
+		tasks: startState['todolistId1'],
+		todolistId: 'todolistId1',
+	})
+	const endState = tasksReducer(
+		{
+			todolistId2: [],
+			todolistId1: [],
+		},
+		action
+	)
+	expect(endState['todolistId1'].length).toBe(4)
+	expect(endState['todolistId2'].length).toBe(1)
 })

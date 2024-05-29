@@ -19,10 +19,14 @@ const slice = createSlice({
 			state.isLoggedIn = action.payload.isLoggedIn
 		},
 	},
+	selectors: {
+		selectIsLoggedIn: state => state.isLoggedIn,
+	},
 })
 
 export const authReducer = slice.reducer
 export const authActions = slice.actions
+export const authSelector = slice.selectors
 
 // ========================== THUNKS ==========================
 
