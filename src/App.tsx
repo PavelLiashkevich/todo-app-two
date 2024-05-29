@@ -16,18 +16,18 @@ import MenuIcon from '@mui/icons-material/Menu'
 import AutohideSnackbar from './components/snackbar/Snackbar'
 import { useEffect } from 'react'
 import { LogOutTC, authSelector, meTC } from './reducers/Auth/auth-reducer'
-import { appSelector } from './reducers/App/app-reducer'
+import { selectIsInitialized, selectStatus } from './reducers/App/app-reducer'
 
 export type TasksType = {
 	[key: string]: TaskType[]
 }
 
 export const App = () => {
-	const status = useAppSelector(appSelector.selectStatus)
+	const status = useAppSelector(selectStatus)
 
 	const isLoggedIn = useAppSelector(authSelector.selectIsLoggedIn)
 
-	const isInitialized = useAppSelector(appSelector.selectIsInitialized)
+	const isInitialized = useAppSelector(selectIsInitialized)
 
 	const dispatch = useAppDispatch()
 

@@ -39,4 +39,5 @@ const slice = createSlice({
 
 export const appReducer = slice.reducer
 export const appActions = slice.actions
-export const appSelector = slice.selectors
+export const { selectStatus, selectError, selectIsInitialized } =
+	slice.selectors

@@ -13,7 +13,7 @@ import {
 import { useAppDispatch, useAppSelector } from '../../store/store'
 import { TodoList } from '../todoList/TodoList'
 import { Navigate } from 'react-router-dom'
-import { appSelector } from '../../reducers/App/app-reducer'
+import { selectStatus } from '../../reducers/App/app-reducer'
 import { authSelector } from 'reducers/Auth/auth-reducer'
 
 export const TodoLists = () => {
@@ -21,7 +21,7 @@ export const TodoLists = () => {
 		state => state.todolists
 	)
 
-	const status = useAppSelector(appSelector.selectStatus)
+	const status = useAppSelector(selectStatus)
 
 	const isLoggedIn = useAppSelector(authSelector.selectIsLoggedIn)
 
