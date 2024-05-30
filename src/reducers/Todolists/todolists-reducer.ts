@@ -7,6 +7,7 @@ import {
 } from '../../utils/error-utils'
 import { getTasksTC } from '../Tasks/tasks-reducer'
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { clearTasksAndTodolistsData } from 'common/actions/common-actions'
 
 const slice = createSlice({
 	name: 'todolists',
@@ -77,9 +78,11 @@ const slice = createSlice({
 				})
 			})
 		},
-		//clearTodolistsData: (state) => {
-		//	return []
-		//},
+	},
+	extraReducers: builder => {
+		builder.addCase(clearTasksAndTodolistsData, (state, action) => {
+			return action.payload.todolists
+		})
 	},
 })
 

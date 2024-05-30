@@ -16,6 +16,7 @@ import {
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { todolistsActions } from 'reducers/Todolists/todolists-reducer'
 import { TasksType } from 'App'
+import { clearTasksAndTodolistsData } from 'common/actions/common-actions'
 
 const slice = createSlice({
 	name: 'tasks',
@@ -57,9 +58,6 @@ const slice = createSlice({
 		) => {
 			state[action.payload.todolistId] = action.payload.tasks
 		},
-		clearTasksDataAC: () => {
-			return {}
-		},
 	},
 	extraReducers: builder => {
 		builder
@@ -72,8 +70,11 @@ const slice = createSlice({
 			})
 			.addCase(todolistsActions.setTodolists, (state, action) => {
 				action.payload.todolists.forEach(todolist => {
-					state[todolist.id] = []	
+					state[todolist.id] = []
 				})
+			})
+			.addCase(clearTasksAndTodolistsData, (state, action) => {
+				return action.payload.tasks
 			})
 	},
 })
