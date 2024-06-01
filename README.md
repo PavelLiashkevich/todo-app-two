@@ -5,7 +5,7 @@
 ### About 🔧
 
 Todo App.
-The repository includes a project using TypeScript, React, Redux, Redux Thunk, Rest API, Storybook, Snapshot, Styled Components, Material UI.
+The repository includes a project using TypeScript, React, Redux, Redux Thunk, Redux Toolkit, Rest API, Storybook, Snapshot, Styled Components, Material UI.
 
 <!--## Check it out 💻-->
 
