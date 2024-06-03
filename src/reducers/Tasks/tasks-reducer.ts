@@ -30,15 +30,6 @@ export const getTasksTC = createAsyncThunk(
 	}
 )
 
-//export const getTasksTC = (todolistId: string) => (dispatch: Dispatch) => {
-//	dispatch(appActions.setStatus({ status: 'loading' }))
-//	taskApi.getTasks(todolistId).then(res => {
-//		const tasks = res.data.items
-//		dispatch(tasksActions.setTasks({ tasks, todolistId }))
-//		dispatch(appActions.setStatus({ status: 'success' }))
-//	})
-//}
-
 const slice = createSlice({
 	name: 'tasks',
 	initialState: {} as TasksType,
