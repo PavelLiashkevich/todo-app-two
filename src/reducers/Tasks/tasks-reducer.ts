@@ -13,10 +13,11 @@ import {
 	handleServerNetworkError,
 	serverNetworkError,
 } from '../../utils/error-utils'
-import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { todolistsActions } from 'reducers/Todolists/todolists-reducer'
 import { TasksType } from 'App'
 import { clearTasksAndTodolistsData } from 'common/actions/common-actions'
+import { createAppAsyncThunk } from 'utils/create-app-async-thunk'
 
 const slice = createSlice({
 	name: 'tasks',
@@ -90,22 +91,22 @@ type UpdateDomainTaskModelType = {
 // ========================== THUNKS ==========================
 
 // typePrefix - имя slice/имя thunk
-const getTasks = createAsyncThunk(
-	`${slice.name}/getTasks`,
-	async (todolistId: string, thunkAPI) => {
-		const { dispatch, rejectWithValue } = thunkAPI
-		try {
-			dispatch(appActions.setStatus({ status: 'loading' }))
-			const res = await taskApi.getTasks(todolistId)
-			const tasks = res.data.items
-			dispatch(appActions.setStatus({ status: 'success' }))
-			return { tasks, todolistId }
-		} catch (error: any) {
-			handleServerNetworkError(dispatch, error)
-			return rejectWithValue(null)
-		}
+const getTasks = createAppAsyncThunk<
+	{ tasks: TaskType[]; todolistId: string },
+	string
+>(`${slice.name}/getTasks`, async (todolistId: string, thunkAPI) => {
+	const { dispatch, rejectWithValue } = thunkAPI
+	try {
+		dispatch(appActions.setStatus({ status: 'loading' }))
+		const res = await taskApi.getTasks(todolistId)
+		const tasks = res.data.items
+		dispatch(appActions.setStatus({ status: 'success' }))
+		return { tasks, todolistId }
+	} catch (error: any) {
+		handleServerNetworkError(dispatch, error)
+		return rejectWithValue(null)
 	}
-)
+})
 
 export const addTaskTC =
 	(todolistId: string, title: string) => (dispatch: Dispatch) => {

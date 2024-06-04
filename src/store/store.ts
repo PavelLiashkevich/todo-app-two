@@ -20,7 +20,7 @@ export const rootReducer = combineReducers({
 })
 
 //========= start ========= useDispatch/useSelector =====================
-type AppDispatchType = ThunkDispatch<AppRootStateType, unknown, UnknownAction>
+export type AppDispatchType = ThunkDispatch<AppRootStateType, unknown, UnknownAction>
 
 export const useAppDispatch = useDispatch<AppDispatchType>
 export const useAppSelector: TypedUseSelectorHook<AppRootStateType> = useSelector
