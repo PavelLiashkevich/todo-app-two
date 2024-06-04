@@ -1,4 +1,4 @@
-import { tasksActions, tasksReducer } from './tasks-reducer'
+import { tasksActions, tasksReducer, tasksThunks } from './tasks-reducer'
 import { TasksType } from '../../App'
 import { TaskPriority, TaskStatus } from '../../api/task-api'
 import { todolistsActions } from 'reducers/Todolists/todolists-reducer'
@@ -91,12 +91,41 @@ test('property with todolistId should be deleted', () => {
 })
 
 // ==========================
-
+// 1 variant
 test('tasks should be added for todolist', () => {
-	const action = tasksActions.setTasks({
-		tasks: startState['todolistId1'],
-		todolistId: 'todolistId1',
-	})
+	const action = tasksThunks.getTasks.fulfilled(
+		{
+			tasks: startState['todolistId1'],
+			todolistId: 'todolistId1',
+		},
+		'requestId',
+		'todolistId1'
+	)
+	const endState = tasksReducer(
+		{
+			todolistId2: [],
+			todolistId1: [],
+		},
+		action
+	)
+	expect(endState['todolistId1'].length).toBe(4)
+	expect(endState['todolistId2'].length).toBe(1)
+})
+
+// 2 variant
+test('tasks should be added for todolist-2', () => {
+	type FetchTaskAction = Omit<
+		ReturnType<typeof tasksThunks.getTasks.fulfilled>,
+		'meta'
+	>
+
+	const action: FetchTaskAction = {
+		type: tasksThunks.getTasks.fulfilled.type,
+		payload: {
+			tasks: startState['todolistId1'],
+			todolistId: 'todolistId1',
+		},
+	}
 	const endState = tasksReducer(
 		{
 			todolistId2: [],
