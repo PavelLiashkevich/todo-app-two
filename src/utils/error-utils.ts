@@ -26,8 +26,8 @@ export const serverNetworkError = <T>(
 //}
 
 export const handleServerNetworkError = (
-	err: unknown,
-	dispatch: AppDispatchType
+	dispatch: AppDispatchType,
+	err: unknown
 ): void => {
 	let errorMessage = 'Some error occurred'
 
