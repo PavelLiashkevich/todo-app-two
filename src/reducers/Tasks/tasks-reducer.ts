@@ -23,11 +23,11 @@ const slice = createSlice({
 	name: 'tasks',
 	initialState: {} as TasksType,
 	reducers: {
-		addTask: (state, action: PayloadAction<{ task: TaskType }>) => {
-			{
-				state[action.payload.task.todoListId].unshift(action.payload.task)
-			}
-		},
+		// addTask: (state, action: PayloadAction<{ task: TaskType }>) => {
+		// 	{
+		// 		state[action.payload.task.todoListId].unshift(action.payload.task)
+		// 	}
+		// },
 		removeTask: (
 			state,
 			action: PayloadAction<{ taskId: string; todolistId: string }>
@@ -58,6 +58,9 @@ const slice = createSlice({
 		builder
 			.addCase(getTasks.fulfilled, (state, action) => {
 				state[action.payload.todolistId] = action.payload.tasks
+			})
+			.addCase(addTask.fulfilled, (state, action) => {
+				state[action.payload.task.todoListId].unshift(action.payload.task)
 			})
 			.addCase(todolistsActions.addTodolist, (state, action) => {
 				state[action.payload.todolist.id] = []
@@ -108,23 +111,25 @@ const getTasks = createAppAsyncThunk<
 	}
 })
 
-export const addTaskTC =
-	(todolistId: string, title: string) => (dispatch: Dispatch) => {
+const addTask = createAppAsyncThunk<{ task: TaskType }, { todolistId: string, title: string }>(`${slice.name}/addTask`, async (arg, thunkAPI) => {
+	const { dispatch, rejectWithValue } = thunkAPI
+	try {
 		dispatch(appActions.setStatus({ status: 'loading' }))
-		taskApi
-			.createTask(todolistId, title)
-			.then(res => {
-				if (res.data.resultCode === ResultCode.SUCCESS) {
-					dispatch(tasksActions.addTask({ task: res.data.data.item }))
-					dispatch(appActions.setStatus({ status: 'success' }))
-				} else {
-					serverNetworkError(dispatch, res.data)
-				}
-			})
-			.catch(error => {
-				handleServerNetworkError(dispatch, error)
-			})
+		const res = await taskApi.createTask(arg.todolistId, arg.title)
+
+		if (res.data.resultCode === ResultCode.SUCCESS) {
+			const task = res.data.data.item
+			dispatch(appActions.setStatus({ status: 'success' }))
+			return { task }
+		} else {
+			serverNetworkError(dispatch, res.data)
+			return rejectWithValue(null)
+		}
+	} catch (error) {
+		handleServerNetworkError(dispatch, error)
+		return rejectWithValue(null)
 	}
+})
 
 export const deleteTaskTC =
 	(todolistId: string, taskId: string) => (dispatch: Dispatch) => {
@@ -178,4 +183,4 @@ export const updateTaskTC =
 
 export const tasksReducer = slice.reducer
 export const tasksActions = slice.actions
-export const tasksThunks = { getTasks }
+export const tasksThunks = { getTasks, addTask }

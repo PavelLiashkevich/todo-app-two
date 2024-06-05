@@ -5,9 +5,9 @@ import {
 	handleServerNetworkError,
 	serverNetworkError,
 } from '../../utils/error-utils'
-import { getTasksTC } from '../Tasks/tasks-reducer'
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { clearTasksAndTodolistsData } from 'common/actions/common-actions'
+import { tasksThunks } from 'reducers/Tasks/tasks-reducer'
 
 const slice = createSlice({
 	name: 'todolists',
@@ -111,7 +111,7 @@ export const getTodosTC = () => (dispatch: any) => {
 		})
 		.then(todolists => {
 			todolists.forEach(todolist => {
-				dispatch(getTasksTC(todolist.id))
+				dispatch(tasksThunks.getTasks(todolist.id))
 			})
 		})
 }

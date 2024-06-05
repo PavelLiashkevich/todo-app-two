@@ -12,9 +12,8 @@ import { Button, IconButton } from '@mui/material'
 import { Delete } from '@mui/icons-material'
 import { useAppDispatch, useAppSelector } from '../../store/store'
 import {
-	addTaskTC,
 	deleteTaskTC,
-	getTasksTC,
+	tasksThunks,
 	updateTaskTC,
 } from '../../reducers/Tasks/tasks-reducer'
 import { RequestStatusType } from '../../reducers/App/app-reducer'
@@ -44,14 +43,14 @@ export const TodoList = React.memo(
 		const dispatch = useAppDispatch()
 
 		useEffect(() => {
-			dispatch(getTasksTC(id))
+			dispatch(tasksThunks.getTasks(id))
 		}, [])
 
 		//* TASKS
 
 		// Добавление новой таски
 		const addTask = useCallback((todolistId: string, title: string) => {
-			dispatch(addTaskTC(todolistId, title))
+			dispatch(tasksThunks.addTask({todolistId, title}))
 		}, [])
 
 		// Удаление таски при нажатии на крестик

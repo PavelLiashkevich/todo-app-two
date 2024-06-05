@@ -31,7 +31,7 @@ export const handleServerNetworkError = (
 ): void => {
 	let errorMessage = 'Some error occurred'
 
-	// ❗Проверка на наличие axios ошибки
+	// ❗ Проверка на наличие axios ошибки
 	if (axios.isAxiosError(err)) {
 		// ⏺️ err.response?.data?.message - например получение тасок с невалидной todolistId
 		// ⏺️ err?.message - например при создании таски в offline режиме
@@ -39,7 +39,6 @@ export const handleServerNetworkError = (
 		// ❗ Проверка на наличие нативной ошибки
 	} else if (err instanceof Error) {
 		errorMessage = `Native error: ${err.message}`
-		// ❗Какой-то непонятный кейс
 	} else {
 		errorMessage = JSON.stringify(err)
 	}
