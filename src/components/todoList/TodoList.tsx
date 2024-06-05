@@ -13,8 +13,7 @@ import { Delete } from '@mui/icons-material'
 import { useAppDispatch, useAppSelector } from '../../store/store'
 import {
 	deleteTaskTC,
-	tasksThunks,
-	updateTaskTC,
+	tasksThunks
 } from '../../reducers/Tasks/tasks-reducer'
 import { RequestStatusType } from '../../reducers/App/app-reducer'
 
@@ -61,7 +60,7 @@ export const TodoList = React.memo(
 		// Изменение чекбокса
 		const changeTaskStatus = useCallback(
 			(todolistId: string, taskId: string, status: TaskStatus) => {
-				dispatch(updateTaskTC(todolistId, taskId, { status }))
+				dispatch(tasksThunks.updateTask({todolistId, taskId, model: { status }}))
 			},
 			[]
 		)
@@ -69,7 +68,7 @@ export const TodoList = React.memo(
 		// Редактирование и перезапись таски
 		const changeTaskTitle = useCallback(
 			(todolistId: string, taskId: string, newValue: string) => {
-				dispatch(updateTaskTC(todolistId, taskId, { title: newValue }))
+				dispatch(tasksThunks.updateTask({todolistId, taskId, model: { title: newValue }}))
 			},
 			[]
 		)

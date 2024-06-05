@@ -30,7 +30,10 @@ export const taskApi = {
 		)
 	},
 
-	updateTask(todolistId: string, taskId: string, update: UpdatePropertiesType) {
+	updateTask(args: UpdateTaskArgsType ) {
+		const {todolistId, taskId, model} = args
+		const update = {...model}
+
 		return instance.put<ResponseType>(
 			`todo-lists/${todolistId}/tasks/${taskId}`,
 			update
@@ -43,6 +46,12 @@ export const taskApi = {
 export type AddTaskArgsType = {
 	todolistId: string, 
 	title: string
+}
+
+export type UpdateTaskArgsType = {
+	todolistId: string, 
+	taskId: string, 
+	model: UpdatePropertiesType
 }
 
 export enum TaskStatus {
