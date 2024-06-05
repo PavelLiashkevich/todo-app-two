@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { UpdateDomainTaskModelType } from 'reducers/Tasks/tasks-reducer'
 
 const instance = axios.create({
 	baseURL: 'https://social-network.samuraijs.com/api/1.1/',
@@ -17,7 +18,7 @@ export const taskApi = {
 	},
 
 	createTask(arg: AddTaskArgsType) {
-		const {todolistId, title} = arg
+		const { todolistId, title } = arg
 		return instance.post<ResponseType<{ item: TaskType }>>(
 			`todo-lists/${todolistId}/tasks`,
 			{ title }
@@ -30,13 +31,10 @@ export const taskApi = {
 		)
 	},
 
-	updateTask(args: UpdateTaskArgsType ) {
-		const {todolistId, taskId, model} = args
-		const update = {...model}
-
+	updateTask(todolistId: string, taskId: string, model: UpdatePropertiesType) {
 		return instance.put<ResponseType>(
 			`todo-lists/${todolistId}/tasks/${taskId}`,
-			update
+			model
 		)
 	},
 }
@@ -44,14 +42,14 @@ export const taskApi = {
 // ========================== TYPES ==========================
 
 export type AddTaskArgsType = {
-	todolistId: string, 
+	todolistId: string
 	title: string
 }
 
 export type UpdateTaskArgsType = {
-	todolistId: string, 
-	taskId: string, 
-	model: UpdatePropertiesType
+	todolistId: string
+	taskId: string
+	model: UpdateDomainTaskModelType
 }
 
 export enum TaskStatus {
@@ -95,7 +93,6 @@ type GetTasksResponseType = {
 
 export type ResponseType<T = {}> = {
 	resultCode: number
-	//error: FieldErrorType
 	messages: string[]
 	data: T
 }

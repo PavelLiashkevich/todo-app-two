@@ -11,10 +11,7 @@ import { EditableSpan } from '../editableSpan/EditableSpan'
 import { Button, IconButton } from '@mui/material'
 import { Delete } from '@mui/icons-material'
 import { useAppDispatch, useAppSelector } from '../../store/store'
-import {
-	deleteTaskTC,
-	tasksThunks
-} from '../../reducers/Tasks/tasks-reducer'
+import { deleteTaskTC, tasksThunks } from '../../reducers/Tasks/tasks-reducer'
 import { RequestStatusType } from '../../reducers/App/app-reducer'
 
 type TodoListPropsType = {
@@ -49,7 +46,7 @@ export const TodoList = React.memo(
 
 		// Добавление новой таски
 		const addTask = useCallback((todolistId: string, title: string) => {
-			dispatch(tasksThunks.addTask({todolistId, title}))
+			dispatch(tasksThunks.addTask({ todolistId, title }))
 		}, [])
 
 		// Удаление таски при нажатии на крестик
@@ -60,7 +57,9 @@ export const TodoList = React.memo(
 		// Изменение чекбокса
 		const changeTaskStatus = useCallback(
 			(todolistId: string, taskId: string, status: TaskStatus) => {
-				dispatch(tasksThunks.updateTask({todolistId, taskId, model: { status }}))
+				dispatch(
+					tasksThunks.updateTask({ todolistId, taskId, model: { status } })
+				)
 			},
 			[]
 		)
@@ -68,7 +67,13 @@ export const TodoList = React.memo(
 		// Редактирование и перезапись таски
 		const changeTaskTitle = useCallback(
 			(todolistId: string, taskId: string, newValue: string) => {
-				dispatch(tasksThunks.updateTask({todolistId, taskId, model: { title: newValue }}))
+				dispatch(
+					tasksThunks.updateTask({
+						todolistId,
+						taskId,
+						model: { title: newValue },
+					})
+				)
 			},
 			[]
 		)
