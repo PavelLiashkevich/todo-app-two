@@ -4,6 +4,7 @@ import {
 	taskApi,
 	UpdatePropertiesType,
 	TaskPriority,
+	AddTaskArgsType,
 } from '../../api/task-api'
 import { Dispatch } from 'redux'
 import { AppRootStateType } from '../../store/store'
@@ -111,11 +112,11 @@ const getTasks = createAppAsyncThunk<
 	}
 })
 
-const addTask = createAppAsyncThunk<{ task: TaskType }, { todolistId: string, title: string }>(`${slice.name}/addTask`, async (arg, thunkAPI) => {
+const addTask = createAppAsyncThunk<{ task: TaskType }, AddTaskArgsType>(`${slice.name}/addTask`, async (arg, thunkAPI) => {
 	const { dispatch, rejectWithValue } = thunkAPI
 	try {
 		dispatch(appActions.setStatus({ status: 'loading' }))
-		const res = await taskApi.createTask(arg.todolistId, arg.title)
+		const res = await taskApi.createTask(arg)
 
 		if (res.data.resultCode === ResultCode.SUCCESS) {
 			const task = res.data.data.item
