@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
-import { Task } from '../components/tasksList/Task'
+import { Task } from '../common/components/tasksList/Task'
 import { TaskPriority, TaskStatus } from '../api/task-api'
 import { v1 } from 'uuid'
 
