@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { ChangeEvent, KeyboardEvent, useState } from 'react'
 import { IconButton, TextField } from '@mui/material'
 import { AddCircle } from '@mui/icons-material'
-import { useAppSelector } from 'app/store'
+import { useAppSelector } from '../../../app/store'
 
 type AddTaskButtonPropsType = {
 	addItem: (title: string) => void

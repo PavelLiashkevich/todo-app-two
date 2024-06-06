@@ -11,12 +11,11 @@ import { FilterButtons } from '../buttons/FilterButtons'
 import { AddItemForm } from '../addItemForm/AddItemForm'
 import { EditableSpan } from '../editableSpan/EditableSpan'
 import { TaskStatus } from '../../enums/enums'
-// import { RequestStatusType } from 'features/reducers/App/app-reducer'
-
-import { RequestStatusType } from '../../../features/reducers/App/app-reducer'
-
 
 import { TaskType } from '../../../api/task-api'
+import { RequestStatusType } from '../../../features/reducers/App/app-reducer'
+import { deleteTaskTC, tasksThunks } from '../../../features/reducers/Tasks/tasks-reducer'
+import { FilterValuesType } from '../../../features/reducers/Todolists/todolists-reducer'
 
 type TodoListPropsType = {
 	title: string
