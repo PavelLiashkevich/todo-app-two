@@ -1,6 +1,6 @@
-import { instance } from "common/instance/instance"
+import { instance } from "common/instance"
 import { ResponseType  } from  "../common/type/ResponseType"
-import { TaskStatus, TaskPriority } from "../common/enums/enums"
+import { TaskStatus, TaskPriority } from "../common/enums"
 import { UpdateDomainTaskModelType } from "features/reducers/Tasks/tasks-reducer"
 
 // ========================== API ==========================
@@ -77,3 +77,5 @@ export type UpdatePropertiesType = {
   startDate: string
   deadline: string
 }
+export { TaskPriority }
+

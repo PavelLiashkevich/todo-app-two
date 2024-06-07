@@ -1,6 +1,6 @@
+import './style.css'
 import React from 'react'
 import errorPng from './error404.png'
-import './style.css'
 
 const ErrorPage = () => {
 	return (
@@ -14,7 +14,7 @@ const ErrorPage = () => {
 					К сожалению мы не можем найти запрошенную вами страницу. Возможно, вы
 					неправильно ввели адрес.
 				</p>
-				<a href='#' className='theme-btn'>
+				<a href='javascript:history. back()' className='theme-btn'>
 					Вернуться назад
 				</a>
 			</div>

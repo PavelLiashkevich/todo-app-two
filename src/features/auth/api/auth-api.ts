@@ -1,5 +1,6 @@
 import { instance } from 'common/instance/instance'
 import { ResponseType } from '../../../common/type/ResponseType'
+import { LoginParamsType, LoginResponseType, UserLoginType  } from './auth-api.types'
 
 // ========================== API ==========================
 
@@ -18,24 +19,4 @@ export const authApi = {
 	logout() {
 		return instance.delete<ResponseType>('auth/login')
 	},
-}
-
-// ========================== TYPES ==========================
-
-export type LoginParamsType = {
-	email: string
-	password: string
-	rememberMe: boolean
-	captcha?: boolean
-}
-
-type UserLoginType = {
-	id: number
-	email: string
-	login: string
-}
-
-type LoginResponseType = {
-	token: string
-	userId: number
 }

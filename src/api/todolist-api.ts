@@ -1,5 +1,5 @@
-import { instance } from "common/instance/instance"
-import { ResponseType  } from  "../common/type/ResponseType"
+import { instance } from 'common/instance'
+import { ResponseType } from '../common/type/ResponseType'
 
 // ========================== API ==========================
 

@@ -1,11 +1,12 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import { AppRootStateType } from '../../app/store'
-import { combineReducers, createStore, legacy_createStore } from 'redux'
+import { combineReducers, legacy_createStore } from 'redux'
 import { todolistsReducer } from '../../features/reducers/Todolists/todolists-reducer'
 import { tasksReducer } from '../../features/reducers/Tasks/tasks-reducer'
 import { v1 } from 'uuid'
-import { TaskPriority, TaskStatus } from '../../api/task-api'
+import { TaskPriority } from '../../api/task-api'
+import { TaskStatus } from 'common/enums'
 
 const rootReducer = combineReducers({
 	tasks: tasksReducer,
