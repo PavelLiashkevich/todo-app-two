@@ -14,7 +14,9 @@ import { TaskStatus } from '../../enums/enums'
 
 import { TaskType } from '../../../api/task-api'
 import { RequestStatusType } from '../../../features/reducers/App/app-reducer'
-import { deleteTaskTC, tasksThunks } from '../../../features/reducers/Tasks/tasks-reducer'
+import {
+	tasksThunks,
+} from '../../../features/reducers/Tasks/tasks-reducer'
 import { FilterValuesType } from '../../../features/reducers/Todolists/todolists-reducer'
 
 type TodoListPropsType = {
@@ -54,7 +56,7 @@ export const TodoList = React.memo(
 
 		// Удаление таски при нажатии на крестик
 		const removeTask = useCallback((taskId: string, todolistId: string) => {
-			dispatch(deleteTaskTC(todolistId, taskId))
+			dispatch(tasksThunks.deleteTask({ todolistId, taskId }))
 		}, [])
 
 		// Изменение чекбокса
