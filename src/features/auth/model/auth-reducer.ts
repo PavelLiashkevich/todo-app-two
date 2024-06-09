@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux'
-import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { appActions } from '../../reducers/App/app-reducer'
 
 import { authApi } from '../api/auth-api'
@@ -22,6 +22,11 @@ const slice = createSlice({
 	selectors: {
 		selectIsLoggedIn: state => state.isLoggedIn,
 	},
+	extraReducers: builder => {
+		builder.addCase(loginTC.fulfilled, (state, action) => {
+			state.isLoggedIn = action.payload.isLoggedIn
+		})
+	},
 })
 
 export const authReducer = slice.reducer
@@ -30,22 +35,26 @@ export const authSelector = slice.selectors
 
 // ========================== THUNKS ==========================
 
-export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch) => {
-	dispatch(appActions.setStatus({ status: 'loading' }))
-	authApi
-		.login(data)
-		.then(res => {
+export const loginTC = createAsyncThunk(
+	`${slice.name}/loginTC`,
+	async (data: LoginParamsType, thunkAPI) => {
+		const { dispatch, rejectWithValue } = thunkAPI
+		dispatch(appActions.setStatus({ status: 'loading' }))
+		try {
+			const res = await authApi.login(data)
 			if (res.data.resultCode === ResultCode.SUCCESS) {
-				dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }))
 				dispatch(appActions.setStatus({ status: 'success' }))
+				return { isLoggedIn: true }
 			} else {
 				handleServerAppError(dispatch, res.data)
+				return { isLoggedIn: false }
 			}
-		})
-		.catch(error => {
+		} catch (error) {
 			handleServerNetworkError(dispatch, error)
-		})
-}
+			return rejectWithValue(null)
+		}
+	}
+)
 
 export const meTC = () => (dispatch: Dispatch) => {
 	dispatch(appActions.setStatus({ status: 'loading' }))
