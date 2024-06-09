@@ -22,17 +22,16 @@ const slice = createSlice({
 	name: 'tasks',
 	initialState: {} as TasksType,
 	reducers: {
-		removeTask: (
-			state,
-			action: PayloadAction<{ taskId: string; todolistId: string }>
-		) => {
-			const tasks = state[action.payload.todolistId]
-
-			const index = tasks.findIndex(task => task.id === action.payload.taskId)
-			if (index !== -1) {
-				tasks.splice(index, 1)
-			}
-		},
+		//removeTask: (
+		//	state,
+		//	action: PayloadAction<{ taskId: string; todolistId: string }>
+		//) => {
+		//	const tasks = state[action.payload.todolistId]
+		//	const index = tasks.findIndex(task => task.id === action.payload.taskId)
+		//	if (index !== -1) {
+		//		tasks.splice(index, 1)
+		//	}
+		//},
 	},
 	extraReducers: builder => {
 		builder
@@ -41,6 +40,14 @@ const slice = createSlice({
 			})
 			.addCase(addTask.fulfilled, (state, action) => {
 				state[action.payload.task.todoListId].unshift(action.payload.task)
+			})
+			.addCase(removeTask.fulfilled, (state, action) => {
+				const tasks = state[action.payload.todolistId]
+
+				const index = tasks.findIndex(task => task.id === action.payload.taskId)
+				if (index !== -1) {
+					tasks.splice(index, 1)
+				}
 			})
 			.addCase(updateTask.fulfilled, (state, action) => {
 				const tasks = state[action.payload.todolistId]
@@ -123,21 +130,24 @@ const addTask = createAppAsyncThunk<{ task: TaskType }, AddTaskArgsType>(
 
 const deleteTask = createAppAsyncThunk<any, any>(
 	`${slice.name}/deleteTask`,
-	async (arg: { todolistId: string; taskId: string }, thunkAPI) => {
+	async (arg: { taskId: string; todolistId: string }, thunkAPI) => {
+		const { dispatch, rejectWithValue } = thunkAPI
 		try {
-			thunkAPI.dispatch(appActions.setStatus({ status: 'loading' }))
+			dispatch(appActions.setStatus({ status: 'loading' }))
 			const res = await taskApi.deleteTask(arg.todolistId, arg.taskId)
 			if (res.data.resultCode === ResultCode.SUCCESS) {
-				thunkAPI.dispatch(appActions.setStatus({ status: 'success' }))
-				thunkAPI.dispatch(
-					tasksActions.removeTask({
-						taskId: arg.taskId,
-						todolistId: arg.todolistId,
-					})
-				)
+				dispatch(appActions.setStatus({ status: 'success' }))
+				//thunkAPI.dispatch(
+				//	tasksActions.removeTask({
+				//		taskId: arg.taskId,
+				//		todolistId: arg.todolistId,
+				//	})
+				//)
+				return { taskId: arg.taskId, todolistId: arg.todolistId }
 			}
 		} catch (error) {
-			handleServerNetworkError(thunkAPI.dispatch, error)
+			handleServerNetworkError(dispatch, error)
+			return rejectWithValue(null)
 		}
 	}
 )
