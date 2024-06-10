@@ -1,7 +1,7 @@
 import React from 'react'
 import { useAppDispatch, useAppSelector } from 'app/store'
 import { Navigate } from 'react-router-dom'
-import { useFormik } from 'formik'
+import { FormikHelpers, useFormik } from 'formik'
 import { loginTC } from 'features/auth/model/auth-reducer'
 
 import Grid from '@mui/material/Grid'
@@ -16,6 +16,12 @@ import Button from '@mui/material/Button'
 type ErrorType = {
 	email?: string
 	password?: string
+}
+
+type FormValuesType = {
+	email: string 
+	password: string 
+	rememberMe: boolean
 }
 
 export const Login = () => {
@@ -54,8 +60,11 @@ export const Login = () => {
 			return errors
 		},
 
-		onSubmit: values => {
-			dispatch(loginTC(values))
+		onSubmit: async (values, formikHelpers: FormikHelpers<FormValuesType>) => {
+			const res = await dispatch(loginTC(values))
+			if(res.type === loginTC.rejected.type) {
+				formikHelpers.setFieldError('email',  values.email)
+			}
 			formik.resetForm()
 		},
 	})

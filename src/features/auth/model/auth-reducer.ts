@@ -8,6 +8,8 @@ import { ResultCode } from 'api/todolist-api'
 import { handleServerAppError } from 'common/utils/handleServerAppError'
 import { handleServerNetworkError } from 'common/utils/handleServerNetworkError'
 import { clearTasksAndTodolistsData } from 'common/actions/common-actions'
+import { AxiosError } from 'axios'
+import { FieldErrorType } from 'common/type/ResponseType'
 
 const slice = createSlice({
 	name: 'auth',
@@ -35,7 +37,10 @@ export const authSelector = slice.selectors
 
 // ========================== THUNKS ==========================
 
-export const loginTC = createAsyncThunk(
+export const loginTC = createAsyncThunk<
+{ isLoggedIn: boolean }, 
+LoginParamsType, 
+{ rejectValue: {errors: string[], fieldsErrors?: FieldErrorType[] }}>(
 	`${slice.name}/loginTC`,
 	async (data: LoginParamsType, thunkAPI) => {
 		const { dispatch, rejectWithValue } = thunkAPI
@@ -47,11 +52,12 @@ export const loginTC = createAsyncThunk(
 				return { isLoggedIn: true }
 			} else {
 				handleServerAppError(dispatch, res.data)
-				return { isLoggedIn: false }
+				return rejectWithValue({ errors: res.data.messages, fieldsErrors: res.data.fieldsErrors })
 			}
-		} catch (error) {
+		} catch (err) {
+			const error: AxiosError = err
 			handleServerNetworkError(dispatch, error)
-			return rejectWithValue(null)
+			return rejectWithValue({ errors: [error], fieldsErrors: undefined })
 		}
 	}
 )

@@ -5,7 +5,7 @@ export type ResponseType<T = {}> = {
 	data: T
 }
 
-type FieldErrorType = {
+export type FieldErrorType = {
 	error: string
 	field: string
 }
