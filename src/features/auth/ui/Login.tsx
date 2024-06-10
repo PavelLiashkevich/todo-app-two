@@ -12,6 +12,7 @@ import FormGroup from '@mui/material/FormGroup'
 import FormLabel from '@mui/material/FormLabel'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
+import { error } from 'console'
 
 type ErrorType = {
 	email?: string
@@ -19,13 +20,12 @@ type ErrorType = {
 }
 
 type FormValuesType = {
-	email: string 
-	password: string 
+	email: string
+	password: string
 	rememberMe: boolean
 }
 
 export const Login = () => {
-
 	const dispatch = useAppDispatch()
 
 	const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
@@ -62,8 +62,12 @@ export const Login = () => {
 
 		onSubmit: async (values, formikHelpers: FormikHelpers<FormValuesType>) => {
 			const res = await dispatch(loginTC(values))
-			if(res.type === loginTC.rejected.type) {
-				formikHelpers.setFieldError('email',  values.email)
+
+			if (loginTC.rejected.match(res)) {
+				if (res.payload?.fieldsErrors?.length) {
+					const error = res.payload.fieldsErrors[0]
+					formikHelpers.setFieldError(error.field, error.error)
+				}
 			}
 			formik.resetForm()
 		},
@@ -82,7 +86,8 @@ export const Login = () => {
 							To log in get registered&nbsp;
 							<a
 								href={'https://social-network.samuraijs.com/'}
-								target={'_blank'} rel="noreferrer"
+								target={'_blank'}
+								rel='noreferrer'
 							>
 								here
 							</a>

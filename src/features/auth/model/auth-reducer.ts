@@ -38,29 +38,30 @@ export const authSelector = slice.selectors
 // ========================== THUNKS ==========================
 
 export const loginTC = createAsyncThunk<
-{ isLoggedIn: boolean }, 
-LoginParamsType, 
-{ rejectValue: {errors: string[], fieldsErrors?: FieldErrorType[] }}>(
-	`${slice.name}/loginTC`,
-	async (data: LoginParamsType, thunkAPI) => {
-		const { dispatch, rejectWithValue } = thunkAPI
-		dispatch(appActions.setStatus({ status: 'loading' }))
-		try {
-			const res = await authApi.login(data)
-			if (res.data.resultCode === ResultCode.SUCCESS) {
-				dispatch(appActions.setStatus({ status: 'success' }))
-				return { isLoggedIn: true }
-			} else {
-				handleServerAppError(dispatch, res.data)
-				return rejectWithValue({ errors: res.data.messages, fieldsErrors: res.data.fieldsErrors })
-			}
-		} catch (err) {
-			const error: AxiosError = err
-			handleServerNetworkError(dispatch, error)
-			return rejectWithValue({ errors: [error], fieldsErrors: undefined })
+	{ isLoggedIn: boolean },
+	LoginParamsType,
+	{ rejectValue: { errors: string[]; fieldsErrors?: FieldErrorType[] } }
+>(`${slice.name}/loginTC`, async (data: LoginParamsType, thunkAPI) => {
+	const { dispatch, rejectWithValue } = thunkAPI
+	dispatch(appActions.setStatus({ status: 'loading' }))
+	try {
+		const res = await authApi.login(data)
+		if (res.data.resultCode === ResultCode.SUCCESS) {
+			dispatch(appActions.setStatus({ status: 'success' }))
+			return { isLoggedIn: true }
+		} else {
+			handleServerAppError(dispatch, res.data)
+			return rejectWithValue({
+				errors: res.data.messages,
+				fieldsErrors: res.data.fieldsErrors,
+			})
 		}
+	} catch (err) {
+		const error: AxiosError = err
+		handleServerNetworkError(dispatch, error)
+		return rejectWithValue({ errors: [error.message], fieldsErrors: undefined })
 	}
-)
+})
 
 export const meTC = () => (dispatch: Dispatch) => {
 	dispatch(appActions.setStatus({ status: 'loading' }))
