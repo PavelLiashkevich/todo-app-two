@@ -17,7 +17,7 @@ import {
 import MenuIcon from '@mui/icons-material/Menu'
 
 import { TaskType } from 'api/task-api'
-import { LogOutTC, authSelector, meTC } from 'features/auth/model/auth-reducer'
+import { logoutTC, authSelector, meTC } from 'features/auth/model/auth-reducer'
 import { selectIsInitialized, selectStatus } from 'features/reducers/App/app-reducer'
 
 export type TasksType = {
@@ -34,7 +34,7 @@ export const App = () => {
 	const dispatch = useAppDispatch()
 
 	const logOut = () => {
-		dispatch(LogOutTC())
+		dispatch(logoutTC())
 	}
 
 	useEffect(() => {
