@@ -122,16 +122,16 @@ const addTask = createAppAsyncThunk<{ task: TaskType }, AddTaskArgsType>(
 
 const removeTask = createAppAsyncThunk<any, any>(
 	`${slice.name}/removeTask`,
-	async (arg: { taskId: string; todolistId: string }, thunkAPI) => {
+	async (param: { taskId: string; todolistId: string }, thunkAPI) => {
 
 		const { dispatch, rejectWithValue } = thunkAPI
 		
 		try {
 			dispatch(appActions.setStatus({ status: 'loading' }))
-			const res = await taskApi.deleteTask(arg.todolistId, arg.taskId)
+			const res = await taskApi.deleteTask(param.todolistId, param.taskId)
 			if (res.data.resultCode === ResultCode.SUCCESS) {
 				dispatch(appActions.setStatus({ status: 'success' }))
-				return { taskId: arg.taskId, todolistId: arg.todolistId }
+				return { taskId: param.taskId, todolistId: param.todolistId }
 			}
 		} catch (error) {
 			handleServerNetworkError(dispatch, error)
@@ -142,13 +142,13 @@ const removeTask = createAppAsyncThunk<any, any>(
 
 const updateTask = createAppAsyncThunk<UpdateTaskArgsType, UpdateTaskArgsType>(
 	`${slice.name}/updateTask`,
-	async (arg, thunkAPI) => {
+	async (param, thunkAPI) => {
 
 		const { dispatch, rejectWithValue, getState } = thunkAPI
 
 		try {
 			const tasks = getState().tasks
-			const task = tasks[arg.todolistId].find(task => task.id === arg.taskId)
+			const task = tasks[param.todolistId].find(task => task.id === param.taskId)
 
 			if (!task) {
 				console.warn('task not found in the state')
@@ -162,18 +162,18 @@ const updateTask = createAppAsyncThunk<UpdateTaskArgsType, UpdateTaskArgsType>(
 				startDate: task.startDate,
 				deadline: task.deadline,
 				status: task.status,
-				...arg.model,
+				...param.model,
 			}
 
 			const res = await taskApi.updateTask(
-				arg.todolistId,
-				arg.taskId,
+				param.todolistId,
+				param.taskId,
 				updateModel
 			)
 
 			if (res.data.resultCode === ResultCode.SUCCESS) {
 				dispatch(appActions.setStatus({ status: 'success' }))
-				return arg
+				return param
 			} else {
 				handleServerAppError(dispatch, res.data)
 				return rejectWithValue(null)
