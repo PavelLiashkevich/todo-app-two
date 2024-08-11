@@ -4,11 +4,11 @@ import { AddItemForm } from '../addItemForm/AddItemForm'
 import {
 	FilterValuesType,
 	TodolistDomainType,
-	addTodolistTC,
-	changeTodolistTitleTC,
-	getTodosTC,
-	removeTodolistTC,
+	setTodolists,
+	removeTodolists,
+	addTodolists,
 	todolistsActions,
+	changeTodolistsTitle,
 } from '../../../features/reducers/Todolists/todolists-reducer'
 import { useAppDispatch, useAppSelector } from '../../../app/store'
 import { TodoList } from '../todoList/TodoList'
@@ -29,25 +29,25 @@ export const TodoLists = () => {
 
 	useEffect(() => {
 		if (!isLoggedIn) return
-		dispatch(getTodosTC())
+		dispatch(setTodolists())
 	}, [])
 
 	//* TODOLISTS
 
 	// Добавление нового тудулиста
 	const addTodolist = useCallback((title: string) => {
-		dispatch(addTodolistTC(title))
+		dispatch(addTodolists(title))
 	}, [])
 
 	// Удаление тудулиста при нажатии на крестик
 	const removeTodolist = useCallback((todolistId: string) => {
-		dispatch(removeTodolistTC(todolistId))
+		dispatch(removeTodolists(todolistId))
 	}, [])
 
 	// Сохранение тудулиста после редактирование
 	const changeTodolistTitle = useCallback(
 		(todolistId: string, newValue: string) => {
-			dispatch(changeTodolistTitleTC(todolistId, newValue))
+			dispatch(changeTodolistsTitle({todolistId, newValue}))
 		},
 		[]
 	)

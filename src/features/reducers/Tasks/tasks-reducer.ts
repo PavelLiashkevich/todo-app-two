@@ -9,7 +9,7 @@ import {
 import { ResultCode } from 'api/todolist-api'
 import { TasksType } from 'app/App'
 import { appActions } from '../App/app-reducer'
-import { todolistsActions } from 'features/reducers/Todolists/todolists-reducer'
+import { todolistsActions, setTodolists, removeTodolists, addTodolists } from 'features/reducers/Todolists/todolists-reducer'
 import { clearTasksAndTodolistsData } from 'common/actions/common-actions'
 
 import { createAppAsyncThunk } from 'common/utils/create-app-async-thunk'
@@ -44,18 +44,26 @@ const slice = createSlice({
 					tasks[index] = { ...tasks[index], ...action.payload.model }
 				}
 			})
-			.addCase(todolistsActions.addTodolist, (state, action) => {
+			.addCase(addTodolists.fulfilled, (state, action) => {
 				state[action.payload.todolist.id] = []
 			})
-			.addCase(todolistsActions.removeTodolist, (state, action) => {
-				let { [action.payload.todolistId]: deleteId, ...rest } = state
+			.addCase(removeTodolists.fulfilled, (state, action) => {
+				const todolistId = action.payload?.todolistId;
+				if (todolistId) {
+				const { [todolistId]: deleteId, ...rest } = state
 				return rest
+				}
 			})
-			.addCase(todolistsActions.setTodolists, (state, action) => {
+			.addCase(setTodolists.fulfilled, (state, action) => {
 				action.payload.todolists.forEach(todolist => {
 					state[todolist.id] = []
 				})
 			})
+			//.addCase(setTodolists, (state, action) => {
+			//	action.payload.todolists.forEach(todolist => {
+			//		state[todolist.id] = []
+			//	})
+			//})
 			.addCase(clearTasksAndTodolistsData, (state, action) => {
 				return action.payload.tasks
 			})
