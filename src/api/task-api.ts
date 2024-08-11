@@ -10,8 +10,8 @@ export const taskApi = {
     return instance.get<GetTasksResponseType>(`todo-lists/${todolistId}/tasks`)
   },
 
-  createTask(arg: AddTaskArgsType) {
-    const { todolistId, title } = arg
+  createTask(param: AddTaskArgsType) {
+    const { todolistId, title } = param
     return instance.post<ResponseType<{ item: TaskType }>>(
       `todo-lists/${todolistId}/tasks`,
       { title }

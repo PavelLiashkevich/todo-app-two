@@ -18,7 +18,10 @@ import MenuIcon from '@mui/icons-material/Menu'
 
 import { TaskType } from 'api/task-api'
 import { logoutTC, authSelector, meTC } from 'features/auth/model/auth-reducer'
-import { selectIsInitialized, selectStatus } from 'features/reducers/App/app-reducer'
+import {
+	selectIsInitialized,
+	selectStatus,
+} from 'features/reducers/App/app-reducer'
 
 export type TasksType = {
 	[key: string]: TaskType[]

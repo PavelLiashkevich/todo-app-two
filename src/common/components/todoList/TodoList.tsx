@@ -56,7 +56,7 @@ export const TodoList = React.memo(
 
 		// Удаление таски при нажатии на крестик
 		const removeTask = useCallback((taskId: string, todolistId: string) => {
-			dispatch(tasksThunks.deleteTask({ todolistId, taskId }))
+			dispatch(tasksThunks.removeTask({ todolistId, taskId }))
 		}, [])
 
 		// Изменение чекбокса

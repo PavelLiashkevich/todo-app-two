@@ -9,6 +9,7 @@ import { handleServerAppError } from 'common/utils/handleServerAppError'
 import { handleServerNetworkError } from 'common/utils/handleServerNetworkError'
 import { clearTasksAndTodolistsData } from 'common/actions/common-actions'
 import { FieldErrorType } from 'common/type/ResponseType'
+import { createAppAsyncThunk } from 'common/utils/create-app-async-thunk'
 
 const slice = createSlice({
 	name: 'auth',
@@ -30,7 +31,7 @@ const slice = createSlice({
 		builder.addCase(logoutTC.fulfilled, state => {
 			state.isLoggedIn = false
 		})
-		builder.addCase(meTC.fulfilled, (state, action) => {
+		builder.addCase(meTC.fulfilled, state => {
 			state.isLoggedIn = true
 		})
 	},
@@ -42,7 +43,7 @@ export const authSelector = slice.selectors
 
 // ========================== THUNKS ==========================
 
-export const loginTC = createAsyncThunk<
+export const loginTC = createAppAsyncThunk<
 	undefined,
 	LoginParamsType,
 	{ rejectValue: { errors: string[]; fieldsErrors?: FieldErrorType[] } }
@@ -62,14 +63,19 @@ export const loginTC = createAsyncThunk<
 				fieldsErrors: res.data.fieldsErrors,
 			})
 		}
-	} catch (err) {
-		const error: AxiosError = err
-		handleServerNetworkError(dispatch, error)
-		return rejectWithValue({ errors: [error.message], fieldsErrors: undefined })
+	} catch (error) {
+		if (error instanceof AxiosError) {
+			const axiosError: AxiosError = error
+			handleServerNetworkError(dispatch, error)
+			return rejectWithValue({
+				errors: [axiosError.message],
+				fieldsErrors: undefined,
+			})
+		}
 	}
 })
 
-export const logoutTC = createAsyncThunk(
+export const logoutTC = createAppAsyncThunk(
 	`${slice.name}/logoutTC`,
 	async (param, thunkAPI) => {
 		const { dispatch, rejectWithValue } = thunkAPI
@@ -84,16 +90,16 @@ export const logoutTC = createAsyncThunk(
 				dispatch(clearTasksAndTodolistsData({ todolists: [], tasks: {} }))
 			} else {
 				handleServerAppError(dispatch, res.data)
-				return rejectWithValue({})
+				return rejectWithValue(null)
 			}
 		} catch (error) {
 			handleServerNetworkError(dispatch, error)
-			return rejectWithValue({})
+			return rejectWithValue(null)
 		}
 	}
 )
 
-export const meTC = createAsyncThunk(
+export const meTC = createAppAsyncThunk(
 	`${slice.name}/meTC`,
 	async (param, thunkAPI) => {
 		const { dispatch } = thunkAPI
