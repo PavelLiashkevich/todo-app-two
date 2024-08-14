@@ -78,7 +78,7 @@ export const Login = () => {
 	}
 
 	return (
-		<Grid container justifyContent={'center'} sx={{ mt: 25 }}>
+		<Grid container justifyContent={'center'} sx={{ mt: 19 }}>
 			<Grid item justifyContent={'center'}>
 				<FormControl>
 					<FormLabel>

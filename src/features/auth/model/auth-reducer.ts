@@ -102,10 +102,10 @@ export const logoutTC = createAppAsyncThunk(
 export const meTC = createAppAsyncThunk(
 	`${slice.name}/meTC`,
 	async (param, thunkAPI) => {
-		const { dispatch } = thunkAPI
-		dispatch(appActions.setStatus({ status: 'loading' }))
-
+		const { dispatch, rejectWithValue } = thunkAPI
+		
 		try {
+			dispatch(appActions.setStatus({ status: 'loading' }))
 			const res = await authApi.me()
 
 			if (res.data.resultCode === ResultCode.SUCCESS) {
@@ -113,9 +113,11 @@ export const meTC = createAppAsyncThunk(
 				dispatch(appActions.setStatus({ status: 'success' }))
 			} else {
 				handleServerAppError(dispatch, res.data)
+				return rejectWithValue(null)
 			}
 		} catch (error) {
 			handleServerNetworkError(dispatch, error)
+			return rejectWithValue(null)
 		} finally {
 			dispatch(appActions.setIsInitialized({ isInitialized: true }))
 		}
