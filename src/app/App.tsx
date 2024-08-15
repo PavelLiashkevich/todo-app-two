@@ -17,7 +17,7 @@ import {
 import MenuIcon from '@mui/icons-material/Menu'
 
 import { TaskType } from 'api/task-api'
-import { logoutTC, authSelector, meTC } from 'features/auth/model/auth-reducer'
+import { logoutTC, meTC, selectIsLoggedIn } from 'features/auth/model/auth-reducer'
 import {
 	selectIsInitialized,
 	selectStatus,
@@ -30,7 +30,7 @@ export type TasksType = {
 export const App = () => {
 	const status = useAppSelector(selectStatus)
 
-	const isLoggedIn = useAppSelector(authSelector.selectIsLoggedIn)
+	const isLoggedIn = useAppSelector(selectIsLoggedIn)
 
 	const isInitialized = useAppSelector(selectIsInitialized)
 

@@ -39,7 +39,7 @@ const slice = createSlice({
 
 export const authReducer = slice.reducer
 export const authActions = slice.actions
-export const authSelector = slice.selectors
+export const { selectIsLoggedIn } = slice.selectors
 
 // ========================== THUNKS ==========================
 
