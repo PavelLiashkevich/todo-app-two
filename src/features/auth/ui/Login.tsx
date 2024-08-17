@@ -1,8 +1,7 @@
-import React from 'react'
 import { useAppDispatch, useAppSelector } from 'app/store'
 import { Navigate } from 'react-router-dom'
 import { FormikHelpers, useFormik } from 'formik'
-import { loginTC } from 'features/auth/model/auth-reducer'
+import { login } from 'features/auth/model/auth-reducer'
 
 import Grid from '@mui/material/Grid'
 import Checkbox from '@mui/material/Checkbox'
@@ -12,7 +11,6 @@ import FormGroup from '@mui/material/FormGroup'
 import FormLabel from '@mui/material/FormLabel'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
-import { error } from 'console'
 
 type ErrorType = {
 	email?: string
@@ -61,14 +59,11 @@ export const Login = () => {
 		},
 
 		onSubmit: async (values, formikHelpers: FormikHelpers<FormValuesType>) => {
-			const res = await dispatch(loginTC(values))
+			const res = await dispatch(login(values))
 
-			if (loginTC.rejected.match(res)) {
-				if (res.payload?.fieldsErrors?.length) {
-					const error = res.payload.fieldsErrors[0]
-					formikHelpers.setFieldError(error.field, error.error)
-				}
-			}
+			const error = res.payload.fieldsErrors[0]
+			formikHelpers.setFieldError(error.field, error.error)
+
 			formik.resetForm()
 		},
 	})

@@ -1,5 +1,5 @@
 import './App.css'
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'app/store'
 
@@ -17,7 +17,7 @@ import {
 import MenuIcon from '@mui/icons-material/Menu'
 
 import { TaskType } from 'api/task-api'
-import { logoutTC, meTC, selectIsLoggedIn } from 'features/auth/model/auth-reducer'
+import { logout, me, selectIsLoggedIn } from 'features/auth/model/auth-reducer'
 import {
 	selectIsInitialized,
 	selectStatus,
@@ -35,13 +35,13 @@ export const App = () => {
 	const isInitialized = useAppSelector(selectIsInitialized)
 
 	const dispatch = useAppDispatch()
-
-	const logOut = () => {
-		dispatch(logoutTC())
-	}
-
+	
 	useEffect(() => {
-		dispatch(meTC())
+		dispatch(me())
+	}, [])
+
+	const logOut = useCallback(() => {
+		dispatch(logout())
 	}, [])
 
 	if (!isInitialized) {

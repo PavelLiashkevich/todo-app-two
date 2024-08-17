@@ -1,4 +1,3 @@
-import { Dispatch } from 'redux'
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { ResultCode, TodolistType, todolistApi } from 'api/todolist-api'
 import { RequestStatusType, appActions } from '../App/app-reducer'
