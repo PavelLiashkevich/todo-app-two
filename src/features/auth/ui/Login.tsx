@@ -11,6 +11,8 @@ import FormGroup from '@mui/material/FormGroup'
 import FormLabel from '@mui/material/FormLabel'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
+import styled from 'styled-components'
+import { BaseResponse } from 'common/type/BaseResponse'
 
 type ErrorType = {
 	email?: string
@@ -49,8 +51,8 @@ export const Login = () => {
 
 			if (!values.password) {
 				errors.password = 'Password is required'
-			} else if (values.password.length < 6) {
-				errors.password = 'Password must be at least 6 characters'
+			} else if (values.password.length < 4) {
+				errors.password = 'Password must be at least 4 characters'
 			} else if (values.password.length > 32) {
 				errors.password = 'Password must not be more than 32 characters'
 			}
@@ -60,9 +62,12 @@ export const Login = () => {
 
 		onSubmit: async (values, formikHelpers: FormikHelpers<FormValuesType>) => {
 			const res = await dispatch(login(values))
-
-			const error = res.payload.fieldsErrors[0]
-			formikHelpers.setFieldError(error.field, error.error)
+				.unwrap()
+				.then(() => {})
+				.catch((res: BaseResponse) => {
+					const error = res.fieldsErrors[0]
+					formikHelpers.setFieldError(error.field, error.error)
+				})
 
 			formik.resetForm()
 		},
@@ -100,7 +105,7 @@ export const Login = () => {
 								{...formik.getFieldProps('email')}
 							/>
 							{formik.touched.email && formik.errors.email ? (
-								<div style={{ color: 'red' }}>{formik.errors.email}</div>
+								<StyledErrorMessage>{formik.errors.email}</StyledErrorMessage>
 							) : null}
 							<TextField
 								type='password'
@@ -110,7 +115,9 @@ export const Login = () => {
 								{...formik.getFieldProps('password')}
 							/>
 							{formik.touched.password && formik.errors.password ? (
-								<div style={{ color: 'red' }}>{formik.errors.password}</div>
+								<StyledErrorMessage>
+									{formik.errors.password}
+								</StyledErrorMessage>
 							) : null}
 							<FormControlLabel
 								label={'Remember me'}
@@ -131,3 +138,8 @@ export const Login = () => {
 		</Grid>
 	)
 }
+
+const StyledErrorMessage = styled.span`
+	color: red;
+	font-size: 1rem;
+`

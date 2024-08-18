@@ -51,7 +51,7 @@ export const login = createAppAsyncThunk<any, LoginParamsType>(
 				return { isLoggedIn: true }
 			} else {
 				handleServerAppError(dispatch, res.data)
-				return rejectWithValue(null)
+				return rejectWithValue(res.data)
 			}
 		} catch (error) {
 			if (error instanceof AxiosError) {

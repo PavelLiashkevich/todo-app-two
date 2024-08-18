@@ -1,4 +1,4 @@
-export type ResponseType<T = {}> = {
+export type BaseResponse<T = {}> = {
 	resultCode: number
 	messages: string[]
 	fieldsErrors: FieldErrorType[]
