@@ -69,17 +69,6 @@ const slice = createSlice({
 	},
 })
 
-// ========================== TYPES ==========================
-
-export type UpdateDomainTaskModelType = {
-	description?: string
-	title?: string
-	status?: TaskStatus
-	priority?: TaskPriority
-	startDate?: string
-	deadline?: string
-}
-
 // ========================== THUNKS ==========================
 
 const getTasks = createAppAsyncThunk<

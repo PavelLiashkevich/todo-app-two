@@ -55,12 +55,9 @@ export const login = createAppAsyncThunk<
 			return rejectWithValue(res.data)
 		}
 	} catch (error) {
-		if (error instanceof AxiosError) {
-			handleServerNetworkError(dispatch, error)
-			return rejectWithValue(null)
-		}
+		handleServerNetworkError(dispatch, error)
+		return rejectWithValue(null)
 	}
-	return rejectWithValue(null)
 })
 
 export const logout = createAppAsyncThunk<{ isLoggedIn: boolean }, void>(

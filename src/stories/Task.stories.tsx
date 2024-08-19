@@ -1,9 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 import { Task } from '../common/components/tasksList/Task'
-import { TaskPriority } from '../api/task-api'
 import { v1 } from 'uuid'
-import { TaskStatus } from 'common/enums'
+import { TaskPriority, TaskStatus } from 'common/enums'
 
 const meta: Meta<typeof Task> = {
 	title: 'TODOLISTS/Task',

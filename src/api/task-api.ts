@@ -1,7 +1,6 @@
 import { instance } from 'common/instance'
 import { BaseResponse } from '../common/type/BaseResponse'
 import { TaskStatus, TaskPriority } from '../common/enums'
-import { UpdateDomainTaskModelType } from 'features/reducers/Tasks/tasks-reducer'
 
 // ========================== API ==========================
 
@@ -34,6 +33,12 @@ export const taskApi = {
 
 // ========================== TYPES ==========================
 
+type GetTasksResponseType = {
+	totalCount: number
+	error: FieldErrorType
+	items: TaskType[]
+}
+
 export type AddTaskArgsType = {
 	todolistId: string
 	title: string
@@ -42,7 +47,16 @@ export type AddTaskArgsType = {
 export type UpdateTaskArgsType = {
 	todolistId: string
 	taskId: string
-	model: UpdateDomainTaskModelType
+	model: Partial<UpdatePropertiesType>
+}
+
+export type UpdatePropertiesType = {
+	description: string
+	title: string
+	status: TaskStatus
+	priority: TaskPriority
+	startDate: string
+	deadline: string
 }
 
 export type TaskType = {
@@ -62,19 +76,3 @@ type FieldErrorType = {
 	error: string
 	field: string
 }
-
-type GetTasksResponseType = {
-	totalCount: number
-	error: FieldErrorType
-	items: TaskType[]
-}
-
-export type UpdatePropertiesType = {
-	description: string
-	title: string
-	status: TaskStatus
-	priority: TaskPriority
-	startDate: string
-	deadline: string
-}
-export { TaskPriority }
