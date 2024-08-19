@@ -65,8 +65,11 @@ export const Login = () => {
 				.unwrap()
 				.then(() => {})
 				.catch((res: BaseResponse) => {
-					const error = res.fieldsErrors[0]
-					formikHelpers.setFieldError(error.field, error.error)
+					if (res.fieldsErrors) {
+						res.fieldsErrors.forEach(elem => {
+							formikHelpers.setFieldError(elem.field, elem.error)
+						})
+					}
 				})
 
 			formik.resetForm()

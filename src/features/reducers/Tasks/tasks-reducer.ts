@@ -82,7 +82,6 @@ export type UpdateDomainTaskModelType = {
 
 // ========================== THUNKS ==========================
 
-// typePrefix - имя slice/имя thunk
 const getTasks = createAppAsyncThunk<
 	{ tasks: TaskType[]; todolistId: string },
 	string
