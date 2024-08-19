@@ -23,9 +23,7 @@ import {
 	selectStatus,
 } from 'features/reducers/App/app-reducer'
 
-export type TasksType = {
-	[key: string]: TaskType[]
-}
+export type TasksType = Record<string, TaskType[]>
 
 export const App = () => {
 	const status = useAppSelector(selectStatus)
@@ -35,7 +33,7 @@ export const App = () => {
 	const isInitialized = useAppSelector(selectIsInitialized)
 
 	const dispatch = useAppDispatch()
-	
+
 	useEffect(() => {
 		dispatch(me())
 	}, [])
