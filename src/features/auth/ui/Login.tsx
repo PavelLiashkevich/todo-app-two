@@ -1,7 +1,6 @@
-import { useAppDispatch, useAppSelector } from 'app/store'
+import { useAppSelector } from 'app/store'
 import { Navigate } from 'react-router-dom'
-import { FormikHelpers, useFormik } from 'formik'
-import { login } from 'features/auth/model/auth-reducer'
+import { useLogin } from '../lib/useLogin'
 
 import Grid from '@mui/material/Grid'
 import Checkbox from '@mui/material/Checkbox'
@@ -12,8 +11,6 @@ import FormLabel from '@mui/material/FormLabel'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import styled from 'styled-components'
-import { BaseResponse } from 'common/type/BaseResponse'
-import { useLogin } from '../lib/useLogin'
 
 export const Login = () => {
 	const formik = useLogin()
