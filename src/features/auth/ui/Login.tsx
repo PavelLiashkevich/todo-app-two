@@ -13,68 +13,12 @@ import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import styled from 'styled-components'
 import { BaseResponse } from 'common/type/BaseResponse'
-
-type ErrorType = {
-	email?: string
-	password?: string
-}
-
-type FormValuesType = {
-	email: string
-	password: string
-	rememberMe: boolean
-}
+import { useLogin } from '../lib/useLogin'
 
 export const Login = () => {
-	const dispatch = useAppDispatch()
+	const formik = useLogin()
 
 	const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
-
-	const formik = useFormik({
-		initialValues: {
-			email: '',
-			password: '',
-			rememberMe: false,
-		},
-
-		validate: values => {
-			const errors: ErrorType = {}
-			const isNotValid = !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(
-				values.email
-			)
-
-			if (!values.email) {
-				errors.email = 'Email is required'
-			} else if (isNotValid) {
-				errors.email = 'Invalid email address'
-			}
-
-			if (!values.password) {
-				errors.password = 'Password is required'
-			} else if (values.password.length < 4) {
-				errors.password = 'Password must be at least 4 characters'
-			} else if (values.password.length > 32) {
-				errors.password = 'Password must not be more than 32 characters'
-			}
-
-			return errors
-		},
-
-		onSubmit: async (values, formikHelpers: FormikHelpers<FormValuesType>) => {
-			const res = await dispatch(login(values))
-				.unwrap()
-				.then(() => {})
-				.catch((res: BaseResponse) => {
-					if (res.fieldsErrors) {
-						res.fieldsErrors.forEach(elem => {
-							formikHelpers.setFieldError(elem.field, elem.error)
-						})
-					}
-				})
-
-			formik.resetForm()
-		},
-	})
 
 	if (isLoggedIn) {
 		return <Navigate to={'/todolists'} />
