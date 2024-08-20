@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { AddTaskArgsType, taskApi } from '../api/task-api'
+import { useEffect, useState } from 'react'
+import { taskApi } from '../api/task-api'
+import { AddTaskArgsType } from 'api/task-api.types'
 
 export default {
 	title: 'API-TASK',
@@ -25,7 +26,7 @@ export const CreateTask = () => {
 		const todolistId = '88761c0b-706c-4e72-82f4-6c7b73c75703'
 		const title = 'New Task'
 
-		const arg: AddTaskArgsType = {todolistId, title}
+		const arg: AddTaskArgsType = { todolistId, title }
 
 		taskApi.createTask(arg).then(res => {
 			setState(res.data)

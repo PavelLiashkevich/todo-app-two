@@ -1,4 +1,3 @@
-import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { App } from './app/App'
 import { store } from './app/store'
@@ -6,7 +5,7 @@ import { Provider } from 'react-redux'
 import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { Login } from './features/auth/ui/Login'
 import { TodoLists } from './common/components/todoLists/TodoLists'
-import ErrorPage from './common/components/errorPage/ErrorPage'
+import { ErrorPage } from './common/components/errorPage/ErrorPage'
 
 const router = createBrowserRouter([
 	{

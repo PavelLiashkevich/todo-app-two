@@ -16,12 +16,9 @@ import {
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 
-import { TaskType } from 'api/task-api'
 import { logout, me, selectIsLoggedIn } from 'features/auth/model/auth-reducer'
-import {
-	selectIsInitialized,
-	selectStatus,
-} from 'features/reducers/App/app-reducer'
+import { selectIsInitialized, selectStatus } from 'features/reducers/App'
+import { TaskType } from 'api/task-api.types'
 
 export type TasksType = Record<string, TaskType[]>
 

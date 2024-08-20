@@ -1,8 +1,7 @@
 import './style.css'
-import React from 'react'
 import errorPng from './error404.png'
 
-const ErrorPage = () => {
+export const ErrorPage = () => {
 	return (
 		<div className='error-404-section section-padding'>
 			<div className='error'>
@@ -14,12 +13,10 @@ const ErrorPage = () => {
 					К сожалению мы не можем найти запрошенную вами страницу. Возможно, вы
 					неправильно ввели адрес.
 				</p>
-				<a href='javascript:history. back()' className='theme-btn'>
+				<a href='javascript:history.back()' className='theme-btn'>
 					Вернуться назад
 				</a>
 			</div>
 		</div>
 	)
 }
-
-export default ErrorPage

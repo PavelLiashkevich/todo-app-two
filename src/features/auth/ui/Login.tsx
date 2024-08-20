@@ -1,6 +1,7 @@
-import { useAppSelector } from 'app/store'
+import styled from 'styled-components'
 import { Navigate } from 'react-router-dom'
 import { useLogin } from '../lib/useLogin'
+import { useAppSelector } from 'app/store'
 
 import Grid from '@mui/material/Grid'
 import Checkbox from '@mui/material/Checkbox'
@@ -10,7 +11,6 @@ import FormGroup from '@mui/material/FormGroup'
 import FormLabel from '@mui/material/FormLabel'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
-import styled from 'styled-components'
 
 export const Login = () => {
 	const formik = useLogin()

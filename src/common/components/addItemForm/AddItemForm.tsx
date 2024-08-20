@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
-
 import { ChangeEvent, KeyboardEvent, useState } from 'react'
+import { useAppSelector } from 'app/store'
+
 import { IconButton, TextField } from '@mui/material'
 import { AddCircle } from '@mui/icons-material'
-import { useAppSelector } from '../../../app/store'
 
 type AddTaskButtonPropsType = {
 	addItem: (title: string) => void
@@ -13,15 +13,12 @@ type AddTaskButtonPropsType = {
 
 export const AddItemForm = React.memo(
 	({ addItem, disable }: AddTaskButtonPropsType) => {
-		// Состояние инпута
 		let [title, setTitle] = useState('')
 
-		// Состояние ошибки при вводе некорректных данных или вообще не вводе данных
 		let [error, setError] = useState<string | null | false>(null)
 
 		const status = useAppSelector(state => state.app.status)
 
-		// Добавление новой таски при нажатии клавиши Enter
 		const onKeyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
 			if (error !== null) {
 				setError(null)
@@ -31,14 +28,12 @@ export const AddItemForm = React.memo(
 			}
 		}
 
-		//  Отслеживаем ввод данных в инпут
 		const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
 			setTitle(event.currentTarget.value)
 			event.currentTarget.value.length > 15 && setError(error)
 			setError(null)
 		}
 
-		// Добавление новой таски, а также учет содержимого в инпуте
 		const addTaskHandler = () => {
 			if (title.trim() !== '') {
 				addItem(title.trim())
@@ -47,9 +42,6 @@ export const AddItemForm = React.memo(
 				setError('Title is required')
 			}
 		}
-
-		// Отключение кнопки, если символов > 15
-		//const isAddTaskBtnDisabled = title.length > 15
 
 		return (
 			<StyledItemForm>

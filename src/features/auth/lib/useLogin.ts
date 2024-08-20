@@ -1,5 +1,5 @@
 import { useAppDispatch } from 'app/store'
-import { BaseResponse } from 'common/type/BaseResponse'
+import { BaseResponse } from 'common/types/BaseResponse'
 import { FormikHelpers, useFormik } from 'formik'
 import { login } from '../model/auth-reducer'
 
@@ -48,7 +48,7 @@ export const useLogin = () => {
 		},
 
 		onSubmit: async (values, formikHelpers: FormikHelpers<FormValuesType>) => {
-			const res = await dispatch(login(values))
+			await dispatch(login(values))
 				.unwrap()
 				.then(() => {})
 				.catch((res: BaseResponse) => {

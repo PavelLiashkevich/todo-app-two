@@ -1,4 +1,3 @@
-import { AxiosError } from 'axios'
 import { createSlice } from '@reduxjs/toolkit'
 import { appActions } from '../../reducers/App/app-reducer'
 

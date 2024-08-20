@@ -1,18 +1,12 @@
 import { instance } from 'common/instance/instance'
-import { BaseResponse } from '../../../common/type/BaseResponse'
+import { BaseResponse } from 'common/types/BaseResponse'
 import {
 	LoginParamsType,
 	LoginResponseType,
 	UserLoginType,
 } from './auth-api.types'
 
-// ========================== API ==========================
-
 export const authApi = {
-	me() {
-		return instance.get<BaseResponse<{ data: UserLoginType }>>('auth/me')
-	},
-
 	login(data: LoginParamsType) {
 		return instance.post<BaseResponse<{ data: LoginResponseType }>>(
 			'auth/login',
@@ -22,5 +16,9 @@ export const authApi = {
 
 	logout() {
 		return instance.delete<BaseResponse>('auth/login')
+	},
+
+	me() {
+		return instance.get<BaseResponse<{ data: UserLoginType }>>('auth/me')
 	},
 }

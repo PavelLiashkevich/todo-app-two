@@ -1,9 +1,8 @@
-import React from 'react'
-import { useCallback, useState } from 'react'
 import styled from 'styled-components'
+import { useCallback, useState } from 'react'
 import { Button } from '@mui/material'
 
-import { FilterValuesType } from '../../../features/reducers/Todolists/todolists-reducer'
+import { FilterValuesType } from 'features/reducers/Todolists'
 
 type ButtonPropsType = {
 	id: string

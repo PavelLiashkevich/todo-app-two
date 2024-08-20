@@ -1,5 +1,5 @@
 import { instance } from 'common/instance'
-import { BaseResponse } from '../common/type/BaseResponse'
+import { BaseResponse } from '../common/types/BaseResponse'
 
 // ========================== API ==========================
 

@@ -1,14 +1,13 @@
-import React from 'react'
 import styled from 'styled-components'
+
 import { Task } from './Task'
+import { TaskType } from 'api/task-api.types'
 import { TaskStatus } from '../../enums/enums'
-import { TaskType } from '../../../api/task-api'
 
 type TasksListPropsType = {
 	tasks: Array<TaskType>
 	todolistId: string
 	filter: string
-	removeTask: (taskId: string, todolistId: string) => void
 	changeTaskStatus: (
 		todolistId: string,
 		taskId: string,
@@ -25,11 +24,9 @@ export const TasksList = ({
 	tasks,
 	todolistId,
 	filter,
-	removeTask,
 	changeTaskStatus,
 	changeTaskTitle,
 }: TasksListPropsType) => {
-	// Фильтрация тасок при нажатии на кнопки
 	const filteredTasks = () => {
 		let tasksFilteredTodoList = tasks
 
@@ -54,7 +51,6 @@ export const TasksList = ({
 					<Task
 						key={task.id}
 						task={task}
-						removeTask={removeTask}
 						changeTaskStatus={changeTaskStatus}
 						changeTaskTitle={changeTaskTitle}
 						todolistId={todolistId}

@@ -1,9 +1,9 @@
-import * as React from 'react'
+import { useAppDispatch, useAppSelector } from 'app/store'
+import { appActions } from 'features/reducers/App'
+
 import Snackbar from '@mui/material/Snackbar'
 import Alert from '@mui/material/Alert'
 import Stack from '@mui/material/Stack'
-import { useAppDispatch, useAppSelector } from 'app/store'
-import { appActions } from 'features/reducers/App/app-reducer'
 
 export default function AutohideSnackbar() {
 	const error = useAppSelector(state => state.app.error)

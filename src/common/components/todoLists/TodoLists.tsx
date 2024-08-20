@@ -1,4 +1,6 @@
-import React, { useCallback, useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
+import { useAppDispatch, useAppSelector } from 'app/store'
+
 import { Grid, Paper } from '@mui/material'
 import { AddItemForm } from '../addItemForm/AddItemForm'
 import {
@@ -9,12 +11,11 @@ import {
 	addTodolists,
 	todolistsActions,
 	changeTodolistsTitle,
-} from '../../../features/reducers/Todolists/todolists-reducer'
-import { useAppDispatch, useAppSelector } from '../../../app/store'
+} from 'features/reducers/Todolists'
 import { TodoList } from '../todoList/TodoList'
 import { Navigate } from 'react-router-dom'
-import { selectStatus } from '../../../features/reducers/App/app-reducer'
-import { selectIsLoggedIn } from '../../../features/auth/model/auth-reducer'
+import { selectStatus } from 'features/reducers/App'
+import { selectIsLoggedIn } from 'features/auth/model'
 
 export const TodoLists = () => {
 	const todolists = useAppSelector<TodolistDomainType[]>(
@@ -32,27 +33,21 @@ export const TodoLists = () => {
 		dispatch(setTodolists())
 	}, [])
 
-	//* TODOLISTS
-
-	// Добавление нового тудулиста
 	const addTodolist = useCallback((title: string) => {
 		dispatch(addTodolists(title))
 	}, [])
 
-	// Удаление тудулиста при нажатии на крестик
 	const removeTodolist = useCallback((todolistId: string) => {
 		dispatch(removeTodolists(todolistId))
 	}, [])
 
-	// Сохранение тудулиста после редактирование
 	const changeTodolistTitle = useCallback(
 		(todolistId: string, newValue: string) => {
-			dispatch(changeTodolistsTitle({todolistId, newValue}))
+			dispatch(changeTodolistsTitle({ todolistId, newValue }))
 		},
 		[]
 	)
 
-	// Фильтрация тасок при нажатии на кнопки
 	const changeFilter = useCallback(
 		(todolistId: string, filter: FilterValuesType) => {
 			dispatch(todolistsActions.changeFilter({ todolistId, filter }))

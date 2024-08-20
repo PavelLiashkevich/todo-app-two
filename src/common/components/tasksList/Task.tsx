@@ -1,17 +1,19 @@
-import React, { ChangeEvent, memo } from 'react'
-import { useCallback } from 'react'
 import styled from 'styled-components'
+import { useCallback } from 'react'
+import { ChangeEvent, memo } from 'react'
 
-import { EditableSpan } from '../editableSpan/EditableSpan'
 import { Checkbox, IconButton } from '@mui/material'
 import { DeleteOutlined } from '@mui/icons-material'
-import { TaskType } from '../../../api/task-api'
+
+import { EditableSpan } from '../editableSpan/EditableSpan'
+import { TaskType } from 'api/task-api.types'
 import { TaskStatus } from '../../enums/enums'
+import { useAppDispatch } from 'app/store'
+import { tasksThunks } from 'features/reducers/Tasks'
 
 type TaskPropsType = {
 	task: TaskType
 	todolistId: string
-	removeTask: (taskId: string, todolistId: string) => void
 	changeTaskStatus: (
 		todolistId: string,
 		taskId: string,
@@ -25,17 +27,17 @@ type TaskPropsType = {
 }
 
 export const Task = memo(
-	({
-		task,
-		todolistId,
-		removeTask,
-		changeTaskStatus,
-		changeTaskTitle,
-	}: TaskPropsType) => {
-		// Принимаем данные для удаления таски из нужного тудулиста
-		const onClickHandler = () => removeTask(task.id, todolistId)
+	({ task, todolistId, changeTaskStatus, changeTaskTitle }: TaskPropsType) => {
+		const dispatch = useAppDispatch()
 
-		// Принимаем данные для редактирования таски при двойном нажатии
+		const onClickHandler = useCallback(
+			() =>
+				dispatch(
+					tasksThunks.removeTask({ todolistId: todolistId, taskId: task.id })
+				),
+			[todolistId, task.id]
+		)
+
 		const onChangeTitleHandler = useCallback(
 			(newValue: string) => {
 				changeTaskTitle(todolistId, task.id, newValue)
@@ -43,7 +45,6 @@ export const Task = memo(
 			[changeTaskTitle, task.id, todolistId]
 		)
 
-		// Изменение статуса таски
 		const onChangeTaskStatusHandler = useCallback(
 			(event: ChangeEvent<HTMLInputElement>) => {
 				let newIsDoneValue = event.currentTarget.checked

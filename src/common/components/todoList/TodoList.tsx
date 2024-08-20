@@ -1,23 +1,21 @@
 import React, { useEffect } from 'react'
 import { useCallback, useState } from 'react'
-import { useAppDispatch, useAppSelector } from '../../../app/store'
+import { useAppDispatch, useAppSelector } from 'app/store'
 
 import styled from 'styled-components'
 import { Delete } from '@mui/icons-material'
 import { Button, IconButton } from '@mui/material'
 
+import { TaskType } from 'api/task-api.types'
+import { TaskStatus } from '../../enums/enums'
 import { TasksList } from '../tasksList/TasksList'
 import { FilterButtons } from '../buttons/FilterButtons'
 import { AddItemForm } from '../addItemForm/AddItemForm'
 import { EditableSpan } from '../editableSpan/EditableSpan'
-import { TaskStatus } from '../../enums/enums'
 
-import { TaskType } from '../../../api/task-api'
-import { RequestStatusType } from '../../../features/reducers/App/app-reducer'
-import {
-	tasksThunks,
-} from '../../../features/reducers/Tasks/tasks-reducer'
-import { FilterValuesType } from '../../../features/reducers/Todolists/todolists-reducer'
+import { RequestStatusType } from 'features/reducers/App'
+import { tasksThunks } from 'features/reducers/Tasks'
+import { FilterValuesType } from 'features/reducers/Todolists'
 
 type TodoListPropsType = {
 	title: string
@@ -47,19 +45,10 @@ export const TodoList = React.memo(
 			dispatch(tasksThunks.getTasks(id))
 		}, [])
 
-		//* TASKS
-
-		// Добавление новой таски
 		const addTask = useCallback((todolistId: string, title: string) => {
 			dispatch(tasksThunks.addTask({ todolistId, title }))
 		}, [])
 
-		// Удаление таски при нажатии на крестик
-		const removeTask = useCallback((taskId: string, todolistId: string) => {
-			dispatch(tasksThunks.removeTask({ todolistId, taskId }))
-		}, [])
-
-		// Изменение чекбокса
 		const changeTaskStatus = useCallback(
 			(todolistId: string, taskId: string, status: TaskStatus) => {
 				dispatch(
@@ -69,7 +58,6 @@ export const TodoList = React.memo(
 			[]
 		)
 
-		// Редактирование и перезапись таски
 		const changeTaskTitle = useCallback(
 			(todolistId: string, taskId: string, newValue: string) => {
 				dispatch(
@@ -83,7 +71,6 @@ export const TodoList = React.memo(
 			[]
 		)
 
-		// Состояние для открытия/закрытия тасок внутри тудулиста
 		const [isCollapsed, setIsCollapsed] = useState(false)
 
 		const changeCollapseStatus = () => {
@@ -94,7 +81,6 @@ export const TodoList = React.memo(
 			removeTodolist(id)
 		}
 
-		// Посредник для редактирования таски
 		const addTaskNew = useCallback(
 			(title: string) => {
 				addTask(id, title)
@@ -141,7 +127,6 @@ export const TodoList = React.memo(
 							<TasksList
 								tasks={tasks}
 								filter={filter}
-								removeTask={removeTask}
 								changeTaskStatus={changeTaskStatus}
 								changeTaskTitle={changeTaskTitle}
 								todolistId={id}
