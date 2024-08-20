@@ -30,13 +30,11 @@ export const Task = memo(
 	({ task, todolistId, changeTaskStatus, changeTaskTitle }: TaskPropsType) => {
 		const dispatch = useAppDispatch()
 
-		const onClickHandler = useCallback(
-			() =>
-				dispatch(
-					tasksThunks.removeTask({ todolistId: todolistId, taskId: task.id })
-				),
-			[todolistId, task.id]
-		)
+		const onClickHandler = () => {
+			dispatch(
+				tasksThunks.removeTask({ todolistId: todolistId, taskId: task.id })
+			)
+		}
 
 		const onChangeTitleHandler = useCallback(
 			(newValue: string) => {
