@@ -4,12 +4,12 @@ import { Button } from '@mui/material'
 
 import { FilterValuesType } from 'features/reducers/Todolists'
 
-type ButtonPropsType = {
+type Props = {
 	id: string
 	changeFilter: (todolistId: string, value: FilterValuesType) => void
 }
 
-export function FilterButtons({ id, changeFilter }: ButtonPropsType) {
+export function FilterButtons({ id, changeFilter }: Props) {
 	const [isAll, setIsAll] = useState(true)
 	const [isActive, setIsActive] = useState(false)
 	const [isCompleted, setIsCompleted] = useState(false)

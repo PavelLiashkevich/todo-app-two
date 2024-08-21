@@ -3,7 +3,7 @@ import { useCallback, useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'app/store'
 
-import AutohideSnackbar from 'common/components/snackbar/Snackbar'
+import { AutohideSnackbar } from 'common/components/snackbar/Snackbar'
 import {
 	AppBar,
 	Button,

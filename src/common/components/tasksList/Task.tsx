@@ -11,7 +11,7 @@ import { TaskStatus } from '../../enums/enums'
 import { useAppDispatch } from 'app/store'
 import { tasksThunks } from 'features/reducers/Tasks'
 
-type TaskPropsType = {
+type Props = {
 	task: TaskType
 	todolistId: string
 	changeTaskStatus: (
@@ -27,10 +27,10 @@ type TaskPropsType = {
 }
 
 export const Task = memo(
-	({ task, todolistId, changeTaskStatus, changeTaskTitle }: TaskPropsType) => {
+	({ task, todolistId, changeTaskStatus, changeTaskTitle }: Props) => {
 		const dispatch = useAppDispatch()
 
-		const onClickHandler = () => {
+		const removeTaskHandler = () => {
 			dispatch(
 				tasksThunks.removeTask({ todolistId: todolistId, taskId: task.id })
 			)
@@ -67,7 +67,7 @@ export const Task = memo(
 					isDone={!!task.status}
 					onChange={onChangeTitleHandler}
 				></EditableSpan>
-				<IconButton onClick={onClickHandler} color='secondary'>
+				<IconButton onClick={removeTaskHandler} color='secondary'>
 					<DeleteOutlined />
 				</IconButton>
 			</StyledTask>

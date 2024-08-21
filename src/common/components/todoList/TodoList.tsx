@@ -17,7 +17,7 @@ import { RequestStatusType } from 'features/reducers/App'
 import { tasksThunks } from 'features/reducers/Tasks'
 import { FilterValuesType } from 'features/reducers/Todolists'
 
-type TodoListPropsType = {
+type Props = {
 	title: string
 	id: string
 	filter: string
@@ -36,7 +36,7 @@ export const TodoList = React.memo(
 		changeTodolistTitle,
 		removeTodolist,
 		entityStatus,
-	}: TodoListPropsType) => {
+	}: Props) => {
 		const tasks = useAppSelector<TaskType[]>(state => state.tasks[id])
 
 		const dispatch = useAppDispatch()

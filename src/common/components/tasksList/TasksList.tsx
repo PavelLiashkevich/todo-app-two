@@ -4,7 +4,7 @@ import { Task } from './Task'
 import { TaskType } from 'api/task-api.types'
 import { TaskStatus } from '../../enums/enums'
 
-type TasksListPropsType = {
+type Props = {
 	tasks: Array<TaskType>
 	todolistId: string
 	filter: string
@@ -26,7 +26,7 @@ export const TasksList = ({
 	filter,
 	changeTaskStatus,
 	changeTaskTitle,
-}: TasksListPropsType) => {
+}: Props) => {
 	const filteredTasks = () => {
 		let tasksFilteredTodoList = tasks
 

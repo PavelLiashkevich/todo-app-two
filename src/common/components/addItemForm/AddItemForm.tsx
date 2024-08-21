@@ -6,13 +6,13 @@ import { useAppSelector } from 'app/store'
 import { IconButton, TextField } from '@mui/material'
 import { AddCircle } from '@mui/icons-material'
 
-type AddTaskButtonPropsType = {
+type Props = {
 	addItem: (title: string) => void
 	disable?: boolean
 }
 
 export const AddItemForm = React.memo(
-	({ addItem, disable }: AddTaskButtonPropsType) => {
+	({ addItem, disable }: Props) => {
 		let [title, setTitle] = useState('')
 
 		let [error, setError] = useState<string | null | false>(null)

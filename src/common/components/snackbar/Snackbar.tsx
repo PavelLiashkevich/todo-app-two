@@ -5,7 +5,7 @@ import Snackbar from '@mui/material/Snackbar'
 import Alert from '@mui/material/Alert'
 import Stack from '@mui/material/Stack'
 
-export default function AutohideSnackbar() {
+export const AutohideSnackbar = () => {
 	const error = useAppSelector(state => state.app.error)
 
 	const dispatch = useAppDispatch()
