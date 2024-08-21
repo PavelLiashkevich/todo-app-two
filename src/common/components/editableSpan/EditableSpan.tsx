@@ -5,7 +5,7 @@ import { TextField } from '@mui/material'
 type Props = {
 	oldTitle: string
 	isDone?: boolean
-	onChange: (newValue: string) => void
+	onChange: (title: string) => void
 }
 
 export const EditableSpan = React.memo(

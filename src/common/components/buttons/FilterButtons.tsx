@@ -1,54 +1,40 @@
 import styled from 'styled-components'
-import { useCallback, useState } from 'react'
+import { useAppDispatch } from 'app/store'
+import { FilterValuesType, todolistsActions } from 'features/reducers/Todolists'
 import { Button } from '@mui/material'
-
-import { FilterValuesType } from 'features/reducers/Todolists'
 
 type Props = {
 	id: string
-	changeFilter: (todolistId: string, value: FilterValuesType) => void
+	filter: string
 }
 
-export function FilterButtons({ id, changeFilter }: Props) {
-	const [isAll, setIsAll] = useState(true)
-	const [isActive, setIsActive] = useState(false)
-	const [isCompleted, setIsCompleted] = useState(false)
+export const FilterButtons = ({ id, filter }: Props) => {
+	const dispatch = useAppDispatch()
 
-	const onAllClickHandler = useCallback(() => {
-		changeFilter(id, 'all')
-		setIsAll(true)
-		setIsActive(false)
-		setIsCompleted(false)
-	}, [changeFilter, id])
-
-	const onActiveClickHandler = useCallback(() => {
-		changeFilter(id, 'active')
-		setIsActive(true)
-		setIsAll(false)
-		setIsCompleted(false)
-	}, [changeFilter, id])
-
-	const onCompletedClickHandler = useCallback(() => {
-		changeFilter(id, 'completed')
-		setIsCompleted(true)
-		setIsAll(false)
-		setIsActive(false)
-	}, [changeFilter, id])
+	const onClickHandler = (filter: FilterValuesType) => {
+		dispatch(todolistsActions.changeFilter({ todolistId: id, filter }))
+	}
 
 	return (
 		<StyledFilterButtons>
-			<Button variant={isAll ? 'outlined' : 'text'} onClick={onAllClickHandler}>
+			<Button
+				variant={filter === 'all' ? 'outlined' : 'text'}
+				onClick={() => onClickHandler('all')}
+				color='inherit'
+			>
 				All
 			</Button>
 			<Button
-				variant={isActive ? 'outlined' : 'text'}
-				onClick={onActiveClickHandler}
+				variant={filter === 'active' ? 'outlined' : 'text'}
+				onClick={() => onClickHandler('active')}
+				color='primary'
 			>
 				Active
 			</Button>
 			<Button
-				variant={isCompleted ? 'outlined' : 'text'}
-				onClick={onCompletedClickHandler}
+				variant={filter === 'completed' ? 'outlined' : 'text'}
+				onClick={() => onClickHandler('completed')}
+				color='secondary'
 			>
 				Completed
 			</Button>

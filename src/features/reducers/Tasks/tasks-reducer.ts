@@ -70,7 +70,7 @@ const slice = createSlice({
 
 // ========================== THUNKS ==========================
 
-const getTasks = createAppAsyncThunk<
+export const getTasks = createAppAsyncThunk<
 	{ tasks: TaskType[]; todolistId: string },
 	string
 >(`${slice.name}/getTasks`, async (todolistId: string, thunkAPI) => {
@@ -88,7 +88,7 @@ const getTasks = createAppAsyncThunk<
 	}
 })
 
-const addTask = createAppAsyncThunk<{ task: TaskType }, AddTaskArgsType>(
+export const addTask = createAppAsyncThunk<{ task: TaskType }, AddTaskArgsType>(
 	`${slice.name}/addTask`,
 	async (param, thunkAPI) => {
 		const { dispatch, rejectWithValue } = thunkAPI
@@ -112,7 +112,7 @@ const addTask = createAppAsyncThunk<{ task: TaskType }, AddTaskArgsType>(
 	}
 )
 
-const removeTask = createAppAsyncThunk<any, any>(
+export const removeTask = createAppAsyncThunk<any, any>(
 	`${slice.name}/removeTask`,
 	async (param: { taskId: string; todolistId: string }, thunkAPI) => {
 		const { dispatch, rejectWithValue } = thunkAPI
@@ -131,7 +131,7 @@ const removeTask = createAppAsyncThunk<any, any>(
 	}
 )
 
-const updateTask = createAppAsyncThunk<UpdateTaskArgsType, UpdateTaskArgsType>(
+export const updateTask = createAppAsyncThunk<UpdateTaskArgsType, UpdateTaskArgsType>(
 	`${slice.name}/updateTask`,
 	async (param, thunkAPI) => {
 		const { dispatch, rejectWithValue, getState } = thunkAPI
@@ -179,4 +179,3 @@ const updateTask = createAppAsyncThunk<UpdateTaskArgsType, UpdateTaskArgsType>(
 
 export const tasksReducer = slice.reducer
 export const tasksActions = slice.actions
-export const tasksThunks = { getTasks, addTask, updateTask, removeTask }

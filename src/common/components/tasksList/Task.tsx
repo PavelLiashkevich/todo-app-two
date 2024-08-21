@@ -8,54 +8,51 @@ import { EditableSpan } from '../editableSpan/EditableSpan'
 import { TaskType } from 'api/task-api.types'
 import { TaskStatus } from '../../enums/enums'
 import { useAppDispatch } from 'app/store'
-import { tasksThunks } from 'features/reducers/Tasks'
+import { removeTask, updateTask } from 'features/reducers/Tasks'
 
 type Props = {
 	task: TaskType
-	todolistId: string
 }
 
-export const Task = memo(({ task, todolistId }: Props) => {
+export const Task = memo(({ task }: Props) => {
+	const { title, id: taskId, todoListId: todolistId, status } = task
+
 	const dispatch = useAppDispatch()
 
 	const removeTaskHandler = () => {
-		dispatch(
-			tasksThunks.removeTask({ todolistId: todolistId, taskId: task.id })
-		)
+		dispatch(removeTask({ todolistId, taskId }))
 	}
 
-	const changeTaskTitleHandler = (newValue: string) => {
+	const changeTaskTitleHandler = (title: string) => {
 		dispatch(
-			tasksThunks.updateTask({
+			updateTask({
 				todolistId,
-				taskId: task.id,
-				model: { title: newValue },
+				taskId,
+				model: { title },
 			})
 		)
 	}
 
 	const changeTaskStatusHandler = (event: ChangeEvent<HTMLInputElement>) => {
-		const status = event.target.checked
-			? TaskStatus.Completed
-			: TaskStatus.InProgress
+		const status = event.target.checked ? TaskStatus.Completed : TaskStatus.New
 		dispatch(
-			tasksThunks.updateTask({
+			updateTask({
 				todolistId,
-				taskId: task.id,
+				taskId,
 				model: { status },
 			})
 		)
 	}
 
 	return (
-		<StyledTask key={task.id}>
+		<StyledTask key={taskId}>
 			<Checkbox
-				checked={task.status === TaskStatus.Completed}
+				checked={status === TaskStatus.Completed}
 				onChange={changeTaskStatusHandler}
 				color='secondary'
 			/>
 			<EditableSpan
-				oldTitle={task.title}
+				oldTitle={title}
 				isDone={!!task.status}
 				onChange={changeTaskTitleHandler}
 			></EditableSpan>

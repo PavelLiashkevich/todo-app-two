@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { action } from '@storybook/addon-actions'
 import { Task } from '../common/components/tasksList/Task'
 import { v1 } from 'uuid'
 import { TaskPriority, TaskStatus } from 'common/enums'
@@ -27,7 +26,6 @@ const meta: Meta<typeof Task> = {
 			order: 0,
 			priority: TaskPriority.Low,
 		},
-		todolistId: 'fgdosrg8rgjuh',
 	},
 }
 

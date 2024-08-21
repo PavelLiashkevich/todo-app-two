@@ -6,11 +6,10 @@ import { TaskStatus } from '../../enums/enums'
 
 type Props = {
 	tasks: Array<TaskType>
-	todolistId: string
 	filter: string
 }
 
-export const TasksList = ({ tasks, todolistId, filter }: Props) => {
+export const TasksList = ({ tasks, filter }: Props) => {
 	const filteredTasks = () => {
 		let tasksFilteredTodoList = tasks
 
@@ -31,13 +30,7 @@ export const TasksList = ({ tasks, todolistId, filter }: Props) => {
 	return (
 		<StyledList>
 			{filteredTasks()?.map(task => {
-				return (
-					<Task
-						key={task.id}
-						task={task}
-						todolistId={todolistId}
-					/>
-				)
+				return <Task key={task.id} task={task} />
 			})}
 		</StyledList>
 	)

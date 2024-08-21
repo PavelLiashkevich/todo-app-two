@@ -4,12 +4,9 @@ import { useAppDispatch, useAppSelector } from 'app/store'
 import { Grid, Paper } from '@mui/material'
 import { AddItemForm } from '../addItemForm/AddItemForm'
 import {
-	FilterValuesType,
 	TodolistDomainType,
 	setTodolists,
-	removeTodolists,
 	addTodolists,
-	todolistsActions,
 } from 'features/reducers/Todolists'
 import { TodoList } from '../todoList/TodoList'
 import { Navigate } from 'react-router-dom'
@@ -36,16 +33,6 @@ export const TodoLists = () => {
 		dispatch(addTodolists(title))
 	}, [])
 
-	const removeTodolist = useCallback((todolistId: string) => {
-		dispatch(removeTodolists(todolistId))
-	}, [])
-
-	const changeFilter = useCallback(
-		(todolistId: string, filter: FilterValuesType) => {
-			dispatch(todolistsActions.changeFilter({ todolistId, filter }))
-		},
-		[]
-	)
 
 	if (!isLoggedIn) {
 		return <Navigate to='/login' />
@@ -65,8 +52,6 @@ export const TodoLists = () => {
 									id={todolist.id}
 									entityStatus={todolist.entityStatus}
 									title={todolist.title}
-									changeFilter={changeFilter}
-									removeTodolist={removeTodolist}
 									filter={todolist.filter}
 								/>
 							</Paper>

@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import React, { useEffect } from 'react'
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import { useAppDispatch, useAppSelector } from 'app/store'
 
 import { Delete } from '@mui/icons-material'
@@ -13,61 +13,45 @@ import { AddItemForm } from '../addItemForm/AddItemForm'
 import { EditableSpan } from '../editableSpan/EditableSpan'
 
 import { RequestStatusType } from 'features/reducers/App'
-import { tasksThunks } from 'features/reducers/Tasks'
+import { addTask, getTasks } from 'features/reducers/Tasks'
 import {
 	changeTodolistsTitle,
-	FilterValuesType,
+	removeTodolists,
 } from 'features/reducers/Todolists'
 
 type Props = {
-	title: string
 	id: string
+	title: string
 	filter: string
-	changeFilter: (todolistId: string, value: FilterValuesType) => void
-	removeTodolist: (todolistId: string) => void
 	entityStatus: RequestStatusType
 }
 
 export const TodoList = React.memo(
-	({
-		id,
-		title,
-		filter,
-		changeFilter,
-		removeTodolist,
-		entityStatus,
-	}: Props) => {
+	({ id, title, filter, entityStatus }: Props) => {
 		const tasks = useAppSelector<TaskType[]>(state => state.tasks[id])
 
 		const dispatch = useAppDispatch()
 
 		useEffect(() => {
-			dispatch(tasksThunks.getTasks(id))
-		}, [])
-
-		const addTask = useCallback((todolistId: string, title: string) => {
-			dispatch(tasksThunks.addTask({ todolistId, title }))
+			dispatch(getTasks(id))
 		}, [])
 
 		const [isCollapsed, setIsCollapsed] = useState(false)
 
-		const changeCollapseStatus = () => {
+		const changeCollapseStatusHandler = () => {
 			setIsCollapsed(!isCollapsed)
 		}
 
-		const removeTodolistHandler = () => {
-			removeTodolist(id)
+		const addTaskHandler = (title: string) => {
+			dispatch(addTask({ todolistId: id, title }))
 		}
 
-		const addTaskNew = useCallback(
-			(title: string) => {
-				addTask(id, title)
-			},
-			[id, addTask]
-		)
+		const removeTodolistHandler = () => {
+			dispatch(removeTodolists(id))
+		}
 
-		const changeTodolistTitleHandler = (newValue: string) => {
-			dispatch(changeTodolistsTitle({ todolistId: id, newValue }))
+		const changeTodolistTitleHandler = (title: string) => {
+			dispatch(changeTodolistsTitle({ todolistId: id, title }))
 		}
 
 		return (
@@ -84,7 +68,7 @@ export const TodoList = React.memo(
 					>
 						<Delete />
 					</IconButton>
-					<Button onClick={changeCollapseStatus} variant='outlined'>
+					<Button onClick={changeCollapseStatusHandler} variant='outlined'>
 						{!isCollapsed ? 'Close' : 'Open'}
 					</Button>
 				</StyledBlock>
@@ -93,16 +77,16 @@ export const TodoList = React.memo(
 					<>
 						<AddItemForm
 							disable={entityStatus === 'loading'}
-							addItem={addTaskNew}
+							addItem={addTaskHandler}
 						/>
 
 						{tasks.length === 0 ? (
 							<StyledInfo>The tasks wasn't found</StyledInfo>
 						) : (
-							<TasksList tasks={tasks} filter={filter} todolistId={id} />
+							<TasksList tasks={tasks} filter={filter} />
 						)}
 
-						<FilterButtons changeFilter={changeFilter} id={id} />
+						<FilterButtons id={id} filter={filter}/>
 					</>
 				)}
 			</StyledTodoList>
