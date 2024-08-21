@@ -77,9 +77,6 @@ const slice = createSlice({
 	},
 })
 
-export const todolistsReducer = slice.reducer
-export const todolistsActions = slice.actions
-
 // ========================== TYPES ==========================
 
 export type FilterValuesType = 'all' | 'active' | 'completed'
@@ -180,3 +177,7 @@ export const changeTodolistsTitle = createAppAsyncThunk(
 		}
 	}
 )
+
+export const todolistsReducer = slice.reducer
+export const todolistsActions = slice.actions
+export const todolistsThunks = { removeTodolists, changeTodolistsTitle }

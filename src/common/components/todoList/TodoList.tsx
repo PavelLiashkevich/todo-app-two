@@ -1,13 +1,12 @@
+import styled from 'styled-components'
 import React, { useEffect } from 'react'
 import { useCallback, useState } from 'react'
 import { useAppDispatch, useAppSelector } from 'app/store'
 
-import styled from 'styled-components'
 import { Delete } from '@mui/icons-material'
 import { Button, IconButton } from '@mui/material'
 
 import { TaskType } from 'api/task-api.types'
-import { TaskStatus } from '../../enums/enums'
 import { TasksList } from '../tasksList/TasksList'
 import { FilterButtons } from '../buttons/FilterButtons'
 import { AddItemForm } from '../addItemForm/AddItemForm'
@@ -15,14 +14,16 @@ import { EditableSpan } from '../editableSpan/EditableSpan'
 
 import { RequestStatusType } from 'features/reducers/App'
 import { tasksThunks } from 'features/reducers/Tasks'
-import { FilterValuesType } from 'features/reducers/Todolists'
+import {
+	changeTodolistsTitle,
+	FilterValuesType,
+} from 'features/reducers/Todolists'
 
 type Props = {
 	title: string
 	id: string
 	filter: string
 	changeFilter: (todolistId: string, value: FilterValuesType) => void
-	changeTodolistTitle: (todolistId: string, newValue: string) => void
 	removeTodolist: (todolistId: string) => void
 	entityStatus: RequestStatusType
 }
@@ -33,7 +34,6 @@ export const TodoList = React.memo(
 		title,
 		filter,
 		changeFilter,
-		changeTodolistTitle,
 		removeTodolist,
 		entityStatus,
 	}: Props) => {
@@ -48,28 +48,6 @@ export const TodoList = React.memo(
 		const addTask = useCallback((todolistId: string, title: string) => {
 			dispatch(tasksThunks.addTask({ todolistId, title }))
 		}, [])
-
-		const changeTaskStatus = useCallback(
-			(todolistId: string, taskId: string, status: TaskStatus) => {
-				dispatch(
-					tasksThunks.updateTask({ todolistId, taskId, model: { status } })
-				)
-			},
-			[]
-		)
-
-		const changeTaskTitle = useCallback(
-			(todolistId: string, taskId: string, newValue: string) => {
-				dispatch(
-					tasksThunks.updateTask({
-						todolistId,
-						taskId,
-						model: { title: newValue },
-					})
-				)
-			},
-			[]
-		)
 
 		const [isCollapsed, setIsCollapsed] = useState(false)
 
@@ -88,19 +66,16 @@ export const TodoList = React.memo(
 			[id, addTask]
 		)
 
-		const onChangeTodolistTitleHandler = useCallback(
-			(newValue: string) => {
-				changeTodolistTitle(id, newValue)
-			},
-			[id, changeTodolistTitle]
-		)
+		const changeTodolistTitleHandler = (newValue: string) => {
+			dispatch(changeTodolistsTitle({ todolistId: id, newValue }))
+		}
 
 		return (
 			<StyledTodoList>
 				<StyledBlock>
 					<EditableSpan
 						oldTitle={title}
-						onChange={onChangeTodolistTitleHandler}
+						onChange={changeTodolistTitleHandler}
 					/>
 					<IconButton
 						onClick={removeTodolistHandler}
@@ -124,13 +99,7 @@ export const TodoList = React.memo(
 						{tasks.length === 0 ? (
 							<StyledInfo>The tasks wasn't found</StyledInfo>
 						) : (
-							<TasksList
-								tasks={tasks}
-								filter={filter}
-								changeTaskStatus={changeTaskStatus}
-								changeTaskTitle={changeTaskTitle}
-								todolistId={id}
-							/>
+							<TasksList tasks={tasks} filter={filter} todolistId={id} />
 						)}
 
 						<FilterButtons changeFilter={changeFilter} id={id} />

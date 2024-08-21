@@ -10,7 +10,6 @@ import {
 	removeTodolists,
 	addTodolists,
 	todolistsActions,
-	changeTodolistsTitle,
 } from 'features/reducers/Todolists'
 import { TodoList } from '../todoList/TodoList'
 import { Navigate } from 'react-router-dom'
@@ -41,13 +40,6 @@ export const TodoLists = () => {
 		dispatch(removeTodolists(todolistId))
 	}, [])
 
-	const changeTodolistTitle = useCallback(
-		(todolistId: string, newValue: string) => {
-			dispatch(changeTodolistsTitle({ todolistId, newValue }))
-		},
-		[]
-	)
-
 	const changeFilter = useCallback(
 		(todolistId: string, filter: FilterValuesType) => {
 			dispatch(todolistsActions.changeFilter({ todolistId, filter }))
@@ -74,7 +66,6 @@ export const TodoLists = () => {
 									entityStatus={todolist.entityStatus}
 									title={todolist.title}
 									changeFilter={changeFilter}
-									changeTodolistTitle={changeTodolistTitle}
 									removeTodolist={removeTodolist}
 									filter={todolist.filter}
 								/>

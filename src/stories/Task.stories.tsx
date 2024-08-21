@@ -15,8 +15,6 @@ const meta: Meta<typeof Task> = {
 	tags: ['autodocs'],
 
 	args: {
-		changeTaskStatus: action('Status changed inside Task'),
-		changeTaskTitle: action('Title changed inside Task'),
 		task: {
 			id: '12wsdewfijdei',
 			title: 'JS',

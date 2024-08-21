@@ -8,25 +8,9 @@ type Props = {
 	tasks: Array<TaskType>
 	todolistId: string
 	filter: string
-	changeTaskStatus: (
-		todolistId: string,
-		taskId: string,
-		status: TaskStatus
-	) => void
-	changeTaskTitle: (
-		todolistId: string,
-		taskId: string,
-		newValue: string
-	) => void
 }
 
-export const TasksList = ({
-	tasks,
-	todolistId,
-	filter,
-	changeTaskStatus,
-	changeTaskTitle,
-}: Props) => {
+export const TasksList = ({ tasks, todolistId, filter }: Props) => {
 	const filteredTasks = () => {
 		let tasksFilteredTodoList = tasks
 
@@ -51,8 +35,6 @@ export const TasksList = ({
 					<Task
 						key={task.id}
 						task={task}
-						changeTaskStatus={changeTaskStatus}
-						changeTaskTitle={changeTaskTitle}
 						todolistId={todolistId}
 					/>
 				)
