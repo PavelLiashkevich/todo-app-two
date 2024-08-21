@@ -1,35 +1,33 @@
 import styled from 'styled-components'
 
 import { Task } from './Task'
-import { TaskType } from 'api/task-api.types'
 import { TaskStatus } from '../../enums/enums'
+import { TodolistDomainType } from 'features/reducers/Todolists'
+import { useAppSelector } from 'app/store'
+import { selectTasks } from 'features/reducers/Tasks'
 
 type Props = {
-	tasks: Array<TaskType>
+	todolist: TodolistDomainType
 	filter: string
 }
 
-export const TasksList = ({ tasks, filter }: Props) => {
-	const filteredTasks = () => {
-		let tasksFilteredTodoList = tasks
+export const TasksList = ({ todolist, filter }: Props) => {
+	const tasksN = useAppSelector(selectTasks)
 
-		if (filter === 'active') {
-			tasksFilteredTodoList = tasks.filter(
-				task => task.status === TaskStatus.New
-			)
-		}
-		if (filter === 'completed') {
-			tasksFilteredTodoList = tasks.filter(
-				task => task.status === TaskStatus.Completed
-			)
-		}
+	let filteredTasks = tasksN[todolist.id]
 
-		return tasksFilteredTodoList
+	if (filter === 'active') {
+		filteredTasks = filteredTasks.filter(task => task.status === TaskStatus.New)
+	}
+	if (filter === 'completed') {
+		filteredTasks = filteredTasks.filter(
+			task => task.status === TaskStatus.Completed
+		)
 	}
 
 	return (
 		<StyledList>
-			{filteredTasks()?.map(task => {
+			{filteredTasks.map(task => {
 				return <Task key={task.id} task={task} />
 			})}
 		</StyledList>

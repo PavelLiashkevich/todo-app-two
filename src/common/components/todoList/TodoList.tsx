@@ -12,87 +12,81 @@ import { FilterButtons } from '../buttons/FilterButtons'
 import { AddItemForm } from '../addItemForm/AddItemForm'
 import { EditableSpan } from '../editableSpan/EditableSpan'
 
-import { RequestStatusType } from 'features/reducers/App'
 import { addTask, getTasks } from 'features/reducers/Tasks'
 import {
 	changeTodolistsTitle,
 	removeTodolists,
+	TodolistDomainType,
 } from 'features/reducers/Todolists'
 
 type Props = {
-	id: string
-	title: string
-	filter: string
-	entityStatus: RequestStatusType
+	todolist: TodolistDomainType
 }
 
-export const TodoList = React.memo(
-	({ id, title, filter, entityStatus }: Props) => {
-		const tasks = useAppSelector<TaskType[]>(state => state.tasks[id])
+export const TodoList = React.memo(({ todolist }: Props) => {
+	const { id, title, filter, entityStatus } = todolist
 
-		const dispatch = useAppDispatch()
+	const tasks = useAppSelector<TaskType[]>(state => state.tasks[id])
 
-		useEffect(() => {
-			dispatch(getTasks(id))
-		}, [])
+	const dispatch = useAppDispatch()
 
-		const [isCollapsed, setIsCollapsed] = useState(false)
+	useEffect(() => {
+		dispatch(getTasks(id))
+	}, [])
 
-		const changeCollapseStatusHandler = () => {
-			setIsCollapsed(!isCollapsed)
-		}
+	const [isCollapsed, setIsCollapsed] = useState(false)
 
-		const addTaskHandler = (title: string) => {
-			dispatch(addTask({ todolistId: id, title }))
-		}
-
-		const removeTodolistHandler = () => {
-			dispatch(removeTodolists(id))
-		}
-
-		const changeTodolistTitleHandler = (title: string) => {
-			dispatch(changeTodolistsTitle({ todolistId: id, title }))
-		}
-
-		return (
-			<StyledTodoList>
-				<StyledBlock>
-					<EditableSpan
-						oldTitle={title}
-						onChange={changeTodolistTitleHandler}
-					/>
-					<IconButton
-						onClick={removeTodolistHandler}
-						color='secondary'
-						disabled={entityStatus === 'loading'}
-					>
-						<Delete />
-					</IconButton>
-					<Button onClick={changeCollapseStatusHandler} variant='outlined'>
-						{!isCollapsed ? 'Close' : 'Open'}
-					</Button>
-				</StyledBlock>
-
-				{isCollapsed ? null : (
-					<>
-						<AddItemForm
-							disable={entityStatus === 'loading'}
-							addItem={addTaskHandler}
-						/>
-
-						{tasks.length === 0 ? (
-							<StyledInfo>The tasks wasn't found</StyledInfo>
-						) : (
-							<TasksList tasks={tasks} filter={filter} />
-						)}
-
-						<FilterButtons id={id} filter={filter}/>
-					</>
-				)}
-			</StyledTodoList>
-		)
+	const changeCollapseStatusHandler = () => {
+		setIsCollapsed(!isCollapsed)
 	}
-)
+
+	const addTaskHandler = (title: string) => {
+		dispatch(addTask({ todolistId: id, title }))
+	}
+
+	const removeTodolistHandler = () => {
+		dispatch(removeTodolists(id))
+	}
+
+	const changeTodolistTitleHandler = (title: string) => {
+		dispatch(changeTodolistsTitle({ todolistId: id, title }))
+	}
+
+	return (
+		<StyledTodoList>
+			<StyledBlock>
+				<EditableSpan oldTitle={title} onChange={changeTodolistTitleHandler} />
+				<IconButton
+					onClick={removeTodolistHandler}
+					color='secondary'
+					disabled={entityStatus === 'loading'}
+				>
+					<Delete />
+				</IconButton>
+				<Button onClick={changeCollapseStatusHandler} variant='outlined'>
+					{!isCollapsed ? 'Close' : 'Open'}
+				</Button>
+			</StyledBlock>
+
+			{isCollapsed ? null : (
+				<>
+					<AddItemForm
+						disable={entityStatus === 'loading'}
+						addItem={addTaskHandler}
+					/>
+
+					{tasks.length === 0 ? (
+						<StyledInfo>The tasks wasn't found</StyledInfo>
+					) : (
+						<TasksList filter={filter} todolist={todolist} />
+					)}
+
+					<FilterButtons id={id} filter={filter} />
+				</>
+			)}
+		</StyledTodoList>
+	)
+})
 const StyledTodoList = styled.div`
 	padding: 30px;
 	margin: 10px;

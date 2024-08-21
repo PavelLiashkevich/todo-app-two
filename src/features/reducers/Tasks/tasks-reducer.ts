@@ -66,6 +66,9 @@ const slice = createSlice({
 				return action.payload.tasks
 			})
 	},
+	selectors: {
+		selectTasks: state => state,
+	},
 })
 
 // ========================== THUNKS ==========================
@@ -179,3 +182,5 @@ export const updateTask = createAppAsyncThunk<UpdateTaskArgsType, UpdateTaskArgs
 
 export const tasksReducer = slice.reducer
 export const tasksActions = slice.actions
+export const { selectTasks } =
+	slice.selectors

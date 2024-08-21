@@ -33,7 +33,6 @@ export const TodoLists = () => {
 		dispatch(addTodolists(title))
 	}, [])
 
-
 	if (!isLoggedIn) {
 		return <Navigate to='/login' />
 	}
@@ -48,12 +47,7 @@ export const TodoLists = () => {
 					return (
 						<Grid key={index} item>
 							<Paper>
-								<TodoList
-									id={todolist.id}
-									entityStatus={todolist.entityStatus}
-									title={todolist.title}
-									filter={todolist.filter}
-								/>
+								<TodoList todolist={todolist} />
 							</Paper>
 						</Grid>
 					)
