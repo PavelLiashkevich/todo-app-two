@@ -7,12 +7,22 @@
 }
 
 body {
-	font-family: 'Mulish', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
-		'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+	font-family:
+		'Mulish',
+		-apple-system,
+		BlinkMacSystemFont,
+		'Segoe UI',
+		'Roboto',
+		'Oxygen',
+		'Ubuntu',
+		'Cantarell',
+		'Fira Sans',
+		'Droid Sans',
+		'Helvetica Neue',
 		sans-serif;
 	font-size: 1.4rem;
 	color: #9c27b0;
-	background-color: #c8dbf0;
+	background-color: #c2daf7;
 }
 
 .App {
