@@ -1,6 +1,7 @@
 import {
 	createSlice,
 	isAnyOf,
+	isFulfilled,
 	PayloadAction,
 	UnknownAction,
 } from '@reduxjs/toolkit'
@@ -25,7 +26,7 @@ const slice = createSlice({
 	},
 	extraReducers: builder => {
 		builder.addMatcher(
-			isAnyOf(login.fulfilled, logout.fulfilled, me.fulfilled),
+			isFulfilled(login, logout, me),
 			(state, action: PayloadAction<{ isLoggedIn: boolean }>) => {
 				state.isLoggedIn = action.payload.isLoggedIn
 			}
