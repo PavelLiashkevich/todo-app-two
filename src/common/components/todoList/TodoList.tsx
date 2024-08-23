@@ -41,7 +41,7 @@ export const TodoList = React.memo(({ todolist }: Props) => {
 	}
 
 	const addTaskHandler = (title: string) => {
-		dispatch(addTask({ todolistId: id, title }))
+		return dispatch(addTask({ todolistId: id, title }))
 	}
 
 	const removeTodolistHandler = () => {

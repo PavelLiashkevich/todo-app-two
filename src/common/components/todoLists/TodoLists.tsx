@@ -29,8 +29,8 @@ export const TodoLists = () => {
 		dispatch(setTodolists())
 	}, [])
 
-	const addTodolist = useCallback((title: string) => {
-		dispatch(addTodolists(title))
+	const addTodolistHandler = useCallback((title: string) => {
+		return dispatch(addTodolists(title))
 	}, [])
 
 	if (!isLoggedIn) {
@@ -40,7 +40,7 @@ export const TodoLists = () => {
 	return (
 		<>
 			<Grid container>
-				<AddItemForm addItem={addTodolist} disable={status === 'loading'} />
+				<AddItemForm addItem={addTodolistHandler} disable={status === 'loading'} />
 			</Grid>
 			<Grid container spacing={3} sx={{ justifyContent: 'center' }}>
 				{todolists?.map((todolist, index) => {

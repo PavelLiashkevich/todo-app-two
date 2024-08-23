@@ -105,8 +105,9 @@ export const addTask = createAppAsyncThunk<{ task: TaskType }, AddTaskArgsType>(
 				dispatch(appActions.setStatus({ status: 'success' }))
 				return { task }
 			} else {
-				handleServerAppError(dispatch, res.data)
-				return rejectWithValue(null)
+				dispatch(appActions.setStatus({ status: 'success' }))
+				handleServerAppError(dispatch, res.data, false)
+				return rejectWithValue(res.data)
 			}
 		} catch (error) {
 			handleServerNetworkError(dispatch, error)
@@ -134,53 +135,50 @@ export const removeTask = createAppAsyncThunk<any, any>(
 	}
 )
 
-export const updateTask = createAppAsyncThunk<UpdateTaskArgsType, UpdateTaskArgsType>(
-	`${slice.name}/updateTask`,
-	async (param, thunkAPI) => {
-		const { dispatch, rejectWithValue, getState } = thunkAPI
+export const updateTask = createAppAsyncThunk<
+	UpdateTaskArgsType,
+	UpdateTaskArgsType
+>(`${slice.name}/updateTask`, async (param, thunkAPI) => {
+	const { dispatch, rejectWithValue, getState } = thunkAPI
 
-		try {
-			const tasks = getState().tasks
-			const task = tasks[param.todolistId].find(
-				task => task.id === param.taskId
-			)
+	try {
+		const tasks = getState().tasks
+		const task = tasks[param.todolistId].find(task => task.id === param.taskId)
 
-			if (!task) {
-				console.warn('task not found in the state')
-				return rejectWithValue(null)
-			}
-
-			const updateModel: UpdatePropertiesType = {
-				description: task.description,
-				title: task.title,
-				priority: task.priority,
-				startDate: task.startDate,
-				deadline: task.deadline,
-				status: task.status,
-				...param.model,
-			}
-
-			const res = await taskApi.updateTask(
-				param.todolistId,
-				param.taskId,
-				updateModel
-			)
-
-			if (res.data.resultCode === ResultCode.SUCCESS) {
-				dispatch(appActions.setStatus({ status: 'success' }))
-				return param
-			} else {
-				handleServerAppError(dispatch, res.data)
-				return rejectWithValue(null)
-			}
-		} catch (error) {
-			handleServerNetworkError(dispatch, error)
+		if (!task) {
+			console.warn('task not found in the state')
 			return rejectWithValue(null)
 		}
+
+		const updateModel: UpdatePropertiesType = {
+			description: task.description,
+			title: task.title,
+			priority: task.priority,
+			startDate: task.startDate,
+			deadline: task.deadline,
+			status: task.status,
+			...param.model,
+		}
+
+		const res = await taskApi.updateTask(
+			param.todolistId,
+			param.taskId,
+			updateModel
+		)
+
+		if (res.data.resultCode === ResultCode.SUCCESS) {
+			dispatch(appActions.setStatus({ status: 'success' }))
+			return param
+		} else {
+			handleServerAppError(dispatch, res.data)
+			return rejectWithValue(null)
+		}
+	} catch (error) {
+		handleServerNetworkError(dispatch, error)
+		return rejectWithValue(null)
 	}
-)
+})
 
 export const tasksReducer = slice.reducer
 export const tasksActions = slice.actions
-export const { selectTasks } =
-	slice.selectors
+export const { selectTasks } = slice.selectors

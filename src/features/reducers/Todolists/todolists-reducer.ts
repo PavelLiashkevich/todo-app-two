@@ -151,8 +151,8 @@ export const addTodolists = createAppAsyncThunk(
 			if (res.data.resultCode === ResultCode.SUCCESS) {
 				return { todolist: res.data.data.item }
 			} else {
-				handleServerAppError(dispatch, res.data)
-				return rejectWithValue(null)
+				handleServerAppError(dispatch, res.data, false)
+				return rejectWithValue(res.data)
 			}
 		} catch (error) {
 			handleServerNetworkError(dispatch, error)

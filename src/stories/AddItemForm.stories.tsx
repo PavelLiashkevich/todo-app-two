@@ -24,6 +24,7 @@ type Story = StoryObj<typeof AddItemForm>
 
 export const AddItemFormStory: Story = {
 	args: {
-		addItem: action('Button clicked inside form'),
+		addItem: async (title: string) =>
+			action('Button clicked inside form')(title),
 	},
 }
