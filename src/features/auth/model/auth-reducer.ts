@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction, UnknownAction } from '@reduxjs/toolkit'
 import { appActions } from '../../reducers/App/app-reducer'
 
 import { authApi } from '../api/auth-api'
@@ -19,15 +19,20 @@ const slice = createSlice({
 		selectIsLoggedIn: state => state.isLoggedIn,
 	},
 	extraReducers: builder => {
-		builder.addCase(login.fulfilled, (state, action) => {
-			state.isLoggedIn = action.payload.isLoggedIn
-		})
-		builder.addCase(logout.fulfilled, (state, action) => {
-			state.isLoggedIn = action.payload.isLoggedIn
-		})
-		builder.addCase(me.fulfilled, (state, action) => {
-			state.isLoggedIn = action.payload.isLoggedIn
-		})
+		builder.addMatcher(
+			(action: UnknownAction) => {
+				if (
+					action.type === 'auth/login/fulfilled' ||
+					action.type === 'auth/logout/fulfilled' ||
+					action.type === 'auth/me/fulfilled'
+				) {
+					return true
+				} else return false
+			},
+			(state, action: PayloadAction<{ isLoggedIn: boolean }>) => {
+				state.isLoggedIn = action.payload.isLoggedIn
+			}
+		)
 	},
 })
 
