@@ -1,4 +1,9 @@
-import { createSlice, PayloadAction, UnknownAction } from '@reduxjs/toolkit'
+import {
+	createSlice,
+	isAnyOf,
+	PayloadAction,
+	UnknownAction,
+} from '@reduxjs/toolkit'
 import { appActions } from '../../reducers/App/app-reducer'
 
 import { authApi } from '../api/auth-api'
@@ -20,15 +25,7 @@ const slice = createSlice({
 	},
 	extraReducers: builder => {
 		builder.addMatcher(
-			(action: UnknownAction) => {
-				if (
-					action.type === 'auth/login/fulfilled' ||
-					action.type === 'auth/logout/fulfilled' ||
-					action.type === 'auth/me/fulfilled'
-				) {
-					return true
-				} else return false
-			},
+			isAnyOf(login.fulfilled, logout.fulfilled, me.fulfilled),
 			(state, action: PayloadAction<{ isLoggedIn: boolean }>) => {
 				state.isLoggedIn = action.payload.isLoggedIn
 			}
