@@ -2,7 +2,6 @@ import { createSlice } from '@reduxjs/toolkit'
 import { taskApi } from '../../../api/task-api'
 import { ResultCode } from 'api/todolist-api'
 import { TasksType } from 'app/App'
-import { appActions } from '../App/app-reducer'
 import {
 	setTodolists,
 	removeTodolists,
@@ -12,13 +11,13 @@ import { clearTasksAndTodolistsData } from 'common/actions/common-actions'
 
 import { createAppAsyncThunk } from 'common/utils/create-app-async-thunk'
 import { handleServerAppError } from 'common/utils/handleServerAppError'
-import { handleServerNetworkError } from 'common/utils/handleServerNetworkError'
 import {
 	AddTaskArgsType,
 	TaskType,
 	UpdatePropertiesType,
 	UpdateTaskArgsType,
 } from 'api/task-api.types'
+import { appActions } from '../App'
 
 const slice = createSlice({
 	name: 'tasks',
@@ -143,7 +142,7 @@ export const updateTask = createAppAsyncThunk<
 		return param
 	} else {
 		handleServerAppError(dispatch, res.data)
-		return rejectWithValue(null)
+		return rejectWithValue(res.data)
 	}
 })
 

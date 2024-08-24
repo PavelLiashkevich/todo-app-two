@@ -7,6 +7,8 @@
 Todo App.
 The repository includes a project using TypeScript, React, Redux, Redux Thunk, Redux Toolkit, Rest API, Storybook, Snapshot, Styled Components, Material UI.
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/d419b83f-eb5a-4801-8d98-7af7e8b6bb0b/deploy-status)](https://app.netlify.com/sites/todo-app-two-rtk/deploys)
+
 <!--## Check it out 💻-->
 
 <!--[Todo App by Pavel Liashkevich](... url ...)-->

@@ -1,6 +1,5 @@
 import {
 	PayloadAction,
-	UnknownAction,
 	createSlice,
 	isFulfilled,
 	isPending,

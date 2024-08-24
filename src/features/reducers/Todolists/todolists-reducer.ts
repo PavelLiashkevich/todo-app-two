@@ -1,9 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { ResultCode, TodolistType, todolistApi } from 'api/todolist-api'
-import { RequestStatusType, appActions } from '../App/app-reducer'
+import { RequestStatusType } from '../App/app-reducer'
 
-import { handleServerNetworkError } from 'common/utils/handleServerNetworkError'
-import { handleServerAppError } from 'common/utils/handleServerAppError'
 import { clearTasksAndTodolistsData } from 'common/actions/common-actions'
 import { createAppAsyncThunk } from 'common/utils/create-app-async-thunk'
 
