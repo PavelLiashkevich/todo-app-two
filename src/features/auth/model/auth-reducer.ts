@@ -5,7 +5,6 @@ import { authApi } from '../api/auth-api'
 import { LoginParamsType } from '../api/auth-api.types'
 import { ResultCode } from 'api/todolist-api'
 import { handleServerAppError } from 'common/utils/handleServerAppError'
-import { handleServerNetworkError } from 'common/utils/handleServerNetworkError'
 import { clearTasksAndTodolistsData } from 'common/actions/common-actions'
 import { createAppAsyncThunk } from 'common/utils/create-app-async-thunk'
 
