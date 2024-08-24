@@ -135,17 +135,8 @@ export const removeTodolists = createAppAsyncThunk(
 export const changeTodolistsTitle = createAppAsyncThunk(
 	`${slice.name}/changeTodolistsTitle`,
 	async (param: { todolistId: string; title: string }, thunkApi) => {
-		const { dispatch, rejectWithValue } = thunkApi
-
-		try {
-			dispatch(appActions.setStatus({ status: 'loading' }))
-			await todolistApi.updateTodolistTitle(param.todolistId, param.title)
-			dispatch(appActions.setStatus({ status: 'success' }))
-			return { todolistId: param.todolistId, newValue: param.title }
-		} catch (error) {
-			handleServerNetworkError(dispatch, error)
-			return rejectWithValue(null)
-		}
+		await todolistApi.updateTodolistTitle(param.todolistId, param.title)
+		return { todolistId: param.todolistId, newValue: param.title }
 	}
 )
 
