@@ -42,8 +42,10 @@ export const AddItemForm = React.memo(({ addItem, disable }: Props) => {
 				.then(() => {
 					setTitle('')
 				})
-				.catch((error: BaseResponse)=> {
-					return setError(error.messages[0])
+				.catch((error: BaseResponse) => {
+					if (error?.resultCode) {
+						setError(error.messages[0])
+					}
 				})
 		} else {
 			setError('Title is required')
