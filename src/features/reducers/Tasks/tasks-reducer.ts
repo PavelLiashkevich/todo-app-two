@@ -17,7 +17,6 @@ import {
 	UpdatePropertiesType,
 	UpdateTaskArgsType,
 } from 'api/task-api.types'
-import { appActions } from '../App'
 
 const slice = createSlice({
 	name: 'tasks',
