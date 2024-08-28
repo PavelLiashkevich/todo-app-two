@@ -1,28 +1,29 @@
-import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux"
-import { configureStore } from "@reduxjs/toolkit"
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
+import { configureStore } from '@reduxjs/toolkit'
 
-import { authReducer } from "features/auth/model/auth-reducer"
-import { appReducer } from "../features/reducers/App/app-reducer"
-import { tasksReducer } from "features/reducers/Tasks/tasks-reducer"
-import { todolistsReducer } from "features/reducers/Todolists/todolists-reducer"
+import { appReducer } from '../features/reducers/App/app-reducer'
+import { authReducer } from 'features/auth/model/auth-reducer'
+import { todolistsReducer } from 'features/reducers/Todolists/todolists-reducer'
+import { tasksReducer } from 'features/reducers/Tasks/tasks-reducer'
 
-export const store = configureStore({ reducer: {
-  tasks: tasksReducer,
-  todolists: todolistsReducer,
-  app: appReducer,
-  auth: authReducer,
-}})
+export const store = configureStore({
+	reducer: {
+		tasks: tasksReducer,
+		todolists: todolistsReducer,
+		app: appReducer,
+		auth: authReducer,
+	},
+})
 
 export type AppRootStateType = ReturnType<typeof store.getState>
 export type AppDispatchType = typeof store.dispatch
-
 
 //========= start ========= useDispatch/useSelector =====================
 
 export const useAppDispatch = useDispatch<AppDispatchType>
 export const useAppSelector: TypedUseSelectorHook<AppRootStateType> =
-  useSelector
-	
+	useSelector
+
 //========= end ========= useDispatch/useSelector =======================
 
 //========= Redux ======= combineReducers / middleware / redux-devtools ===============

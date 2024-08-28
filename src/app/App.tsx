@@ -1,6 +1,6 @@
 import './App.css'
-import { useCallback, useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
+import { useCallback, useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from 'app/store'
 
 import { AutohideSnackbar } from 'common/components/snackbar/Snackbar'
