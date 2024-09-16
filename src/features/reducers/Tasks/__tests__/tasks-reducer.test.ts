@@ -1,12 +1,10 @@
-import { TasksType } from '../../../app/App'
+import { TasksType } from 'app/App'
 
 import { ActionForTest } from 'common/types/ActionForTest'
 import { TaskPriority, TaskStatus } from 'common/enums'
-import { tasksReducer, tasksThunks } from './tasks-reducer'
-import {
-	todolistsActions,
-	removeTodolists,
-} from 'features/reducers/Todolists/todolists-reducer'
+
+import { getTasks, tasksReducer, updateTask } from '../tasks-reducer'
+import { removeTodolists } from 'features/reducers/Todolists'
 
 let startState: TasksType = {}
 beforeEach(() => {
@@ -68,22 +66,25 @@ beforeEach(() => {
 
 // ==========================
 
-//test('property with todolistId should be deleted', () => {
-//	const endState = tasksReducer(
-//		startState,
-//		removeTodolists.fulfilled({ todolistId: 'todolistId1' })
-//	)
+test('property with todolistId should be deleted', () => {
 
-//	const keys = Object.keys(endState)
+	const action = {
+		type: removeTodolists.fulfilled.type,
+		payload: { todolistId: 'todolistId1' }
+	}
 
-//	expect(keys.length).toBe(1)
-//	expect(endState['todolistId2']).not.toBeDefined()
-//})
+	const endState = tasksReducer(startState, action)
+
+	const keys = Object.keys(endState)
+
+	expect(keys.length).toBe(1)
+	expect(endState['todolistId1']).not.toBeDefined()
+})
 
 // ==========================
 // 1 variant
 test('tasks should be added for todolist', () => {
-	const action = tasksThunks.getTasks.fulfilled(
+	const action = getTasks.fulfilled(
 		{
 			tasks: startState['todolistId1'],
 			todolistId: 'todolistId1',
@@ -105,12 +106,12 @@ test('tasks should be added for todolist', () => {
 // 2 variant
 test('tasks should be added for todolist-2', () => {
 	type FetchTaskAction = Omit<
-		ReturnType<typeof tasksThunks.getTasks.fulfilled>,
+		ReturnType<typeof getTasks.fulfilled>,
 		'meta'
 	>
 
 	const action: FetchTaskAction = {
-		type: tasksThunks.getTasks.fulfilled.type,
+		type: getTasks.fulfilled.type,
 		payload: {
 			tasks: startState['todolistId1'],
 			todolistId: 'todolistId1',
@@ -129,10 +130,11 @@ test('tasks should be added for todolist-2', () => {
 
 // ==========================
 
+// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 test('status of specified task should be updated'),
 	() => {
-		const action: ActionForTest<typeof tasksThunks.updateTask.fulfilled> = {
-			type: tasksThunks.updateTask.fulfilled.type,
+		const action: ActionForTest<typeof updateTask.fulfilled> = {
+			type: updateTask.fulfilled.type,
 			payload: {
 				taskId: '1',
 				todolistId: 'todolistId1',
@@ -147,10 +149,11 @@ test('status of specified task should be updated'),
 
 // ==========================
 
+// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 test('title of specified task should be updated'),
 	() => {
-		const action: ActionForTest<typeof tasksThunks.updateTask.fulfilled> = {
-			type: tasksThunks.updateTask.fulfilled.type,
+		const action: ActionForTest<typeof updateTask.fulfilled> = {
+			type: updateTask.fulfilled.type,
 			payload: {
 				taskId: '1',
 				todolistId: 'todolistId1',

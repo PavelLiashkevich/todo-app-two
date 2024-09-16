@@ -66,7 +66,7 @@ const slice = createSlice({
 					todo => todo.id === action.payload.todolistId
 				)
 				if (index !== -1) {
-					state[index].title = action.payload.newValue
+					state[index].title = action.payload.title
 				}
 			})
 			.addCase(clearTasksAndTodolistsData, (state, action) => {
@@ -132,9 +132,9 @@ export const removeTodolists = createAppAsyncThunk(
 
 export const changeTodolistsTitle = createAppAsyncThunk(
 	`${slice.name}/changeTodolistsTitle`,
-	async (param: { todolistId: string; title: string }, thunkApi) => {
+	async (param: { todolistId: string; title: string }) => {
 		await todolistApi.updateTodolistTitle(param.todolistId, param.title)
-		return { todolistId: param.todolistId, newValue: param.title }
+		return { todolistId: param.todolistId, title: param.title }
 	}
 )
 
